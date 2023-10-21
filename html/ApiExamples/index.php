@@ -27,14 +27,92 @@
                 <div class = "downloadButton">
                     <form action="" method="get">
                         <input type="submit" name='getCourse' value="GET" class="dlButton">
-                        <input type="text" id="inputGET" name="getparam">
+                        <input type="text" id="inputGET" placeholder="Course ID" name="getCourseID">
+                        <input type="text" id="inputGET" placeholder="Course Name" name="getCourseName">
+                        <input type="text" id="inputGET" placeholder="Course Description" name = "description">
+                        <input type="text" id="inputGET" placeholder="Credit Amount" name = "getCredit">
+                        <input type="text" id="inputGET" placeholder="Location" name = "location">
+                        <input type="text" id="inputGET" placeholder="Restriction" name = "restriction">
+                        <input type="text" id="inputGET" placeholder="Prerequisite" name = "preq">
                     </form>
                     <?php
+                    $multTrigggered = false;
+                    $queryParameters='';
+                    // Check if courseid or name has been entered set query parameters based on that
                     if (isset($_GET['getCourse'])) {
-                        //code to send get request
-
-                        //echo returned values out
+                        $apiUrl = 'http://cis3760f23-04.socs.uoguelph.ca/api/Course/Course.php';
+                    if(isset($_GET ['getCourseID'])&& $_GET['getCourseID']!=''){
+                        $queryParameters = $queryParameters.'id='.$_GET['getCourseID'];
+                        $multTrigggered = true;
                     }
+                    if(isset($_GET ['getCourseName'])&& $_GET['getCourseName']!=''){
+                        if($multTrigggered==true){
+                            $queryParameters = $queryParameters.'&';
+                        }
+                        $queryParameters= $queryParameters.'name='.$_GET['getCourseName'];
+                        $nameTriggered= true;
+                    }
+                    if(isset($_GET ['description'])&&$_GET['description']!=''){
+                        if($multTrigggered==true){
+                            $queryParameters = $queryParameters.'&';
+                        }
+                        $queryParameters= $queryParameters.'description='.$_GET['description'];
+                        $multTrigggered= true;
+                    }
+                    if(isset($_GET ['getCredit'])&&$_GET['getCredit']!=''){
+                        if($multTrigggered==true){
+                            $queryParameters = $queryParameters.'&';
+                        }
+                        $queryParameters= $queryParameters.'credit='.$_GET['getCredit'];
+                        $multTrigggered= true;
+                    }
+                    if(isset($_GET ['location'])&& $_GET['location']!=''){
+                        if($multTrigggered==true){
+                            $queryParameters = $queryParameters.'&';
+                        }
+                        $queryParameters= $queryParameters.'location='.$_GET['location'];
+                        $multTrigggered= true;
+                    }
+                    if(isset($_GET ['restriction'])&&$_GET['restriction']!=''){
+                        if($multTrigggered==true){
+                            $queryParameters = $queryParameters.'&';
+                        }
+                        $queryParameters= $queryParameters.'restriction='.$_GET['restriction'];
+                        $multTrigggered= true;
+                    }
+                    if(isset($_GET ['preq'])&&$_GET['preq']!=''){
+                        if($multTrigggered==true){
+                            $queryParameters = $queryParameters.'&';
+                        }
+                        $queryParameters= $queryParameters.'preq='.$_GET['preq'];
+                        $multTrigggered= true;
+                    }
+                        // Make the response using curl 
+                        $apiUrl = $apiUrl.'?'.$queryParameters;
+                        $ch = curl_init($apiUrl);
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        //Get the outpput in json
+                        $response = curl_exec($ch);
+                        $code = curl_getinfo($ch,CURLINFO_RESPONSE_CODE);
+                        curl_close($ch);
+                        // Check if valid response
+                        if($code != 200){
+                            echo "No Results Found";
+                            exit;
+                        }
+                        // decode to a array similar to python 
+                        $obj = json_decode($response,true);
+                        // // Print out all the course names
+                        if(count($obj)==0){
+                            echo "No Results Found";
+                        }else{
+                            foreach ($obj as $course){
+                                echo $course['courseCode'].' '.$course['courseName'].'<br>';
+                            }
+                        }
+
+                    }
+ 
                     ?>
                 </div>
             </div>
