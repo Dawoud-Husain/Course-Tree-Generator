@@ -8,7 +8,7 @@ This is a REST API built with PHP and MySQL to access and modify course data.
 ### Get Courses
 
 ```
-GET /api/course/course.php
+GET https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course.php
 ```
 
 Returns all courses in the database.
@@ -26,7 +26,7 @@ Returns all courses in the database.
 **Example Request**
 
 ```
-GET /api/course/course.php?preq=CIS*1300
+GET https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course.php?preq=CIS*1300
 ```
 
 **Example Response**
@@ -49,7 +49,7 @@ GET /api/course/course.php?preq=CIS*1300
 ### Get Single Course
 
 ```
-GET /api/course/course.php?id={courseCode}
+GET https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course.php?id={courseCode}
 ```
 
 Returns a single course by course code.
@@ -57,7 +57,7 @@ Returns a single course by course code.
 **Example Request**
 
 ```
-GET /api/course/course.php?id=CIS*2500 
+GET https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course.php?id=CIS*2500 
 ```
 
 **Example Response**
@@ -76,24 +76,17 @@ GET /api/course/course.php?id=CIS*2500
 POST /api/course/course.php
 ```
 
-Creates a new course. Expects JSON data containing course info.
+Creates a new course. Expects the URL parameters containing course info.
 
 **Example Request**
 
 ```
-POST /api/course/course.php
+POST https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course.php?courseCode=CIS*1300&courseName=Program&courseDesc=code&credits=0.5&location=reyn%restrictions=none
 
-{
-  "courseCode": "CIS*3500",
-  "courseName": "Advanced Programming Concepts",
-  "credits": 0.5,
-  "description": "Introduction to advanced programming techniques..." 
-}
-``` 
 
 **Example Response** 
 
-201 Created
+200 OK
 
 ### Update Course
 
@@ -123,7 +116,7 @@ This will update the credits for CIS*2500 to 0.75.
 ### Delete Course
 
 ```
-DELETE /api/course/course.php?id={courseCode} 
+DELETE https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course.php?id={courseCode} 
 ```
 
 Deletes a course by course code.
@@ -131,12 +124,12 @@ Deletes a course by course code.
 **Example Request** 
 
 ```
-DELETE /api/course/course.php?id=CIS*3500
+DELETE https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course.php?id=CIS*3500
 ```
 
 **Example Response**
 
-204 No Content
+200 OK
 
 ## Database Schema
 
@@ -158,8 +151,6 @@ The database has the following schema:
 
 The Prerequisite table has a foreign key constraint on courseCode referencing the Course table.
 
-
-
 **Error Handling** 
 
 - 400 Bad Request - Invalid request parameters
@@ -169,11 +160,11 @@ The Prerequisite table has a foreign key constraint on courseCode referencing th
 
 **Implementation Details**
 
-- The API is implemented in PHP using the ???? extension to connect to the MySQL database.
+- The API is implemented in PHP using the PDO extension to connect to the MySQL database.
 - Input validation is performed to reject invalid data.
 - HTTP response codes are used to indicate request status.
 - JSON is used for sending and receiving data.
 
-Testing
+**Testing**
 
 - The API can be tested using an application like Postman. Some examples requests are included in the Postman collection file.
