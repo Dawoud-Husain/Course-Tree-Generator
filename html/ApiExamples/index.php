@@ -40,7 +40,7 @@
                     $queryParameters='';
                     // Check if courseid or name has been entered set query parameters based on that
                     if (isset($_GET['getCourse'])) {
-                        $apiUrl = 'http://cis3760f23-04.socs.uoguelph.ca/api/Course/Course.php';
+                        $apiUrl = 'https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course.php';
                     if(isset($_GET ['getCourseID'])&& $_GET['getCourseID']!=''){
                         $queryParameters = $queryParameters.'id='.$_GET['getCourseID'];
                         $multTrigggered = true;
@@ -97,14 +97,14 @@
                         curl_close($ch);
                         // Check if valid response
                         if($code != 200){
-                            echo "No Results Found";
+                            echo "No Results Found 1 ".$code;
                             exit;
                         }
                         // decode to a array similar to python 
                         $obj = json_decode($response,true);
                         // // Print out all the course names
                         if(count($obj)==0){
-                            echo "No Results Found";
+                            echo "No Results Found 2 ";
                         }else{
                             foreach ($obj as $course){
                                 echo $course['courseCode'].' '.$course['courseName'].'<br>';
@@ -137,18 +137,64 @@
         </div>
         <div class="VBAdownload">
             <div class="text_button">
-                <p class="VBAdownload_text">POST Example</p>
+                <p class="VBAdownload_text">POST Example 1</p>
                 <div class = "downloadButton">
-                    <form action="https://cis3760f23-04.socs.uoguelph.ca/api/loadcourses/loadcourses.php" method="post">
-                        <input type="submit" name='postCourse' value="POST" class="dlButton">
-                        <input type="text" id="inputPOST" name ="postparam">
+                    <form action="" method="post" style="padding-10px;">
+                        <h2>Add a Course</h2>
+                        Course code: <input name="code" type="text" maxlength=20 required> </br>
+                        Course name: <input name="name" type="text" required> </br>
+                        Course description: <input name="desc" type="text"> </br>
+                        Course credit: <input name="credits" type="number" step="0.25" min="0" value="0" required> </br>
+                        Course location: <input name="location" type="text"> </br>
+                        Enter course restrictions: <input name="restrictions" type="text"> </br>
+                        <!-- Enter course prerequisites: <input name="prereq" type="text"> </br>  -->
+                        <input type="submit" name='postCourse' value="ADD" class="dlButton">
                     </form>
                     <?php
-                    if (isset($_POST["postCourse"])) {
-                        //code to send post request to api
+                        $url = "https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course.php"; // change to "http://cis3760f23-04.socs.uoguelph.ca/api/post/addCourse.php";
+                        $queryParam = '';
+                        
+                        if(isset($_POST['code']) && $_POST['code'] != '') {
+                            $queryParam = $queryParam.'courseCode='.$_POST['code'];
+                        }
 
-                        //echo a status message for success or failure
-                    }
+                        if(isset($_POST['name']) && $_POST['name'] != '') {
+                            $queryParam = $queryParam.'&'.'courseName='.$_POST['name'];
+                        }
+                        //cannnot contain spaces
+                        if(isset($_POST['desc']) && $_POST['desc'] != '') {
+                            $queryParam = $queryParam.'&'.'courseDesc='.$_POST['desc'];
+                        }
+
+                        if(isset($_POST['credits']) && $_POST['credits'] > 0) {
+                            $queryParam = $queryParam.'&'.'credits='.$_POST['credits'];
+                        }
+
+                        if(isset($_POST['location']) && $_POST['location'] != '') {
+                            $queryParam = $queryParam.'&'.'location='.$_POST['location'];
+                        }
+
+                        if(isset($_POST['restrictions']) && $_POST['restrictions'] != '') {
+                            $queryParam = $queryParam.'&'.'restrictions='.$_POST['restrictions'];
+                        }
+
+                        // echo $queryParam;
+                        $url = $url . '?' . $queryParam;
+                        //echo $url;
+
+                        $ch = curl_init();
+                        curl_setopt($ch, CURLOPT_URL, $url); // set url for post request
+                        curl_setopt($ch, CURLOPT_POST, true); // set that request will be post 
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // return response as string 
+                        $res = curl_exec($ch);
+                        $resCode = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+                        // $resMsg = curl_getinfo($ch, CURLINFO_HEADER_OUT);
+
+                        if($e = curl_error($ch)) {
+                            echo $e;
+                        } 
+                        //echo $resCode;
+                        curl_close($ch);
                     ?>
                 </div>
             </div>
