@@ -157,3 +157,23 @@ The database has the following schema:
 - description (Partial Key, String)
 
 The Prerequisite table has a foreign key constraint on courseCode referencing the Course table.
+
+
+
+**Error Handling** 
+
+- 400 Bad Request - Invalid request parameters
+- 404 Not Found - Resource not found
+- 405 Method Not Allowed - Incorrect HTTP method used
+- 500 Internal Server Error - Server error
+
+**Implementation Details**
+
+- The API is implemented in PHP using the ???? extension to connect to the MySQL database.
+- Input validation is performed to reject invalid data.
+- HTTP response codes are used to indicate request status.
+- JSON is used for sending and receiving data.
+
+Testing
+
+- The API can be tested using an application like Postman. Some examples requests are included in the Postman collection file.
