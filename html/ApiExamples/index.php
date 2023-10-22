@@ -203,16 +203,26 @@
             <div class="text_button">
                 <p class="VBAdownload_text">DELETE Example</p>
                 <div class = "downloadButton">
-                    <form action="" method="delete">
+                    <form action="" method="post">
                         <input type="submit" name='deleteCourse' value="DELETE" class="dlButton">
                         <input type="text" id="inputDELETE" name="deleteparam">
                     </form>
                     <?php
-                    if (isset($_DELETE['deleteCourse'])) {
-                        // code to send delete request to api
 
-                        //echo a status message for success or failure
-                    }
+                        if (isset($_POST['deleteCourse'])) {
+                            //echo 'test';
+                            $courseCode = $_POST['deleteparam'];
+                            $url = "https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course.php?courseCode=" . $courseCode;
+
+                            $opts = array(
+                                'http' => array(
+                                    'method' => 'DELETE',
+                                ),
+                            );
+                            $context = stream_context_create($opts);
+                            $result = file_get_contents($url, false, $context);
+                            echo $result;
+                        }
                     ?>
                 </div>
             </div>
