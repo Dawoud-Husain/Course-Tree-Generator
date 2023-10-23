@@ -140,6 +140,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             echo 'Exception occured: ' . $e->getMessage();
             http_response_code(500);
         } 
+} else if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+
+    $code = $_GET["courseCode"];
+    $name = $_GET["courseName"];
+    $desc = $_GET["courseDesc"];
+    $credit = $_GET["credits"];
+    $location = $_GET["location"];
+    
+    // Assuming courseCode is the primary key or unique identifier
+    $courseCode = $_GET["courseCode"];
+    
+    try {
+        // Prepare the SQL statement with placeholders
+        $query = "UPDATE Course 
+                  SET courseCode = :code, courseName = :name, courseDesc = :desc, credits = :credit, location = :location 
+                  WHERE courseCode = :courseCode";
+
+        // connect to db - comment this
+        // $pdo = new PDO($dsn, $user, $password);
+        
+        $statement = $pdo->prepare($query);
+    
+        // Binding the parameters
+        $statement->bindParam(':code', $code);
+        $statement->bindParam(':name', $name);
+        $statement->bindParam(':desc', $desc);
+        $statement->bindParam(':credit', $credit);
+        $statement->bindParam(':location', $location);
+        $statement->bindParam(':courseCode', $courseCode);
+
+        // execute statement
+        $statement->execute();
+
+        // check if row was added
+        if ($statement->rowCount() > 0) {
+            header("Content-Type: text/plain");
+            echo "Success";
+            http_response_code(200);
+
+        } else {
+            header("Content-Type: text/plain");
+            echo "Internal Server Error";
+            http_response_code(500);
+        }
+
+    } catch(Exception $e) {
+        echo 'Exception occured: ' . $e->getMessage();
+        http_response_code(500);
+    } 
+
 } else if ($_SERVER['REQUEST_METHOD'] === 'DELETE'){
     $body = file_get_contents("php://input");
     if(!empty($body)){
