@@ -9,8 +9,13 @@
     <div class="homepageBody">
         <p class="homepageBodyTitle">Web Api</p>
         <p class="homepageBodyText">
-            This page will provide you with all the information you need to use our web api, along with some examples!
+            This page provides a direct interface to our api
+            <br>
+            <br>
         </p>
+
+        <a style="color:white;margin-left: 180px;" href = "https://cis3760f23-04.socs.uoguelph.ca/ApiDoc/"target="_blank"> Click Here To View Documentation </a>
+        
         <div class="VBAdownload">
             <div class="text_button">
                 <p class="VBAdownload_text">Load Courses from CSV</p>
