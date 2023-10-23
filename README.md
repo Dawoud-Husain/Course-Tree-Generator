@@ -27,13 +27,13 @@ The database has the following schema:
 
 The Prerequisite table has a foreign key constraint on courseCode referencing the Course table.
 
-**Implementation Details**
+## Implementation Details
 
 - The API is implemented in PHP using the PDO extension to connect to the MySQL database.
 - Input validation is performed to reject invalid data.
 - HTTP response codes are used to indicate request status.
 - JSON is used for sending and receiving data.
 
-**Testing**
+## Testing
 
 - The API can be tested using an application like Postman. Some examples requests are included in the Postman collection file.
