@@ -177,7 +177,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $isUpdated = true;
             }
             if(isset($data["prerequisites"])){
-                $deletePrerequisiteQuery = "DELETE FROM prerequisite WHERE courseCode = :courseCode";
+                $deletePrerequisiteQuery = "DELETE FROM Prerequisite WHERE courseCode = :courseCode";
                 $deleteStatement = $pdo->prepare($deletePrerequisiteQuery);
                 $deleteStatement->bindParam(':courseCode', $code);
                 $deleteStatement->execute();
@@ -186,7 +186,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                     $isUpdated = true;
                 }
 
-                $insertPrerequisiteQuery = "INSERT INTO prerequisite (courseCode, description) VALUES (:courseCode, :description)";
+                $insertPrerequisiteQuery = "INSERT INTO Prerequisite (courseCode, description) VALUES (:courseCode, :description)";
                 $insertStatement = $pdo->prepare($insertPrerequisiteQuery);
 
                 foreach ($data["prerequisites"] as $prerequisite) {
