@@ -144,53 +144,65 @@
             <div class="text_button">
                 <p class="VBAdownload_text">POST Example 1</p>
                 <div class = "downloadButton">
-                    <form action="" method="post" style="padding-10px;">
+                    <form action="" method="post" style="padding-10px;" id="insertForm">
                         <h2>Add a Course</h2>
-                        Course code: <input name="code" type="text" maxlength=20 required> </br>
-                        Course name: <input name="name" type="text" required> </br>
+                        Course code: <input name="code" type="text" maxlength=20 required> 
+                        Course name: <input name="name" type="text" required> 
                         Course description: <input name="desc" type="text"> </br>
-                        Course credit: <input name="credits" type="number" step="0.25" min="0" value="0" required> </br>
-                        Course location: <input name="location" type="text"> </br>
-                        Enter course restrictions: <input name="restrictions" type="text"> </br>
-                        <!-- Enter course prerequisites: <input name="prereq" type="text"> </br>  -->
-                        <input type="submit" name='postCourse' value="ADD" class="dlButton">
+                        Course credit: <input name="credits" type="number" step="0.25" min="0" value="0" required> 
+                        Course location: <input name="location" type="text"> 
+                        Enter course restrictions: <input name="restrictions" type="text"> 
+                        <br> Add prerequisites: <br>
+                        1. <input name="prereq1" type="text"> 
+                         2. <input name="prereq2" type="text"> 
+                         3. <input name="prereq3" type="text">  
+                         4. <input name="prereq4" type="text">  </br>
+                         5. <input name="prereq5" type="text">  
+                         6. <input name="prereq6" type="text"> 
+                         7. <input name="prereq7" type="text">  
+                        </br> <input type="submit" name='postCourse' value="ADD" class="dlButton">
                     </form>
                     <?php
-                        $url = "https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course.php"; // change to "http://cis3760f23-04.socs.uoguelph.ca/api/post/addCourse.php";
-                        $queryParam = '';
+                        $formData = array();
                         
                         if(isset($_POST['code']) && $_POST['code'] != '') {
-                            $queryParam = $queryParam.'courseCode='.$_POST['code'];
+                            formData["courseCode"] = $_POST['code'];
                         }
 
                         if(isset($_POST['name']) && $_POST['name'] != '') {
-                            $queryParam = $queryParam.'&'.'courseName='.$_POST['name'];
+                            formData["courseName"] = $_POST['name'];
                         }
                         //cannnot contain spaces
                         if(isset($_POST['desc']) && $_POST['desc'] != '') {
-                            $queryParam = $queryParam.'&'.'courseDesc='.$_POST['desc'];
+                            formData["courseDesc"] = $_POST['desc'];
                         }
 
                         if(isset($_POST['credits']) && $_POST['credits'] > 0) {
-                            $queryParam = $queryParam.'&'.'credits='.$_POST['credits'];
+                            formData["credits"] = $_POST['credits'];
                         }
 
                         if(isset($_POST['location']) && $_POST['location'] != '') {
-                            $queryParam = $queryParam.'&'.'location='.$_POST['location'];
+                            formData["location"] = $_POST['location'];
                         }
 
                         if(isset($_POST['restrictions']) && $_POST['restrictions'] != '') {
-                            $queryParam = $queryParam.'&'.'restrictions='.$_POST['restrictions'];
+                            formData["restrictions"] = $_POST['restrictions'];
                         }
 
-                        // echo $queryParam;
-                        $url = $url . '?' . $queryParam;
-                        //echo $url;
+                        $jsonData = json_encode($formData);
 
+                        // make POST request with cURL
                         $ch = curl_init();
-                        curl_setopt($ch, CURLOPT_URL, $url); // set url for post request
-                        curl_setopt($ch, CURLOPT_POST, true); // set that request will be post 
+                        $url = "https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course.php";
+
+                        // set request options
+                        curl_setopt($ch, CURLOPT_URL, $url); // set url
+                        curl_setopt($ch, CURLOPT_POST, true); // set request type
+                        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData); // set request body
+                        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json')); 
                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // return response as string 
+                        
+                        // execute query
                         $res = curl_exec($ch);
                         $resCode = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
                         // $resMsg = curl_getinfo($ch, CURLINFO_HEADER_OUT);
@@ -233,3 +245,5 @@
             </div>
         </div>
     </div>
+    </body>
+</html>
