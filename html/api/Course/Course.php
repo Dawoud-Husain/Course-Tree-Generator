@@ -1,8 +1,8 @@
 <?php
 $host = 'localhost';
-$user = 'root';
-$password = '';
-$dsn = "mysql:host=localhost;dbname=Course";
+$user = 'cis3760';
+$password = 'pass1234';
+$dsn = "mysql:host=localhost;dbname=courses";
 // Attempt to connect to the database
 try {
 	$pdo = new PDO($dsn, $user, $password);
@@ -133,53 +133,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 http_response_code(500);
             } 
         }
-} else if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-
-    $courses = json_decode(file_get_contents('php://input'), true);
-
-    
-    $updatedCount = 0;
-    
-    try {
-        foreach($courses as $data){
-            $code = $data["courseCode"];
-            $name = $data["courseName"];
-            $desc = $data["courseDesc"];
-            $credit = $data["credits"];
-            $location = $data["location"];
-            
-            // Assuming courseCode is the primary key or unique identifier
-            $courseCode = $data["courseCode"];
-            
-            // Prepare the SQL statement with placeholders
-            $query = "UPDATE Course 
-                    SET courseCode = :code, courseName = :name, courseDesc = :desc, credits = :credit, location = :location 
-                    WHERE courseCode = :courseCode";
-
-            // connect to db - comment this
-            // $pdo = new PDO($dsn, $user, $password);
-            
-            $statement = $pdo->prepare($query);
-        
-            // Binding the parameters
-            $statement->bindParam(':code', $code);
-            $statement->bindParam(':name', $name);
-            $statement->bindParam(':desc', $desc);
-            $statement->bindParam(':credit', $credit);
-            $statement->bindParam(':location', $location);
-            $statement->bindParam(':courseCode', $courseCode);
-
-            // execute statement
-            $statement->execute();
-
-            if($statement->rowCount() > 0){
-                $updatedCount++;
-            }
-
-        } catch(Exception $e) {
-            echo 'Exception occured: ' . $e->getMessage();
-            http_response_code(500);
-        } 
 } else if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
 
     $courses = json_decode(file_get_contents('php://input'), true);
