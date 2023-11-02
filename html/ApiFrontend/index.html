@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Prerequisite Parser</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
+  </head>
+  <body>
+    <div class="horizontal">
+      <div class="section">
+        <div class="header">Get Possible Courses</div>
+        <div class="inner">
+          <input type="text" id="courseInput" class="input" placeholder="Enter Course Code">
+          <button class="button" id="enterButton">Enter</button>
+          <ul class="courseEntries" id="courseEntries">Courses Entered:
+          </ul>
+          <button class="button">Generate Courses</button>
+          <br/><br/>
+          <button class="button" style="margin-top: 100px">Filter
+            <img src="../components/media/filter.png" alt="filter" class="filter">
+          </button>
+          <div class="categories">
+            <div class="filterCategory">
+              <input type="checkbox" class="checkbox" id="courseCode">
+              <label for="courseCode" class="checkboxLabel">Course Code</label><br>
+            </div>
+          </div>
+          <table class="eligibleCourses">
+            <tr>
+              <th>Course Code</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Credits</th>
+              <th>Location</th>
+              <th>Restrictions</th>
+            </tr>
+            <tr>
+          </table>
+        </div>
+      </div>
+    </div>
+	<script src="index.js"></script>
+  </body>
+</html>
