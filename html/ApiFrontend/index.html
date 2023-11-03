@@ -17,7 +17,7 @@
           <button class="button" id="enterButton">Enter</button>
           <ul class="courseEntries" id="courseEntries">Courses Entered:
           </ul>
-          <button class="button">Generate Courses</button>
+          <button class="button" id="generateCourses">Generate Courses</button>
           <br/><br/>
           <button class="button" style="margin-top: 100px">Filter
             <img src="../components/media/filter.png" alt="filter" class="filter">
@@ -28,16 +28,20 @@
               <label for="courseCode" class="checkboxLabel">Course Code</label><br>
             </div>
           </div>
-          <table class="eligibleCourses">
-            <tr>
-              <th>Course Code</th>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Credits</th>
-              <th>Location</th>
-              <th>Restrictions</th>
-            </tr>
-            <tr>
+          <table class="eligibleCourses" id="eligibleCoursesTable">
+            <thead>
+              <tr>
+                <th>Course Code</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Credits</th>
+                <th>Location</th>
+                <th>Restrictions</th>
+              </tr>
+              <tr>
+            </thead>
+            <tbody id="eligibleCoursesTableBody">
+            </tbody>
           </table>
         </div>
       </div>
