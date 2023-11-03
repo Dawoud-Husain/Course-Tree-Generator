@@ -98,6 +98,10 @@ body {
     margin-left: 50px;
 }
 
+table {
+    margin-right: 100px;
+}
+
 table, th, td {
     border: 1px solid white;
     border-collapse: collapse;
