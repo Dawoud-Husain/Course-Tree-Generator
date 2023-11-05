@@ -100,19 +100,36 @@ body {
 
 table {
     margin-right: 100px;
-}
-
-table, th, td {
-    border: 1px solid white;
+    background-color: #0B3A70;
     border-collapse: collapse;
+    margin-bottom: 100px;
 }
 
 th, td {
+    border: 1px solid #ffffff;
     padding: 20px;
+    color: #D4D4D4;
+    text-align: left;
 }
 
 th {
     color: white;
     font-size: large;
     font-weight: bold;
+    background-color: #08264A;
+}
+
+table tr:hover {
+    background-color: #165A96;
+}
+
+.deleteRowIcon {
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+}
+
+#clearCourses {
+    margin-left: 40px;
+    display: none;
 }

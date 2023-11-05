@@ -15,7 +15,9 @@
         <div class="inner">
           <input type="text" id="courseInput" class="input" placeholder="Enter Course Code">
           <button class="button" id="enterButton">Enter</button>
-          <ul class="courseEntries" id="courseEntries">Courses Entered:
+          <div id="errorMsg" style="color: red;"></div>
+          <ul class="courseEntries" id="courseEntries"> Courses Entered:
+            <button class="button" id="clearCourses"> Clear Courses </button>
           </ul>
           <button class="button" id="generateCourses">Generate Courses</button>
           <br/><br/>
@@ -31,6 +33,7 @@
           <table class="eligibleCourses" id="eligibleCoursesTable">
             <thead>
               <tr>
+                <th>Delete</th>
                 <th>Course Code</th>
                 <th>Name</th>
                 <th>Description</th>
