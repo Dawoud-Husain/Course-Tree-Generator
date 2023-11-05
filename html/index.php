@@ -14,6 +14,8 @@
                     <li><a href="#setup">Setup</a></li>
                     <li><a href="#using">Using the Software</a></li>
                     <li><a href="#AboutTheTeam">Team</a></li>
+                    <li><a href="https://cis3760f23-04.socs.uoguelph.ca/ApiDoc/">Api Documentation</a></li>
+                    <li><a href="https://cis3760f23-04.socs.uoguelph.ca/ApiFrontend/">Api Frontend</a></li>
                 </ul>
             </div> 
         </div>
