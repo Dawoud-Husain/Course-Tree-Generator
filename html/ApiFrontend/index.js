@@ -2,6 +2,167 @@ const enterButton = document.getElementById("enterButton"); // Get enter button
 const generateCourses = document.getElementById("generateCourses"); // Get generateCourses button
 const clearCourses = document.getElementById("clearCourses"); // Get course entries table
 
+filterButton.addEventListener("click", () => {
+    filterCourses();
+});
+
+function updateFilters() {
+    const eligibleCoursesTable = document.getElementById("eligibleCoursesTable");
+    const courseCodeFilter = document.getElementById("courseCode");
+    const courseCodePrefixes = document.getElementsByClassName("courseCodePrefixes")[0];
+    const courseCodeLevels = document.getElementsByClassName("courseCodeLevels")[0];
+
+    // Clear existing filters
+    courseCodePrefixes.innerHTML = "";
+    courseCodeLevels.innerHTML = "";
+
+    const courseCodes = new Set(); // Use a Set to store unique course codes
+    const courseLevels = new Set();
+
+    Array.from(eligibleCoursesTableBody.rows).forEach((row) => {
+        const courseCode = row.cells[1].textContent;
+        codePrefix = courseCode.split("*")[0];
+
+        // Add course prefix html 
+        if (!courseCodes.has(codePrefix)) {
+            // Create a new filter checkbox and corresponding label
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.className = "checkbox";
+            checkbox.name = "course-code-prefix";
+            checkbox.id = codePrefix;
+        
+
+            const label = document.createElement("label");
+            label.htmlFor = courseCode;
+            label.className = "checkboxLabel";
+            label.textContent = codePrefix;
+
+            const br = document.createElement("br");
+
+            // Add the checkbox and label to the courseCodePrefixes section
+            courseCodePrefixes.appendChild(checkbox);
+            courseCodePrefixes.appendChild(label);
+            courseCodePrefixes.appendChild(br);
+
+            // Add the course code to the Set
+            courseCodes.add(label.textContent);
+        }
+    });
+
+    // Add Course levels html
+    Array.from(eligibleCoursesTableBody.rows).forEach((row) => {
+        const courseCode = row.cells[1].textContent;
+        level = courseCode.charAt(courseCode.indexOf("*") + 1);
+
+        if(level == '1' || level == '2' || level == '3' || level == '4' || level == '5') {
+            if(!courseLevels.has(level)){
+                // Create a new filter checkbox and corresponding label
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.className = "checkbox";
+                checkbox.id = level;
+                checkbox.name = "course-code-level";
+            
+                const label = document.createElement("label");
+                label.htmlFor = courseCode;
+                label.className = "checkboxLabel";
+                label.textContent = level;
+            
+                const br = document.createElement("br");
+            
+                // Add the checkbox and label to the courseCodePrefixes section
+                courseCodeLevels.appendChild(checkbox);
+                courseCodeLevels.appendChild(label);
+                courseCodeLevels.appendChild(br);
+            
+                // Add the course code to the Set
+                courseLevels.add(label.textContent);
+            }
+        }
+    });
+}
+
+
+function filterCourses() {
+	let selectedCourseCodeFilters = [];
+    let selelectedCourseLevelFilters = [];
+    
+	// Get all checked checkboxes
+	const prefixCheckboxes = document.getElementsByName("course-code-prefix");
+    const courseCodeLevelsCheckboxes = document.getElementsByName("course-code-level");
+    
+	// Loop through checkboxes and add id to filters array if checked
+	for(let i = 0; i < prefixCheckboxes.length; i++) {
+    	if(prefixCheckboxes[i].checked) {
+        	selectedCourseCodeFilters.push(prefixCheckboxes[i].id);
+    	}
+	}
+
+     for(let i = 0; i < courseCodeLevelsCheckboxes.length; i++) {
+         if(courseCodeLevelsCheckboxes[i].checked) {
+            selelectedCourseLevelFilters.push(courseCodeLevelsCheckboxes[i].id);
+            //  alert(courseCodeLevelsCheckboxes[i].id);
+        }
+    }
+    
+	// Get table body
+	let tableBody = document.getElementById("eligibleCoursesTableBody");
+    
+	// Loop through rows
+
+    if(selectedCourseCodeFilters.length != 0){
+        for(let i = tableBody.rows.length - 1; i >= 0; i--) {
+   	 
+            // Get course code from first cell
+            let courseCode = tableBody.rows[i].cells[1].innerText;
+            
+            // Check if course code doesn't start with any of the filters
+            let matchFound = false;
+            for(let j = 0; j < selectedCourseCodeFilters.length; j++) {
+                if(courseCode.startsWith(selectedCourseCodeFilters[j])) {
+                    matchFound = true;
+                    break;
+                }
+            }
+            
+            // If no match, delete the row
+            if(!matchFound) {
+                tableBody.deleteRow(i);
+            }
+        }   
+    }
+
+
+    // Loop through rows and delete course level filters that do not match
+
+    if(selelectedCourseLevelFilters.length != 0){
+        for(let i = tableBody.rows.length - 1; i >= 0; i--) {
+            
+            // Get course code from first cell
+            let courseCode = tableBody.rows[i].cells[1].innerText;
+            let level = courseCode.charAt(courseCode.indexOf("*") + 1);
+            
+            // Check if course code doesn't start with any of the filters
+            let matchFound = false;
+            for(let j = 0; j < selelectedCourseLevelFilters.length; j++) {
+                // alert(level, selelectedCourseLevelFilters[j]);
+                if(level === (selelectedCourseLevelFilters[j])) {
+                    matchFound = true;
+                    break; 
+                }
+            }
+            
+            // If no match, delete the row
+            if(!matchFound) {
+                tableBody.deleteRow(i);
+            }
+        }   
+    }
+
+    updateFilters();
+}
+
 enterButton?.addEventListener("click", () => { // Define onClick event listener for enter button
     const courseInput = document.getElementById("courseInput"); // Get course input box
     const courseEntries = document.getElementById("courseEntries"); // Get course entries table
@@ -114,6 +275,8 @@ function displayEligibleCourses(eligibleCourses) { // Given an array of course o
         locationCell.innerHTML = eligibleCourse.location; // Populate course location cell
         restrictionsCell.innerHTML = eligibleCourse.restrictions; // Populate course restrictions cell
     });
+
+    updateFilters();
 }
 
 function getDeleteRowImg(index) { // Returns an img element containing delete row icon, with delete functionality
