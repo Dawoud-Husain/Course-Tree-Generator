@@ -32,6 +32,10 @@
 
 /******** ENTERCOURSE **********/
 
+#courseEntries {
+ border-radius: 10px;
+  overflow: hidden;
+}
 
 
 /******** ENTERCOURSE **********/
@@ -51,9 +55,14 @@
  margin-top: 25px;
 }
 
-#generated-table {
+#eligbleCoursesTable {
  border-radius: 10px;
  overflow: hidden;
+}
+
+
+#filterButton {
+ margin-bottom: 10px;
 }
 
 /******** GENERATE **********/

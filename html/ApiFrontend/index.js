@@ -170,18 +170,20 @@ enterButton?.addEventListener("click", () => { // Define onClick event listener 
     const courseCode = courseInput?.value?.toUpperCase(); // Extract course input box value
     const errorMsg = document.getElementById("errorMsg"); // Get errorMsg
 
-    if (validateCourseCode(courseCode) == false) errorMsg.innerText = "Invalid course code format!"; // If course input is invalid, set error text
-    else if (getCourse(courseCode) == undefined) errorMsg.innerText = "Course not found!"; // If course doesn't exist, set error text
-    else if (isNewCourseCode(courseCode) == false) errorMsg.innerText = "Course code already added!"; // If course code already added, set error text
-    else errorMsg.innerText = ""; // Clear the error message
+    // if (validateCourseCode(courseCode) == false) errorMsg.innerText = "Invalid course code format!"; // If course input is invalid, set error text
+    // // else if (getCourse(courseCode) == undefined) errorMsg.innerText = "Course not found!"; // If course doesn't exist, set error text
+    // else if (isNewCourseCode(courseCode) == false) errorMsg.innerText = "Course code already added!"; // If course code already added, set error text
+    // else errorMsg.innerText = ""; // Clear the error message
 
     if (errorMsg.innerText) return; // If error occured, exit
-    const li = document.createElement("li"); // Create new list element
+    const tr = document.createElement("tr"); // Create new table row element
+    const td = document.createElement("td"); // Create new table data cell element
     const text = document.createTextNode(courseCode); // Create text node for list element
 
-    li.className = "courseEntry"; // Set className to "courseEntry"
-    li.appendChild(text); // Append text node to list element
-    courseEntries.appendChild(li); // Append list element to course entries
+    tr.className = "courseEntry"; // Set className to "courseEntry"
+    tr.appendChild(td); // Append table data to table row
+    td.appendChild(text); // Append text to table data cell
+    courseEntries.appendChild(tr); // Append list element to course entries
 
     clearCourses.style.display = 'inline-flex'; // display clearCourses button
     courseInput.value = ""; // Clear input box value
@@ -200,20 +202,20 @@ function validateCourseCode(courseCode) { // Given a couse code, return true if 
     if (!courseCodeRegex.test(courseCode)) return false; // Return false if regex doesn't match
 }
 
-function getCourse(courseCode) { // Given courseCode, make network call to get course object
-    const url = `https://cis3760f23-04.socs.uoguelph.ca/ApiFrontend/getCourse.php?courseCode=${courseCode}`; // Store url of GET request
-    const xhttp = new XMLHttpRequest(); // Make a network request
+// function getCourse(courseCode) { // Given courseCode, make network call to get course object
+//     const url = `https://cis3760f23-04.socs.uoguelph.ca/ApiFrontend/getCourse.php?courseCode=${courseCode}`; // Store url of GET request
+//     const xhttp = new XMLHttpRequest(); // Make a network request
 
-    xhttp.open("GET", url, false); // Define GET request to url
+//     xhttp.open("GET", url, false); // Define GET request to url
     
-    try { // Try to send request to get course object
-        xhttp.send(); // Send GET request to url
-        const response = JSON.parse(xhttp.responseText); // Fetch response as JS object
-        return response?.data?.courseCode; // Return result   
-    } catch (e) { // If request fails
-        return undefined; // Return undefined
-    }
-}
+//     try { // Try to send request to get course object
+//         xhttp.send(); // Send GET request to url
+//         const response = JSON.parse(xhttp.responseText); // Fetch response as JS object
+//         return response?.data?.courseCode; // Return result   
+//     } catch (e) { // If request fails
+//         return undefined; // Return undefined
+//     }
+// }
 
 function isNewCourseCode(courseCode) { // Returns true if the inputted course code hasn't already been added
     return !(getInputCourses().find((course) => (course == courseCode))); // Return true if find() function returns undefined, else false

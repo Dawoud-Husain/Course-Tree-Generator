@@ -23,25 +23,23 @@
         <label for="basicInput" class="form-label text-white fs-4">1. Enter your courses</label>
         <div class="d-flex gap-3">
           <input type="text" class="form-control" id="courseInput" placeholder="Course code">
-          <button type="button" class="btn btn-dark btn-md">Enter</button>
+          <button type="button" class="btn btn-dark btn-md" id="enterButton">Enter</button>
         </div>
+        <div id="errorMsg" style="color: red;"></div>
        
       </div>
 
       <div class="table-responsive" style="width: 25%;">
-        <table class="table table-hover align-middle text-center mt-5" id="course-entries">
+        <table class="table table-hover align-middle text-center mt-5" id="courseEntries">
           <thead>
             <tr>
               <th scope="col">Course</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>CIS 1300</td>
-            </tr>
-            <tr>
+          <tbody id="courseEntriesBody">
+            <!-- <tr>
               <td>CIS 2750</td>
-            </tr>
+            </tr> -->
           </tbody>
         </table>
       </div>
@@ -52,7 +50,20 @@
         <button type="button" class="btn btn-dark btn-lg" id="generateCourses">Generate</button>  
 
         <div class="table-responsive" style="width: 70%; padding-top: 50px;">
-          <table class="table" id="generated-table">
+          <button class="btn btn-dark btn-md" id="filterButton">Filter  
+              <img src="../components/media/filter.svg" style="background-color: #222529;" alt="filter">
+          </button>
+
+          <div class="categories">
+            <h2>SUBJECT</h2>
+            <div class="courseCodePrefixes">
+            </div>
+            <h2>LEVEL</h2>
+            <div class="courseCodeLevels">
+            </div>
+          </div>
+
+          <table class="eligbleCourses table table-hover" id="eligbleCoursesTable">
             <thead>
               <tr>
                 <th scope="col">Delete</th>
@@ -99,7 +110,7 @@
 
 
     </section>
-	  <script src="index.js"></script>
+	  <script src="index2.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
   </body>
 </html>
