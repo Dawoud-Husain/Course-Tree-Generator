@@ -83,7 +83,6 @@ function updateFilters() {
     });
 }
 
-
 function filterCourses() {
 	let selectedCourseCodeFilters = [];
     let selelectedCourseLevelFilters = [];
@@ -166,14 +165,15 @@ function filterCourses() {
 enterButton?.addEventListener("click", () => { // Define onClick event listener for enter button
     const courseInput = document.getElementById("courseInput"); // Get course input box
     const courseEntries = document.getElementById("courseEntries"); // Get course entries table
-    
+    const courseEntriesBody = document.getElementById("courseEntriesBody"); // Get course entries table body
+
     const courseCode = courseInput?.value?.toUpperCase(); // Extract course input box value
     const errorMsg = document.getElementById("errorMsg"); // Get errorMsg
 
-    // if (validateCourseCode(courseCode) == false) errorMsg.innerText = "Invalid course code format!"; // If course input is invalid, set error text
-    // // else if (getCourse(courseCode) == undefined) errorMsg.innerText = "Course not found!"; // If course doesn't exist, set error text
-    // else if (isNewCourseCode(courseCode) == false) errorMsg.innerText = "Course code already added!"; // If course code already added, set error text
-    // else errorMsg.innerText = ""; // Clear the error message
+    if (validateCourseCode(courseCode) == false) errorMsg.innerText = "Invalid course code format!"; // If course input is invalid, set error text
+    // else if (getCourse(courseCode) == undefined) errorMsg.innerText = "Course not found!"; // If course doesn't exist, set error text
+    else if (isNewCourseCode(courseCode) == false) errorMsg.innerText = "Course code already added!"; // If course code already added, set error text
+    else errorMsg.innerText = ""; // Clear the error message
 
     if (errorMsg.innerText) return; // If error occured, exit
     const tr = document.createElement("tr"); // Create new table row element
@@ -183,7 +183,8 @@ enterButton?.addEventListener("click", () => { // Define onClick event listener 
     tr.className = "courseEntry"; // Set className to "courseEntry"
     tr.appendChild(td); // Append table data to table row
     td.appendChild(text); // Append text to table data cell
-    courseEntries.appendChild(tr); // Append list element to course entries
+    courseEntriesBody.appendChild(tr); // Append list element to course entries
+    courseEntries.className = "table table-hover align-middle text-center mt-5"; // Redefine bootstrap class 
 
     clearCourses.style.display = 'inline-flex'; // display clearCourses button
     courseInput.value = ""; // Clear input box value
@@ -245,11 +246,12 @@ generateCourses?.addEventListener("click", () => { // Define onClick event liste
 });
 
 function getInputCourses() { // Returns an array of course codes
-    const courseEntries = document.getElementById("courseEntries"); // Get list of course entries
-    const li_elements = Array.from(courseEntries.getElementsByTagName("li")); // Get all current list items
+    const courseEntries = document.getElementById("courseEntriesBody"); // Get table body of course entries
+    const td_elements = courseEntries.querySelectorAll('td'); // Get all table data cells
     const courses = []; // Stores array of course codes to return
 
-    li_elements.forEach((li_element) => courses.push(li_element.innerText)); // Populate courses array
+    console.log(courses);
+    td_elements.forEach((td_element) => courses.push(td_element.innerText)); // Populate courses array
     return courses; // Return array of course codes
 }
 
