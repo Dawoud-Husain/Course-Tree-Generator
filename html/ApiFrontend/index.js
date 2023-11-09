@@ -184,7 +184,7 @@ enterButton?.addEventListener("click", () => { // Define onClick event listener 
     tr.appendChild(td); // Append table data to table row
     td.appendChild(text); // Append text to table data cell
     courseEntriesBody.appendChild(tr); // Append list element to course entries
-    courseEntries.className = "table table-hover align-middle text-center mt-5"; // Redefine bootstrap class 
+    courseEntries.className = "table table-hover align-middle text-center"; // Redefine bootstrap class 
 
     clearCourses.style.display = 'inline-flex'; // display clearCourses button
     courseInput.value = ""; // Clear input box value
