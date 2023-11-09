@@ -6,5 +6,5 @@ deploy-job:
   environment: production
   script:
     - echo "Testing the SSH connection..."
-    - ssh cis3760f23-04.socs.uoguelph.ca "echo 'SSH test successful'"
-    - echo "SSH test complete."
+    - echo "The Git repository path is: $CI_PROJECT_DIR"
+    - echo "Path test complete."
