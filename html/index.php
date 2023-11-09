@@ -9,22 +9,38 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     </head>
     <body>
-    
-        <section class="homepageBody">
-            <div class="header">
-                <div class="navbar">
-                    <ul>
-                        <p class="groupNum">104</p>
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="#setup">Setup</a></li>
-                        <li><a href="#using">Using the Software</a></li>
-                        <li><a href="#AboutTheTeam">Team</a></li>
-                        <li><a href="https://cis3760f23-04.socs.uoguelph.ca/ApiDoc/">Api Documentation</a></li>
-                        <li><a href="https://cis3760f23-04.socs.uoguelph.ca/ApiFrontend/">Api Frontend</a></li>
-                    </ul>
-                </div> 
+        <nav class="navbar navbar-expand-lg ms-auto" style="background-color: #1D75DE;">
+            <div class="container-fluid"  style="background-color: #1D75DE;">
+                <a class="navbar-brand">104</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                    <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="#setup">Setup</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="#using">Using the Software</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="#aboutTeam">Team</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="https://cis3760f23-04.socs.uoguelph.ca/ApiDoc/">Api Documentation</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="https://cis3760f23-04.socs.uoguelph.ca/ApiFrontend/">Api Frontend</a>
+                    </li>
+                </ul>
+                </div>
             </div>
+        </nav>
 
+        <section class="homepageBody">
             <p class="homepageBodyTitle">F_23_CIS3760: Group_104</p>
             <p class="homepageBodyText">
                 Welcome to Group 104's PHP-powered homepage, where innovation and collaboration thrive 🚀.
@@ -46,7 +62,7 @@
         </section>
        
 
-        <section class="feature1">
+        <section class="feature1" id="features">
             <div class="feature1-body">
                 <div class="feature1-desc">
                     <h1> Free To Use </h1>
@@ -127,7 +143,7 @@
             </div>
         </section>
 
-        <section class="getStarted">
+        <section class="getStarted" id="setup">
             <div class="step1-container">
                 <div class="step1">
                     <h1>Step 1: Download The Software</h1>
