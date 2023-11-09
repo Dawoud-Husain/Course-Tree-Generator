@@ -35,13 +35,14 @@ hr {
  width: 100%;
 }
 
-/******** HEADER **********/
+/******** Enter Courses **********/
 
 #enter-course {
   width: 100%;
   padding-top: 50px;
   padding-left: 200px;
   background-color: #1D75DE;
+
 }
 
 #enter-course h2 {
@@ -51,8 +52,8 @@ hr {
 #courseEntriesContainer {
  max-height: 300px;
  margin-top: 25px;
- margin-bottom: 100px;
- width: 30%;
+ margin-bottom: 250px;
+ width: 250px;
 }
 
 #courseEntries {
@@ -65,10 +66,10 @@ hr {
 }
 
 
-/******** ENTERCOURSE **********/
+/******** Enter Courses End **********/
 
 
-/******** GENERATE **********/
+/******** Eligble Courses **********/
 
 #generate {
   height: 40%;
@@ -79,8 +80,8 @@ hr {
 }
 
 #generateCourses {
- margin-top: 25px;
- margin-bottom: 50px;
+ width: 150px;
+ margin-bottom: 90px;
 }
 
 #eligbleCoursesTableContainer {
@@ -89,30 +90,54 @@ hr {
  margin-bottom: 100px;
 }
 
-#eligbleCoursesTable {
- border-radius: 10px;
- overflow: hidden;
- width: 100%;
-}
-
-
 #filterButton {
  margin-bottom: 10px;
- width: 20%;
+ width: 100px;
 }
 
-/******** GENERATE **********/
+/******** Elegible Courses End **********/
 
 @media (max-width: 700px) {
+    #enter-input {
+      flex-direction: column;
+    }
+
     #courseInput {
-        width: 50%;
+      width: 100%;
     }
 
     .steps {
-      font-size: 15px;
+      font-size: 20px;
     }
 
     #enter-course {
-     padding-left: 80px;
+     align-items: center;
+     padding-left: 50px;
+     padding-right: 50px;
     }
+
+    #courseEntriesContainer {
+     margin-top: 50px;
+     width: 150px;
+    }
+
+    #eligbleCoursesTableContainer {
+     width: 150px;
+    }
+
+    #filterButton {
+     width: 75px;
+    }
+}
+
+
+@media (max-width: 200px) {
+    #enter-course {
+     padding-left: 0px;
+    }
+
+   .courseEntries {
+    width: 100%:
+   }
+
 }

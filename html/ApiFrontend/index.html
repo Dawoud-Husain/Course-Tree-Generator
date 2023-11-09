@@ -20,14 +20,16 @@
     
     <section class="d-flex flex-column justify-content-start align-items-start" id="enter-course"> 
       <h2 class="steps text-white p">1. Enter your courses</h2>
-      <div class="d-flex gap-3">
+      <div class="d-flex gap-3" id="enter-input">
         <input type="text" class="form-control d-md-block" id="courseInput" placeholder="Course code">
         <button type="button" class="btn btn-dark btn-md" id="enterButton">Enter</button>
       </div>
       <div id="errorMsg" style="color: red;"></div>
 
-      <button class="btn btn-danger btn-sm" id="clearCourses"> Clear Courses </button>      
-      <div class="table-responsive card" id="courseEntriesContainer">
+      <button class="btn btn-danger btn-sm" id="clearCourses"> Clear Courses </button> 
+      
+      <!-- Entered Courses Table -->
+      <div class="table-responsive-sm card" id="courseEntriesContainer">
         <table class="table table-hover align-middle text-center" id="courseEntries">
           <thead>
             <tr>
@@ -38,13 +40,12 @@
           </tbody>
         </table>
       </div>
+      <!-- Entered Courses Table -->
 
-      <h2 class="steps text-white">2. Click to generate future courses</h2>
+      <h2 class="steps text-white">2. Click generate to view eligible courses</h2>
       <button type="button" class="btn btn-dark btn-lg" id="generateCourses">Generate</button>  
       <!-- ********    TO DO FILTER UI ******** - DAWOUD  -->
-      <button class="btn btn-dark btn-md" id="filterButton">Filter  
-        <img src="../components/media/filter.svg" style="background-color: #222529;" alt="filter">
-      </button>
+      <button class="btn btn-dark btn-md" id="filterButton">Filter</button>
       <!-- <div class="categories">
         <h2>SUBJECT</h2>
         <div class="courseCodePrefixes">
@@ -53,7 +54,9 @@
         <div class="courseCodeLevels">
         </div>
       </div> -->
-    <!-- ********    TO DO FILTER UI ******** - DAWOUD  -->
+      <!-- ********    TO DO FILTER UI ******** - DAWOUD  -->
+      
+      <!-- Elegible course table -->
       <div class="table-responsive card" id="eligbleCoursesTableContainer">
         <table class="eligbleCourses table table-hover" id="eligbleCoursesTable">
           <thead>
