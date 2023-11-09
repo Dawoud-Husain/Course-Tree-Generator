@@ -10,6 +10,7 @@ Build Application:
     - echo $GIT_CLONE_PATH
     - echo $CI_PROJECT_DIR
     - echo $CI_PROJECT_PATH
+    - echo "$SSH_PRIVATE_KEY"
     - pwd
     - ls -la
     - git pull # try something 
