@@ -11,3 +11,4 @@ Build Application:
     - echo $CI_PROJECT_DIR
     - echo $CI_PROJECT_PATH
     - pwd
+    - ls -la
