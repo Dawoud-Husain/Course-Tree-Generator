@@ -191,10 +191,10 @@ enterButton?.addEventListener("click", () => { // Define onClick event listener 
 });
 
 clearCourses?.addEventListener("click", (e) => { // Define onClick event listener for enter button
-    const courseEntries = document.getElementById("courseEntries"); // Get course entries table
-    const li_elements = Array.from(courseEntries.getElementsByTagName("li")); // Get all current list items
+    const courseEntries = document.getElementById("courseEntriesBody"); // Get course entries table
+    const td_elements = courseEntries.querySelectorAll('td'); // Get all current table data cells
 
-    li_elements.forEach((li_element) => li_element.remove()); // Populate elements
+    td_elements.forEach((td_element) => td_element.remove()); // Populate elements
     clearCourses.style.display = 'none'; // remove clearCourses button
 });
 
@@ -203,20 +203,21 @@ function validateCourseCode(courseCode) { // Given a couse code, return true if 
     if (!courseCodeRegex.test(courseCode)) return false; // Return false if regex doesn't match
 }
 
-// function getCourse(courseCode) { // Given courseCode, make network call to get course object
-//     const url = `https://cis3760f23-04.socs.uoguelph.ca/ApiFrontend/getCourse.php?courseCode=${courseCode}`; // Store url of GET request
-//     const xhttp = new XMLHttpRequest(); // Make a network request
+function getCourse(courseCode) { // Given courseCode, make network call to get course object
+    const url = `https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course.php?id=${courseCode}`; // Store url of GET request
+    const xhttp = new XMLHttpRequest(); // Make a network request
 
-//     xhttp.open("GET", url, false); // Define GET request to url
+    xhttp.open("GET", url, false); // Define GET request to url
     
-//     try { // Try to send request to get course object
-//         xhttp.send(); // Send GET request to url
-//         const response = JSON.parse(xhttp.responseText); // Fetch response as JS object
-//         return response?.data?.courseCode; // Return result   
-//     } catch (e) { // If request fails
-//         return undefined; // Return undefined
-//     }
-// }
+    try { // Try to send request to get course object
+        xhttp.send(); // Send GET request to url
+        const response = JSON.parse(xhttp.responseText); // Fetch response as JS object
+        console.log(respone.data.courseCode);
+        return response?.data?.courseCode; // Return result   
+    } catch (e) { // If request fails
+        return undefined; // Return undefined
+    }
+}
 
 function isNewCourseCode(courseCode) { // Returns true if the inputted course code hasn't already been added
     return !(getInputCourses().find((course) => (course == courseCode))); // Return true if find() function returns undefined, else false
@@ -225,24 +226,26 @@ function isNewCourseCode(courseCode) { // Returns true if the inputted course co
 generateCourses?.addEventListener("click", () => { // Define onClick event listener for generateCourses button
     clearEligibleCoursesTable(); // Clear current table rows, will be repopulated
     
-    const inputCourses = getInputCourses(); // Get list of inputted courses
-    const queryParam = inputCourses.join(',') // Get query parameter string with comma glue char
+    // const inputCourses = getInputCourses(); // Get list of inputted courses
+    // const queryParam = inputCourses.join(',') // Get query parameter string with comma glue char
 
-    const url = `https://cis3760f23-04.socs.uoguelph.ca/ApiFrontend/calls.php${queryParam ? `?courseCodes=${queryParam}` : ''}`; // Get url of network request
-    const xhttp = new XMLHttpRequest(); // Make a network request
+    // const url = `https://cis3760f23-04.socs.uoguelph.ca/ApiFrontend/calls.php${queryParam ? `?courseCodes=${queryParam}` : ''}`; // Get url of network request
+    // const xhttp = new XMLHttpRequest(); // Make a network request
 
-    const body = { // Define POST request body
-        coursesTaken: inputCourses // Add current user input courses in POST request body
-    };
+    // const body = { // Define POST request body
+    //     coursesTaken: inputCourses // Add current user input courses in POST request body
+    // };
 
-    xhttp.onload = function() { // Runs once the response recieved
-        const response = this.responseText; // Get response as JSON text
-        const eligibleCourses = JSON.parse(response); // Convert to JS array of objects
-        displayEligibleCourses(eligibleCourses); // repopulate table with new courses
-    }
+    // xhttp.onload = function() { // Runs once the response recieved
+    //     const response = this.responseText; // Get response as JSON text
+    //     const eligibleCourses = JSON.parse(response); // Convert to JS array of objects
+    //     displayEligibleCourses(eligibleCourses); // repopulate table with new courses
+    // }
 
-    xhttp.open("GET", url, true); // Define POST request
-    xhttp.send(); // Send POST request with body
+    const eligibleCourses = [];
+    displayEligibleCourses(eligibleCourses);
+    // xhttp.open("GET", url, true); // Define POST request
+    // xhttp.send(); // Send POST request with body
 });
 
 function getInputCourses() { // Returns an array of course codes
@@ -250,7 +253,6 @@ function getInputCourses() { // Returns an array of course codes
     const td_elements = courseEntries.querySelectorAll('td'); // Get all table data cells
     const courses = []; // Stores array of course codes to return
 
-    console.log(courses);
     td_elements.forEach((td_element) => courses.push(td_element.innerText)); // Populate courses array
     return courses; // Return array of course codes
 }
@@ -258,27 +260,62 @@ function getInputCourses() { // Returns an array of course codes
 function displayEligibleCourses(eligibleCourses) { // Given an array of course objects, display these as rows on the eligibleCoursesTable
     const eligibleCoursesTableBody = document.getElementById("eligibleCoursesTableBody"); // Get <tbody> object for eligibleCoursesTable
 
-    eligibleCourses.data?.forEach((eligibleCourse, index) => { // For all course objects in array
-        const row = eligibleCoursesTableBody.insertRow(-1); // Add new row in table
-        row.id = `row${index}`; // Assign id to row for delete functionality
+    const row = eligibleCoursesTableBody.insertRow(-1); // Add new row in table
+    row.id = `row0`; // Assign id to row for delete functionality
 
-        // Add new cells in row 
-        const deleteCell = row.insertCell(0); // Contains delete row icon
-        const courseCodeCell = row.insertCell(1); // Contains course code
-        const nameCell = row.insertCell(2); // Contains course name
-        const descriptionCell = row.insertCell(3); // Contains course description
-        const creditsCell = row.insertCell(4); // Contains course credits
-        const locationCell = row.insertCell(5); // Contains course location
-        const restrictionsCell = row.insertCell(6); // Contains course restrictions
+    // Add new cells in row 
+    const deleteCell = row.insertCell(0); // Contains delete row icon
+    const courseCodeCell = row.insertCell(1); // Contains course code
+    const nameCell = row.insertCell(2); // Contains course name
+    const descriptionCell = row.insertCell(3); // Contains course description
+    const creditsCell = row.insertCell(4); // Contains course credits
+    const locationCell = row.insertCell(5); // Contains course location
+    const restrictionsCell = row.insertCell(6); // Contains course restrictions
 
-        deleteCell.appendChild(getDeleteRowImg(index)); // Populate delete row cell
-        courseCodeCell.innerHTML = eligibleCourse.courseCode; // Populate course code cell
-        descriptionCell.innerHTML = eligibleCourse.courseDescription; // Populate course description cell
-        nameCell.innerHTML = eligibleCourse.courseTitle; // Populate course name cell
-        creditsCell.innerHTML = eligibleCourse.credits; // Populate course credits cell
-        locationCell.innerHTML = eligibleCourse.location; // Populate course location cell
-        restrictionsCell.innerHTML = eligibleCourse.restrictions; // Populate course restrictions cell
-    });
+    deleteCell.innerHTML = `<th scope="row"><button class="removeCourseBtn btn btn-danger btn-sm">x</button></th>`; // Populate delete row cell
+
+    const deleteCourseBtn = document.querySelector('.removeCourseBtn');
+
+    deleteCourseBtn.onclick = (e) => {
+        document.getElementById(`row0`).remove(); // Remove row element from table
+    }
+
+    courseCodeCell.innerHTML = "CIS*1300"; // Populate course code cell
+    descriptionCell.innerHTML = "Learn C Programming"; // Populate course description cell
+    nameCell.innerHTML = "Introduction to C"; // Populate course name cell
+    creditsCell.innerHTML = "1.5"; // Populate course credits cell
+    locationCell.innerHTML = "REYN 2202"; // Populate course location cell
+    restrictionsCell.innerHTML = ""; // Populate course restrictions cell
+    
+    
+    // eligibleCourses.data?.forEach((eligibleCourse, index) => { // For all course objects in array
+    //     const row = eligibleCoursesTableBody.insertRow(-1); // Add new row in table
+    //     row.id = `row${index}`; // Assign id to row for delete functionality
+
+    //     // Add new cells in row 
+    //     const deleteCell = row.insertCell(0); // Contains delete row icon
+    //     const courseCodeCell = row.insertCell(1); // Contains course code
+    //     const nameCell = row.insertCell(2); // Contains course name
+    //     const descriptionCell = row.insertCell(3); // Contains course description
+    //     const creditsCell = row.insertCell(4); // Contains course credits
+    //     const locationCell = row.insertCell(5); // Contains course location
+    //     const restrictionsCell = row.insertCell(6); // Contains course restrictions
+
+    //     deleteCell.appendChild(getDeleteRowImg(index)); // Populate delete row cell
+    //     // courseCodeCell.innerHTML = eligibleCourse.courseCode; // Populate course code cell
+    //     // descriptionCell.innerHTML = eligibleCourse.courseDescription; // Populate course description cell
+    //     // nameCell.innerHTML = eligibleCourse.courseTitle; // Populate course name cell
+    //     // creditsCell.innerHTML = eligibleCourse.credits; // Populate course credits cell
+    //     // locationCell.innerHTML = eligibleCourse.location; // Populate course location cell
+    //     // restrictionsCell.innerHTML = eligibleCourse.restrictions; // Populate course restrictions cell
+    //     courseCodeCell.innerHTML = "CIS*1300"; // Populate course code cell
+    //     descriptionCell.innerHTML = "Learn C Programming"; // Populate course description cell
+    //     nameCell.innerHTML = "Introduction to C"; // Populate course name cell
+    //     creditsCell.innerHTML = "1.5"; // Populate course credits cell
+    //     locationCell.innerHTML = "REYN 2202"; // Populate course location cell
+    //     restrictionsCell.innerHTML = ""; // Populate course restrictions cell
+
+    // });
 
     updateFilters();
 }

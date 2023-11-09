@@ -34,9 +34,12 @@
 
 #courseEntries {
  border-radius: 10px;
-  overflow: hidden;
+ overflow: hidden;
 }
 
+#clearCourses {
+ display: none;
+}
 
 /******** ENTERCOURSE **********/
 
@@ -66,3 +69,13 @@
 }
 
 /******** GENERATE **********/
+
+@media (max-width: 700px) {
+    #courseInput {
+        width: 30%;
+    }
+
+    .steps {
+      font-size: 20px;
+    }
+}
