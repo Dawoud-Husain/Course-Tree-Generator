@@ -1,10 +1,9 @@
 stages:
-  - deploy
+  - print_path
 
-deploy-job:
-  stage: deploy
-  environment: production
+print_path:
+  stage: print_path
   script:
-    - echo "Testing the SSH connection..."
     - echo "The Git repository path is: $CI_PROJECT_DIR"
-    - echo "Path test complete."
+  only:
+    - Sprint7
