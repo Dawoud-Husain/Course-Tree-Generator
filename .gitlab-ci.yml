@@ -12,3 +12,4 @@ Build Application:
     - echo $CI_PROJECT_PATH
     - pwd
     - ls -la
+    - git pull # try something 
