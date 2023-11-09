@@ -31,13 +31,11 @@ hr {
  height: 1px;
 }
 
-#main-container {
- width: 100%;
-}
+/******** Header End **********/
 
 /******** Enter Courses **********/
 
-#enter-course {
+#main-section {
   width: 100%;
   padding-top: 50px;
   padding-left: 200px;
@@ -45,7 +43,7 @@ hr {
 
 }
 
-#enter-course h2 {
+#main-section h2 {
  padding-bottom: 20px;
 }
 
@@ -110,7 +108,7 @@ hr {
       font-size: 20px;
     }
 
-    #enter-course {
+    #main-section {
      align-items: center;
      padding-left: 50px;
      padding-right: 50px;
@@ -133,7 +131,7 @@ hr {
 
 
 @media (max-width: 200px) {
-    #enter-course {
+    #main-section {
      padding-left: 0px;
     }
 

@@ -178,7 +178,7 @@ enterButton?.addEventListener("click", () => { // Define onClick event listener 
     if (errorMsg.innerText) return; // If error occured, exit
     const tr = document.createElement("tr"); // Create new table row element
     const td = document.createElement("td"); // Create new table data cell element
-    const text = document.createTextNode(courseCode); // Create text node for list element
+    const text = document.createTextNode(courseCode); // Create text node for table data cell element
 
     tr.className = "courseEntry"; // Set className to "courseEntry"
     tr.appendChild(td); // Append table data to table row
@@ -260,6 +260,7 @@ function getInputCourses() { // Returns an array of course codes
 function displayEligibleCourses(eligibleCourses) { // Given an array of course objects, display these as rows on the eligibleCoursesTable
     const eligibleCoursesTableBody = document.getElementById("eligibleCoursesTableBody"); // Get <tbody> object for eligibleCoursesTable
 
+    /********* EXAMPLE OF CREATING NEW ROW IN ELIGBLE COURSES TABLE ******/
     const row = eligibleCoursesTableBody.insertRow(-1); // Add new row in table
     row.id = `row0`; // Assign id to row for delete functionality
 
@@ -287,7 +288,10 @@ function displayEligibleCourses(eligibleCourses) { // Given an array of course o
     locationCell.innerHTML = "REYN 2202"; // Populate course location cell
     restrictionsCell.innerHTML = ""; // Populate course restrictions cell
     
+    /********* EXAMPLE OF CREATING NEW ROW IN ELIGBLE COURSES TABLE ******/
     
+
+    /********* API CALL ******/
     // eligibleCourses.data?.forEach((eligibleCourse, index) => { // For all course objects in array
     //     const row = eligibleCoursesTableBody.insertRow(-1); // Add new row in table
     //     row.id = `row${index}`; // Assign id to row for delete functionality
