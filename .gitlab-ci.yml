@@ -13,4 +13,3 @@ Build Application:
     - echo "$SSH_PRIVATE_KEY"
     - pwd
     - ls -la
-    - git pull # try something 
