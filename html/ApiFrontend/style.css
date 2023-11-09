@@ -73,7 +73,7 @@ hr {
 #generate {
   height: 40%;
   width: 100%;
-  padding-top: 150px;
+  padding-top: 550px;
   padding-bottom: 150px;
   background-color: #1D75DE;
 }
@@ -84,8 +84,9 @@ hr {
 }
 
 #eligbleCoursesTableContainer {
- max-height: 300px;
+ max-height: 500px;
  width: 80%;
+ margin-bottom: 100px;
 }
 
 #eligbleCoursesTable {
@@ -97,16 +98,21 @@ hr {
 
 #filterButton {
  margin-bottom: 10px;
+ width: 20%;
 }
 
 /******** GENERATE **********/
 
 @media (max-width: 700px) {
     #courseInput {
-        width: 30%;
+        width: 50%;
     }
 
     .steps {
-      font-size: 20px;
+      font-size: 15px;
+    }
+
+    #enter-course {
+     padding-left: 80px;
     }
 }
