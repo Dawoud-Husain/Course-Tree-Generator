@@ -2,7 +2,7 @@ stages:
   - build
 
 variables:
-  GIT_CLONE_PATH: "$CI_PROJECT_DIR/subfolder"
+  GIT_CLONE_PATH: "$CI_PROJECT_DIR/builds"
 
 Build Application:
   stage: build
