@@ -1,9 +1,13 @@
 stages:
-  - print_path
+  - build
 
-print_path:
-  stage: print_path
+variables:
+  GIT_CLONE_PATH: "$CI_PROJECT_DIR/subfolder"
+
+Build Application:
+  stage: build
   script:
-    - echo "The Git repository path is: $CI_PROJECT_DIR"
-  only:
-    - Sprint7
+    - echo $GIT_CLONE_PATH
+    - echo $CI_PROJECT_DIR
+    - echo $CI_PROJECT_PATH
+    - pwd
