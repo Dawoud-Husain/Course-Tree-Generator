@@ -5,6 +5,7 @@ deploy:
   stage: deploy
   script:
     - ls
+    - uname -a
     - git checkout Sprint7  
     - git pull origin Sprint7  
     - git log --oneline  
