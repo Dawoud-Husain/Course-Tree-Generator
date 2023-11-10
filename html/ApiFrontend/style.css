@@ -38,7 +38,8 @@ hr {
 #main-section {
   width: 100%;
   padding-top: 50px;
-  padding-left: 200px;
+  padding-left: 250px;
+  padding-right: 100px;
   background-color: #1D75DE;
 
 }
@@ -48,9 +49,9 @@ hr {
 }
 
 #courseEntriesContainer {
- max-height: 300px;
+ max-height: 250px;
  margin-top: 25px;
- margin-bottom: 250px;
+ margin-bottom: 150px;
  width: 250px;
 }
 
@@ -79,12 +80,11 @@ hr {
 
 #generateCourses {
  width: 150px;
- margin-bottom: 90px;
+ margin-bottom: 50px;
 }
 
 #eligbleCoursesTableContainer {
- max-height: 500px;
- width: 80%;
+ width: 1500px;
  margin-bottom: 100px;
 }
 
@@ -96,6 +96,11 @@ hr {
 /******** Elegible Courses End **********/
 
 @media (max-width: 700px) {
+    img {
+      width: 250px;
+      height: 250px;
+    }
+
     #enter-input {
       flex-direction: column;
     }
@@ -116,27 +121,14 @@ hr {
 
     #courseEntriesContainer {
      margin-top: 50px;
-     width: 150px;
-    }
-
-    #eligbleCoursesTableContainer {
-     width: 150px;
+     width: 205px;
     }
 
     #filterButton {
      width: 75px;
     }
-}
 
-
-
-@media (max-width: 200px) {
-    #main-section {
-     padding-left: 0px;
+    #generateCourses {
+      width: 205px;
     }
-
-   .courseEntries {
-    width: 100%:
-   }
-
 }

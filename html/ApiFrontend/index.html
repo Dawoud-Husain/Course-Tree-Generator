@@ -20,7 +20,7 @@
     
     <section class="d-flex flex-column justify-content-start align-items-start" id="main-section" role="main"> 
       <h2 class="steps text-white p">1. Enter your courses</h2>
-      <div class="d-flex gap-3" id="enter-input" role="form">
+      <div class="d-flex gap-3" id="enter-input" role="input">
         <input type="text" class="form-control d-md-block" id="courseInput" placeholder="Course code">
         <button type="button" class="btn btn-dark btn-md" id="enterButton">Enter</button>
       </div>
@@ -34,6 +34,7 @@
           <thead>
             <tr>
               <th scope="col">Course</th>
+              <th scope="col"></th>
             </tr>
           </thead>
           <tbody id="courseEntriesBody">
@@ -61,13 +62,14 @@
         <table class="eligbleCourses table table-hover" id="eligbleCoursesTable">
           <thead>
             <tr>
-              <th scope="col">Delete</th>
+              <th scope="col">Restrictions</th>
               <th scope="col">Course Code</th>
               <th scope="col">Name</th>
               <th scope="col">Description</th>
               <th scope="col">Credits</th>
               <th scope="col">Location</th>
-              <th scope="col">Restrictions</th>
+              <th scope="col">Delete</th>
+
             </tr>
           </thead>
           <tbody id="eligibleCoursesTableBody">

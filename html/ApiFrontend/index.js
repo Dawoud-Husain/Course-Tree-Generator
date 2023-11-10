@@ -177,12 +177,27 @@ enterButton?.addEventListener("click", () => { // Define onClick event listener 
 
     if (errorMsg.innerText) return; // If error occured, exit
     const tr = document.createElement("tr"); // Create new table row element
-    const td = document.createElement("td"); // Create new table data cell element
+    const td1 = document.createElement("td"); // Create new table data cell element
+    const td2 = document.createElement("td"); // Create new table data cell element
     const text = document.createTextNode(courseCode); // Create text node for table data cell element
+    const deleteBtn = document.createElement("button"); // Create delete button for course
 
     tr.className = "courseEntry"; // Set className to "courseEntry"
-    tr.appendChild(td); // Append table data to table row
-    td.appendChild(text); // Append text to table data cell
+    tr.id = courseCode; // Set unique course code for each row as ID
+    tr.appendChild(td1); // Append table data to table row
+    td1.appendChild(text); // Append text to table data cell
+
+    deleteBtn.className = "btn btn-danger btn-sm"; // Add bootstrap button styles
+    deleteBtn.innerHTML = "x"; 
+    deleteBtn.style.marginLeft = "20px";
+
+    deleteBtn.onclick = (e) => {
+        document.getElementById(`${courseCode}`).remove(); // Remove row element from table
+    }
+
+    tr.appendChild(td2); // Append second table data cell to row
+    td2.appendChild(deleteBtn);  // Append delete button into second table data cell 
+
     courseEntriesBody.appendChild(tr); // Append list element to course entries
     courseEntries.className = "table table-hover align-middle text-center"; // Redefine bootstrap class 
 
@@ -197,6 +212,10 @@ clearCourses?.addEventListener("click", (e) => { // Define onClick event listene
     td_elements.forEach((td_element) => td_element.remove()); // Populate elements
     clearCourses.style.display = 'none'; // remove clearCourses button
 });
+
+function deleteCourse(element) {
+    $(element).closest('tr').remove();
+}
 
 function validateCourseCode(courseCode) { // Given a couse code, return true if it is a valid course code, else return false
     const courseCodeRegex = /^[A-Z][A-Z][A-Z][A-Z]?\*\d\d\d\d$/; // Regex used to validate course code
@@ -226,26 +245,26 @@ function isNewCourseCode(courseCode) { // Returns true if the inputted course co
 generateCourses?.addEventListener("click", () => { // Define onClick event listener for generateCourses button
     clearEligibleCoursesTable(); // Clear current table rows, will be repopulated
     
-    // const inputCourses = getInputCourses(); // Get list of inputted courses
-    // const queryParam = inputCourses.join(',') // Get query parameter string with comma glue char
+    const inputCourses = getInputCourses(); // Get list of inputted courses
+    const queryParam = inputCourses.join(',') // Get query parameter string with comma glue char
 
-    // const url = `https://cis3760f23-04.socs.uoguelph.ca/ApiFrontend/calls.php${queryParam ? `?courseCodes=${queryParam}` : ''}`; // Get url of network request
-    // const xhttp = new XMLHttpRequest(); // Make a network request
+    const url = `https://cis3760f23-04.socs.uoguelph.ca/ApiFrontend/calls.php${queryParam ? `?courseCodes=${queryParam}` : ''}`; // Get url of network request
+    const xhttp = new XMLHttpRequest(); // Make a network request
 
-    // const body = { // Define POST request body
-    //     coursesTaken: inputCourses // Add current user input courses in POST request body
-    // };
+    const body = { // Define POST request body
+        coursesTaken: inputCourses // Add current user input courses in POST request body
+    };
 
-    // xhttp.onload = function() { // Runs once the response recieved
-    //     const response = this.responseText; // Get response as JSON text
-    //     const eligibleCourses = JSON.parse(response); // Convert to JS array of objects
-    //     displayEligibleCourses(eligibleCourses); // repopulate table with new courses
-    // }
+    xhttp.onload = function() { // Runs once the response recieved
+        const response = this.responseText; // Get response as JSON text
+        const eligibleCourses = JSON.parse(response); // Convert to JS array of objects
+        displayEligibleCourses(eligibleCourses); // repopulate table with new courses
+    }
 
     const eligibleCourses = [];
     displayEligibleCourses(eligibleCourses);
-    // xhttp.open("GET", url, true); // Define POST request
-    // xhttp.send(); // Send POST request with body
+    xhttp.open("GET", url, true); // Define POST request
+    xhttp.send(); // Send POST request with body
 });
 
 function getInputCourses() { // Returns an array of course codes
@@ -265,13 +284,13 @@ function displayEligibleCourses(eligibleCourses) { // Given an array of course o
     row.id = `row0`; // Assign id to row for delete functionality
 
     // Add new cells in row 
-    const deleteCell = row.insertCell(0); // Contains delete row icon
-    const courseCodeCell = row.insertCell(1); // Contains course code
-    const nameCell = row.insertCell(2); // Contains course name
-    const descriptionCell = row.insertCell(3); // Contains course description
-    const creditsCell = row.insertCell(4); // Contains course credits
-    const locationCell = row.insertCell(5); // Contains course location
-    const restrictionsCell = row.insertCell(6); // Contains course restrictions
+    const courseCodeCell = row.insertCell(0); // Contains course code
+    const nameCell = row.insertCell(1); // Contains course name
+    const descriptionCell = row.insertCell(2); // Contains course description
+    const creditsCell = row.insertCell(3); // Contains course credits
+    const locationCell = row.insertCell(4); // Contains course location
+    const restrictionsCell = row.insertCell(5); // Contains course restrictions
+    const deleteCell = row.insertCell(6); // Contains delete row icon
 
     deleteCell.innerHTML = `<th scope="row"><button class="removeCourseBtn btn btn-danger btn-sm">x</button></th>`; // Populate delete row cell
 
@@ -282,11 +301,11 @@ function displayEligibleCourses(eligibleCourses) { // Given an array of course o
     }
 
     courseCodeCell.innerHTML = "CIS*1300"; // Populate course code cell
-    descriptionCell.innerHTML = "Learn C Programming"; // Populate course description cell
+    descriptionCell.innerHTML = "This course is a practical introduction to the area of user interface construction. Topics include user interface components and their application, best practices for user interface design, approaches to prototyping, and techniques for assessing interface suitability."; // Populate course description cell
     nameCell.innerHTML = "Introduction to C"; // Populate course name cell
     creditsCell.innerHTML = "1.5"; // Populate course credits cell
-    locationCell.innerHTML = "REYN 2202"; // Populate course location cell
-    restrictionsCell.innerHTML = ""; // Populate course restrictions cell
+    locationCell.innerHTML = "Guelph"; // Populate course location cell
+    restrictionsCell.innerHTML = "Priortiy Access"; // Populate course restrictions cell
     
     /********* EXAMPLE OF CREATING NEW ROW IN ELIGBLE COURSES TABLE ******/
     
