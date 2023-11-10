@@ -7,6 +7,5 @@ deploy:
     - uname -a
     - cd /var/www/html/test/html # will clean the file strucuture of the vm soon 
     - ls #ensuring that files are there
-    - git checkout Sprint7  
     - git pull origin Sprint7  
     - git log --oneline  
