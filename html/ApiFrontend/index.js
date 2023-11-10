@@ -171,6 +171,7 @@ enterButton?.addEventListener("click", () => { // Define onClick event listener 
     const errorMsg = document.getElementById("errorMsg"); // Get errorMsg
 
     if (validateCourseCode(courseCode) == false) errorMsg.innerText = "Invalid course code format!"; // If course input is invalid, set error text
+    /****** UNCOMMENT THIS API  ***********/
     // else if (getCourse(courseCode) == undefined) errorMsg.innerText = "Course not found!"; // If course doesn't exist, set error text
     else if (isNewCourseCode(courseCode) == false) errorMsg.innerText = "Course code already added!"; // If course code already added, set error text
     else errorMsg.innerText = ""; // Clear the error message
@@ -315,14 +316,14 @@ function displayEligibleCourses(eligibleCourses) { // Given an array of course o
     //     const row = eligibleCoursesTableBody.insertRow(-1); // Add new row in table
     //     row.id = `row${index}`; // Assign id to row for delete functionality
 
-    //     // Add new cells in row 
-    //     const deleteCell = row.insertCell(0); // Contains delete row icon
-    //     const courseCodeCell = row.insertCell(1); // Contains course code
-    //     const nameCell = row.insertCell(2); // Contains course name
-    //     const descriptionCell = row.insertCell(3); // Contains course description
-    //     const creditsCell = row.insertCell(4); // Contains course credits
-    //     const locationCell = row.insertCell(5); // Contains course location
-    //     const restrictionsCell = row.insertCell(6); // Contains course restrictions
+    //     // Add new cells in row
+           // const courseCodeCell = row.insertCell(0); // Contains course code
+           // const nameCell = row.insertCell(1); // Contains course name
+           // const descriptionCell = row.insertCell(2); // Contains course description
+           // const creditsCell = row.insertCell(3); // Contains course credits
+           // const locationCell = row.insertCell(4); // Contains course location
+           // const restrictionsCell = row.insertCell(5); // Contains course restrictions
+           // const deleteCell = row.insertCell(6); // Contains delete row icon
 
     //     deleteCell.appendChild(getDeleteRowImg(index)); // Populate delete row cell
     //     // courseCodeCell.innerHTML = eligibleCourse.courseCode; // Populate course code cell

@@ -96,6 +96,10 @@ hr {
 /******** Elegible Courses End **********/
 
 @media (max-width: 700px) {
+    #main-section {
+      height: 50%;
+    }
+
     img {
       width: 250px;
       height: 250px;
