@@ -1,8 +1,8 @@
 stages:
-  - build
+  - deploy
 
 build:
-  stage: build
+  stage: deploy
   script:
     - |
       echo "Operating System: $(uname -a)"
