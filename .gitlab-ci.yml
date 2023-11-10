@@ -1,11 +1,9 @@
 stages:
-  - build
+  - debug
 
-build:
-  stage: build
-  image: gcr.io/kaniko-project/executor:debug
+debug:
+  stage: debug
   script:
-    - apt-get update
-    - apt-get install -y git
-    - cd home
-    - git pull
+    - echo "Runner information:"
+    - echo "Runner version: $(gitlab-runner --version)"
+    - echo "Operating System: $(uname -a)"
