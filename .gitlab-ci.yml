@@ -4,6 +4,6 @@ stages:
 deploy:
   stage: deploy
   script:
-    - git checkout Sprint7  # Switch to the main branch (replace with your branch name)
-    - git pull origin Sprint7  # Pull the latest changes from the main branch
-    - git log --oneline  # Display a simple log of recent commits
+    - git checkout Sprint7  
+    - git pull origin Sprint7  
+    - git log --oneline  
