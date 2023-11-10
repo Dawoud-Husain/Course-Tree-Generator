@@ -4,7 +4,9 @@ stages:
 build:
   stage: build
   script:
-    - echo "Building the project"
-    - echo "Runner information:"
-    - echo "Runner version: $(gitlab-runner --version)"
-    - echo "Operating System: $(uname -a)"
+    - |
+      echo "Building the project"
+      echo "Runner information:"
+      echo "Runner version: $(gitlab-runner --version)"
+      echo "Operating System: $(uname -a)"
+
