@@ -1,9 +1,10 @@
 stages:
-  - debug
+  - build
 
-debug:
-  stage: debug
+build:
+  stage: build
   script:
+    - echo "Building the project"
     - echo "Runner information:"
     - echo "Runner version: $(gitlab-runner --version)"
     - echo "Operating System: $(uname -a)"
