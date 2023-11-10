@@ -7,5 +7,6 @@ deploy:
     - uname -a
     - cd /var/www/html/test/html # will clean the file strucuture of the vm soon 
     - ls #ensuring that files are there
+    - git config --global --add safe.directory /var/www/html/test
     - git pull origin Sprint7  
     - git log --oneline  
