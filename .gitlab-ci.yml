@@ -4,8 +4,6 @@ stages:
 deploy:
   stage: deploy
   script:
-    - echo "Operating System: $(uname -a)"
-    - echo "Memory Information:"
-      free -m
-    - echo "Disk Information:"
-      df -h
+    - git checkout Sprint7  # Switch to the main branch (replace with your branch name)
+    - git pull origin Sprint7  # Pull the latest changes from the main branch
+    - git log --oneline  # Display a simple log of recent commits
