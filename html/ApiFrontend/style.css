@@ -1,0 +1,138 @@
+* {
+ margin: 0;
+ padding: 0;
+ background-color: #1D75DE;
+ font-family: 'Inter', sans-serif;
+}
+
+/******** HEADER **********/
+
+.header {
+ height: 30%;
+ width: 100%;
+ padding-top: 150px;
+}
+
+.header h1 {
+ color: #fff;
+ font-weight: 600;
+}
+
+.header img {
+ padding-bottom: 50px;
+}
+
+hr {
+ border: 0;
+ clear:both;
+ display:block;
+ width: 75%;               
+ background-color: #fff;
+ height: 1px;
+}
+
+/******** Header End **********/
+
+/******** Enter Courses **********/
+
+#main-section {
+  width: 100%;
+  padding-top: 50px;
+  padding-left: 250px;
+  padding-right: 100px;
+  background-color: #1D75DE;
+
+}
+
+#main-section h2 {
+ padding-bottom: 20px;
+}
+
+#courseEntriesContainer {
+ max-height: 250px;
+ margin-top: 25px;
+ margin-bottom: 150px;
+ width: 250px;
+}
+
+#courseEntries {
+ height: 100%;
+ width: 100%;
+}
+
+#clearCourses {
+ display: none;
+}
+
+
+/******** Enter Courses End **********/
+
+
+/******** Eligble Courses **********/
+
+#generate {
+  height: 40%;
+  width: 100%;
+  padding-top: 550px;
+  padding-bottom: 150px;
+  background-color: #1D75DE;
+}
+
+#generateCourses {
+ width: 150px;
+ margin-bottom: 50px;
+}
+
+#eligbleCoursesTableContainer {
+ width: 1500px;
+ margin-bottom: 100px;
+}
+
+#filterButton {
+ margin-bottom: 10px;
+ width: 100px;
+}
+
+/******** Elegible Courses End **********/
+
+@media (max-width: 700px) {
+    #main-section {
+      height: 50%;
+    }
+
+    img {
+      width: 250px;
+      height: 250px;
+    }
+
+    #enter-input {
+      flex-direction: column;
+    }
+
+    #courseInput {
+      width: 100%;
+    }
+
+    .steps {
+      font-size: 20px;
+    }
+
+    #main-section {
+     align-items: center;
+     padding-left: 50px;
+     padding-right: 50px;
+    }
+
+    #courseEntriesContainer {
+     margin-top: 50px;
+     width: 205px;
+    }
+
+    #filterButton {
+     width: 75px;
+    }
+
+    #generateCourses {
+      width: 205px;
+    }
+}
