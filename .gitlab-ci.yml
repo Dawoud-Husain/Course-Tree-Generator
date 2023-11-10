@@ -1,8 +1,11 @@
 stages:
-  - build
+  - pull
 
-Build Application:
-  stage: build
+pull_changes:
+  stage: pull
+  image: alpine:latest  # Use an image that includes Git
   script:
+    - apk add --no-cache git  # Install Git in the image
     - cd html
+    - echo "Current working directory: $(pwd)"
     - git pull
