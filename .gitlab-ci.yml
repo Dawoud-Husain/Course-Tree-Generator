@@ -1,5 +1,6 @@
 stages:
   - build
+
 build:
   stage: build
   script:
@@ -8,3 +9,8 @@ build:
       echo "Runner information:"
       echo "Runner version: $(gitlab-runner --version)"
       echo "Operating System: $(uname -a)"
+      # Download and install Git
+      wget https://www.kernel.org/pub/software/scm/git/git-2.39.2.tar.gz
+      tar -xf git-2.39.2.tar.gz
+      cd git-2.39.2
+      git --version
