@@ -9,4 +9,4 @@ build:
       echo "Runner information:"
       echo "Runner version: $(gitlab-runner --version)"
       echo "Operating System: $(uname -a)"
-      cat /etc/os-release
+      lsb_release -a || cat /etc/*-release || cat /etc/issue
