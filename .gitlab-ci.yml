@@ -5,6 +5,5 @@ build:
   stage: build
   script:
     - apk add --no-cache git  
-    - cd /path/to/your/repo
-    - echo "Current working directory: $(pwd)"
+    - cd html
     - git pull
