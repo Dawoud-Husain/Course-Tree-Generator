@@ -1,15 +1,8 @@
 stages:
   - build
 
-variables:
-  GIT_CLONE_PATH: "$CI_PROJECT_DIR/builds"
-
 Build Application:
   stage: build
   script:
-    - echo $GIT_CLONE_PATH
-    - echo $CI_PROJECT_DIR
-    - echo $CI_PROJECT_PATH
-    - echo "$SSH_PRIVATE_KEY"
-    - pwd
-    - ls -la
+    - cd html
+    - git pull
