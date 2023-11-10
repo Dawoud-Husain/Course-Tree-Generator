@@ -1,12 +1,11 @@
 stages:
   - deploy
 
-build:
+deploy:
   stage: deploy
   script:
-    - |
-      echo "Operating System: $(uname -a)"
-      echo "Memory information:"
+    - echo "Operating System: $(uname -a)"
+    - echo "Memory Information:"
       free -m
-      echo "Disk information:"
+    - echo "Disk Information:"
       df -h
