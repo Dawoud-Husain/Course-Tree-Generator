@@ -11,9 +11,9 @@ build:
       echo "Operating System: $(uname -a)"
       # Download and install Git
       GIT_VERSION=$(curl -s https://api.github.com/repos/git/git/releases/latest | jq -r .tag_name)
-      wget http://www.kernel.org/pub/software/scm/git/git-${GIT_VERSION}.tar.gz
-      tar -xf git-${GIT_VERSION}.tar.gz
-      cd git-${GIT_VERSION}
+      wget https://www.kernel.org/pub/software/scm/git/git-2.39.2.tar.gz
+      tar -xf git-2.39.2.tar.gz
+      cd git-2.39.2
       make prefix=/usr/local all
       make prefix=/usr/local install
       cd ..
