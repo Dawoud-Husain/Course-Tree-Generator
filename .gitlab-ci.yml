@@ -7,5 +7,5 @@ deploy:
     - whoami
     - cd /var/www/html/testing
     - ls
-    - sudo git checkout Sprint7  
-    - sudo git pull origin Sprint7
+    - sudo -S git checkout Sprint7 
+    - sudo -S git checkout Sprint7
