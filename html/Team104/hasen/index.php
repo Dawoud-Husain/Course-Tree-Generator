@@ -20,7 +20,6 @@
     </div>
 
     <div class="profile">
-
         <div class="profile-pic">
             <img class="profile" src="hasen.jpg" alt="Avatar">
         </div>
@@ -28,9 +27,7 @@
         <div class="intro">
             <h2 class="name"><?php echo $name; ?></h2>
         </div>
-
         <p><?php echo $aboutMe; ?></p>
-
         <div class="intro2">
             <h2 class="movies"><?php echo $spacing; echo $directors; ?></h2>
         </div>
