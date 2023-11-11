@@ -8,7 +8,7 @@ deploy:
   only:
     - Sprint7
   before_script:
-    - whoami
+    - whoami #
     - ls -la /var/lib/apt/lists/
     - uname -a
     - apt-get -yq update
