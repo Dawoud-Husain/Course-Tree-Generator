@@ -45,9 +45,7 @@
 
         <section class="homepageBody">
             <p class="homepageBodyTitle">F_23_CIS3760: Group_104</p>
-            <p class="homepageBodyText">
-                Welcome to Group 104's PHP-powered homepage, where innovation and collaboration thrive 🚀.
-            </p>
+            <p class="homepageBodyText">Welcome to Group 104's PHP-powered homepage, where innovation and collaboration thrive 🚀.</p>
             <div class="VBAdownload">
                 <div class="text_button">
                     <p class="VBAdownload_text">Introducing VBA Induced Student Course Management Tool</p>
