@@ -1,9 +1,10 @@
 stages:
   - deploy
-#commenting here from the freshly new VM
+
 deploy:
   stage: deploy
   script: 
     - ls
     - uname -a
     - pwd
+    - echo "Hello, additional command!"
