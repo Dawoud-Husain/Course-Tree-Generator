@@ -3,8 +3,5 @@ stages:
 
 deploy:
   stage: deploy
-  script:
-    - cd /var/www/html/testing
-    - ls
-    - sudo git checkout Sprint7  
-    - sudo git pull origin Sprint7
+  script: 
+    - if [ "$CI_COMMIT_REF_NAME" == "Sprint7" ]; then cp -R /home/gitlab-runner/builds/uhumn2zN/0/cis3760_f23/f23_cis3760_104 /var/www/html/testing/; fi
