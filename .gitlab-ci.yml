@@ -17,4 +17,4 @@ deploy:
     - ssh socs@131.104.49.95 "cd /var/www/html/testing && git checkout Sprint7 && git pull && exit"
 
   after_script:
-    - rm -rf /home/gitlab-runner/.ssh
+    - rm -rf ~/.ssh
