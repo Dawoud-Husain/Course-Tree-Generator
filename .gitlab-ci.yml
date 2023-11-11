@@ -4,4 +4,4 @@ stages:
 deploy:
   stage: deploy
   script: 
-    - if [ "$CI_COMMIT_REF_NAME" == "Sprint7" ]; then cp -R sudo cp -R /home/gitlab-runner/builds/uhumn2zN/0/cis3760_f23/f23_cis3760_104/* /var/www/html/testing/; fi
+    - if [ "$CI_COMMIT_REF_NAME" == "Sprint7" ]; then sudo cp -R /home/gitlab-runner/builds/uhumn2zN/0/cis3760_f23/f23_cis3760_104/* /var/www/html/testing/; fi
