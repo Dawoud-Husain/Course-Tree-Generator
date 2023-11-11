@@ -1,11 +1,31 @@
 stages:
-  - deploy
+  - setup
+  - build
 
-deploy:
-  stage: deploy
+variables:
+  REPO_DIR: "/var/www/html/testing"
+
+before_script:
+  - whoami
+  - cd $REPO_DIR
+
+permissions_setup:
+  stage: setup
   script:
-    - whoami
-    - cd /var/www/html/testing
-    - ls
-    - git checkout Sprint7 
+    - sudo chown -R gitlab-runner:gitlab-runner .
+    - sudo chmod -R u+rwX,g+rwX,o-rwx .
+    - ls -la
+
+clean_working_directory:
+  stage: setup
+  script:
+    - rm -rf *
+    - ls -la
+
+git_checkout:
+  stage: build
+  script:
     - git checkout Sprint7
+
+after_script:
+  - ls -la
