@@ -4,6 +4,7 @@ stages:
 deploy:
   stage: deploy
   script:
+    - cd /var/www/html/testing
     - ls
     - git checkout Sprint7  
     - git pull origin Sprint7  
