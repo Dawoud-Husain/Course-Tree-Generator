@@ -6,8 +6,8 @@ deploy:
   only:
     - Sprint7  # This job will only run for the 'master' branch
   before_script:
-    - whoami  # Debugging statement: Print the current user
-    - ls -la /var/lib/apt/lists/  # Debugging statement: List the contents and permissions of the directory
+    - whoami
+    - ls -la /var/lib/apt/lists/
     - apt-get -yq update
     - apt-get -yqq install ssh
     - install -m 600 -D /dev/null ~/.ssh/id_rsa
