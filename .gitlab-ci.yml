@@ -7,4 +7,4 @@ deploy:
     - ls
     - uname -a
     - pwd
-    - echo "Hello, additional command!"
+    - echo "Hello, additional HH command!"
