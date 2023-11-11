@@ -28,7 +28,7 @@ $phpVariable = "Hello from PHP!";
 </head>
 <body>
     <div class="content">
-        <h1>HI FROM THE VM BUDDY</h1>
+        <h1>I AM HERE HI FROM THE VM BUDDY</h1>
         <p><?php echo $phpVariable; ?></p>
     </div>
 </body>
