@@ -8,13 +8,13 @@ deploy:
   only:
     - Sprint7
   before_script:
-    - whoami #
+    - whoami
     - ls -la /var/lib/apt/lists/
-    - uname -a
-    - sudo apt-get -yq update
-    - sudo apt-get -yqq install ssh
+    - apt-get update -qy
+    - apt-get install -yqq ssh
     - install -m 600 -D /dev/null ~/.ssh/id_rsa
     - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
+    - echo $SSH_HOST # debug here
     - ssh-keyscan -H $SSH_HOST > ~/.ssh/known_hosts
 
   script:
