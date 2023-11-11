@@ -6,8 +6,10 @@ deploy:
   only:
     - Sprint7  # This job will only run for the 'master' branch
   before_script:
-    - sudo apt-get -yq update
-    - sudo apt-get -yqq install ssh
+    - whoami  # Debugging statement: Print the current user
+    - ls -la /var/lib/apt/lists/  # Debugging statement: List the contents and permissions of the directory
+    - apt-get -yq update
+    - apt-get -yqq install ssh
     - install -m 600 -D /dev/null ~/.ssh/id_rsa
     - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
     - ssh-keyscan -H $SSH_HOST > ~/.ssh/known_hosts
