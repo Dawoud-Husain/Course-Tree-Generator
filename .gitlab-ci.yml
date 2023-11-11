@@ -5,5 +5,5 @@ deploy:
   stage: deploy
   script:
     - if [ "$CI_COMMIT_REF_NAME" == "Sprint7" ]; then
-        cd /var/www/html && git config --global --add safe.directory /var/www/html && ls -l /var/www/html/Documentation/CIS3760.postman_collection.json && sudo chown -R socs:socs /var/www/html/ && git pull origin "$CI_COMMIT_REF_NAME";
+        cd /var/www/html && ls -la /var/www/html/.git && sudo chown -R socs:socs /var/www/html/ && && git config --global --add safe.directory /var/www/html && git pull origin "$CI_COMMIT_REF_NAME";
       fi
