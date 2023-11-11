@@ -6,7 +6,7 @@
     </head>
 <body>
 <?php  
-    $name = "UPATED THIS COMMENT Hi, I am Hasen, nice to meet you! 100👋";
+    $name = "MADNESS AND BADNESS COMBINATION Hi, I am Hasen, nice to meet you! 100👋";
     $aboutMe = "<p style=\"line-height: 2.0;\">I'm a passionate and dedicated individual with a deep love for technology and art that knows no bounds. As an avid problem solver, I thrive on challenges and enjoy exploring new ideas. With a background in Software Engineering, I'm constantly seeking opportunities to learn and grow. I'm always up for an adventure. My goal is to make a positive impact, both in my personal journey and in the lives of those around me. Join me as I navigate through the exciting twists and turns of life, always eager to discover what's next.</p>";
     $directors = "SLEEPY JOE Some of my Favourite Directors 🎬";
     $movies = "HEY HEY EY My Favourite Movies by Them 🍿";
