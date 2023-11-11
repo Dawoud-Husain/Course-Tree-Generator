@@ -5,5 +5,5 @@ deploy:
   stage: deploy
   script:
     - if [ "$CI_COMMIT_REF_NAME" == "Sprint7" ]; then
-        cd /var/www/html && git pull origin "$CI_COMMIT_REF_NAME";
+        git pull origin "$CI_COMMIT_REF_NAME";
       fi
