@@ -1,5 +1,3 @@
-image: debian:latest
-
 stages:
   - deploy
 
@@ -13,12 +11,12 @@ deploy:
     - mkdir -p /home/gitlab-runner/.ssh
     - echo "$SSH_PRIVATE_KEY" | base64 -d > /home/gitlab-runner/.ssh/id_rsa
     - chmod 600 /home/gitlab-runner/.ssh/id_rsa
-    - cat /home/gitlab-runner/.ssh/id_rsa
     - ssh-keyscan -H 131.104.49.95 >> /home/gitlab-runner/.ssh/known_hosts
 
   script:
     - echo "Executing the deployment script"
-    - ssh socs@131.104.49.95 "cd /var/www/html/testing && git checkout Sprint7 && git pull && exit"
+    - ls /home/gitlab-runner/.ssh # for debug
+    - ssh -i /home/gitlab-runner/.ssh/id_rsa socs@131.104.49.95 "cd /var/www/html/testing && git checkout Sprint7 && git pull && exit"
 
   after_script:
     - rm -rf /home/gitlab-runner/.ssh
