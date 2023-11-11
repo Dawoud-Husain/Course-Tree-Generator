@@ -12,7 +12,6 @@
     $movies = "My Favourite Movies by Them 🍿";
     $desc = "Select a Director (or all) to See Their Best Films";
     $var = "Slay the day";
-    $var2 = "Everyday I am hustlin'";
     $spacing = "<br>"
     
 ?>  
@@ -30,7 +29,6 @@
         <div class="intro">
             <h2 class="name"><?php echo $name; ?></h2>
             <h3 class="name"><?php echo $var; ?></h3>
-            <h3 class="name"><?php echo $var2; ?></h3>
         </div>
 
         <p><?php echo $aboutMe; ?></p>
