@@ -29,8 +29,8 @@
 
         <div class="intro">
             <h2 class="name"><?php echo $name; ?></h2>
-            <h3 class="name"><?php echo $var; ?></h2>
-            <h3 class="name"><?php echo $var2; ?></h2>
+            <h3 class="name"><?php echo $var; ?></h3>
+            <h3 class="name"><?php echo $var2; ?></h3>
         </div>
 
         <p><?php echo $aboutMe; ?></p>
