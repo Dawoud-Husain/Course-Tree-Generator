@@ -8,7 +8,7 @@ $phpVariable = "Hello from PHP!";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHP Only</title>
+    <title>VM Only</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -28,7 +28,7 @@ $phpVariable = "Hello from PHP!";
 </head>
 <body>
     <div class="content">
-        <h1>PHP Only</h1>
+        <h1>HI FROM THE VM BUDDY</h1>
         <p><?php echo $phpVariable; ?></p>
     </div>
 </body>
