@@ -47,6 +47,10 @@
             <p class="homepageBodyTitle">F_23_CIS3760: Group_104</p>
             <p class="homepageBodyText">
                 Welcome to Group 104's PHP-powered homepage, where innovation and collaboration thrive 🚀.
+                Shawty got me singin
+                Na na na na na na na
+                Na na na na na na na
+                Now she got me singin
             </p>
             <div class="VBAdownload">
                 <div class="text_button">
