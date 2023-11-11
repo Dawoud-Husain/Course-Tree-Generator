@@ -10,8 +10,8 @@ deploy:
   before_script:
     - whoami
     - ls -la /var/lib/apt/lists/
-    - apt-get update -qy
-    - apt-get install -yqq ssh
+    - sudo apt-get update -qy
+    - sudo apt-get install -yqq ssh
     - install -m 600 -D /dev/null ~/.ssh/id_rsa
     - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
     - echo $SSH_HOST # debug here
