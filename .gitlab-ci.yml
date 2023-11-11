@@ -1,6 +1,6 @@
 stages:
   - deploy
-#comment
+#comment here from the freshly new VM
 deploy:
   stage: deploy
   script: 
