@@ -349,7 +349,7 @@ function getDeleteRowImg(index) { // Returns an img element containing delete ro
     img.className = 'deleteRowIcon'; // Add class name for css
     img.id = `deleteRow${index}`; // Add id for onClick functionality
 
-    img.setAttribute('src', '../components/media/delete.png'); // Get image picture
+    img.setAttribute('src', './media/delete.png'); // Get image picture
     img.setAttribute('alt', 'DELETE'); // Get image picture
 
     img.onclick = (e) => { // When delete icon is pressed

@@ -1,4 +1,5 @@
 <?php  
+    $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
     $name = "Karanvir Basson";
     $aboutMe = "About Me";
     $aboutPoints = [
@@ -13,7 +14,7 @@
         <link rel="stylesheet" href="styles.css">
     </head>
     <body>
-        <a class = "link" href = "https://cis3760f23-04.socs.uoguelph.ca/"><h1 class = "sectionText">104</h1></a>
+        <a class = "link" href = <?php echo str_replace("Team104/karanvir/", "", $url) ?>><h1 class = "sectionText">104</h1></a>
         <div class="name">
             <?php echo $name?>
         </div>

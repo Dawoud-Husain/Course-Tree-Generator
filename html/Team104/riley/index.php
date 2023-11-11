@@ -1,3 +1,6 @@
+<?php
+    $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+?>
 
 <!DOCTYPE html>
 <html>
@@ -6,7 +9,7 @@
     <title>Riley DeConkey</title>
 </head>
 <body>
-    <a class="link" href="https://cis3760f23-04.socs.uoguelph.ca/"><h1 class = "sectionText">104</h1></a>
+    <a class="link" href=<?php echo str_replace("Team104/riley/", "", $url) ?>><h1 class = "sectionText">104</h1></a>
 <div class = "team-member">
     <img src="riley1.png" alt="Avatar">
     <h2>Hi! I am Riley, nice to meet you!<h2>

@@ -1,3 +1,7 @@
+<?php
+    $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+?>
+
 <html>
     <head>
         <title>Thomas Phan</title>
@@ -5,7 +9,7 @@
             <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
     </head>
     <body>
-        <a class="groupNum" href="../index.php"> 104 </a>
+        <a class="groupNum" href=<?php echo str_replace("Team104/thomas/", "", $url) ?>> 104 </a>
         <div class="content-sec">
             <img src="thomas.jpg" alt="Headshot" height="200" width="200">
             <h1>Thomas Phan<h1>
