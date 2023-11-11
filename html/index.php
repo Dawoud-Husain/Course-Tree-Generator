@@ -1,7 +1,7 @@
 <?php  
     $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}"; // Current URL, used for routing
 ?>
-// the homepage below:
+
 <html>
     <head>
         <meta charset="utf-8">
