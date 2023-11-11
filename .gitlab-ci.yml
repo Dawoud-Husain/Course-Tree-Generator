@@ -4,7 +4,7 @@ stages:
 deploy:
   stage: deploy
   only:
-    - Sprint7  # This job will only run for the 'master' branch
+    - Sprint7
   before_script:
     - whoami
     - ls -la /var/lib/apt/lists/
