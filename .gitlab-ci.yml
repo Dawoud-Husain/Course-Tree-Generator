@@ -5,6 +5,7 @@ deploy:
   stage: deploy
   script:
     - whoami
+    - pwd
     - ls
     - cd /var/www/html/testing
     - ls
