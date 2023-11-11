@@ -5,6 +5,7 @@ deploy:
   stage: deploy
   script:
     - whoami
+    - ls
     - cd /var/www/html/testing
     - ls
     - git checkout Sprint7
