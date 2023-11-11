@@ -1,6 +1,7 @@
 <?php
 // PHP code here
 $phpVariable = "Hello from PHP!";
+$url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
 ?>
 
 <!DOCTYPE html>

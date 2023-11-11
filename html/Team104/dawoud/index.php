@@ -6,6 +6,7 @@ https://dev.to/dcodeyt/creating-beautiful-html-tables-with-css-428l
 -->
 
 <?php
+    $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
     ini_set('display_errors', 0);
     
     // Check if user presses the calculate button
@@ -36,7 +37,7 @@ https://dev.to/dcodeyt/creating-beautiful-html-tables-with-css-428l
 <!DOCTYPE html>
 <html>
     <head>
-        <a class = "link" href = "https://cis3760f23-04.socs.uoguelph.ca/"><h1 class = "sectionText">Back</h1></a>
+        <a class = "link" href = <?php echo str_replace("Team104/dawoud/", "", $url) ?>><h1 class = "sectionText">104</h1></a>
         <title>Dawoud Husain</title>
     </head>
 
