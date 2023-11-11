@@ -8,13 +8,14 @@ deploy:
   before_script:
     - sudo apt-get update -qy
     - sudo apt-get install -yqq ssh
-    - install -m 600 -D /dev/null ~/.ssh/id_rsa
-    - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
-    - ssh-keyscan -H 131.104.49.95 >> ~/.ssh/known_hosts
+    - mkdir -p $CI_PROJECT_DIR/.ssh
+    - echo "$SSH_PRIVATE_KEY" | base64 -d > $CI_PROJECT_DIR/.ssh/id_rsa
+    - chmod 600 $CI_PROJECT_DIR/.ssh/id_rsa
+    - ssh-keyscan -H 131.104.49.95 >> $CI_PROJECT_DIR/.ssh/known_hosts
 
   script:
     - echo "Executing the deployment script"
     - ssh socs@131.104.49.95 "cd /var/www/html/testing && git checkout Sprint7 && git pull && exit"
 
   after_script:
-    - rm -rf ~/.ssh
+    - rm -rf $CI_PROJECT_DIR/.ssh
