@@ -7,3 +7,4 @@ deploy:
     - whoami
     - cd /var/www/html/testing
     - ls
+    - git checkout Sprint7
