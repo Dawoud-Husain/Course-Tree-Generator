@@ -16,7 +16,7 @@ deploy:
 
   script:
     - echo "Executing the deployment script"
-    - ssh socs@131.104.49.95 "cd /var/www/html/testing && git checkout Sprint7 && git pull && exit"
+    - ssh -o UserKnownHostsFile=$CI_PROJECT_DIR/.ssh/known_hosts socs@131.104.49.95 "cd /var/www/html/testing && git checkout Sprint7 && git pull && exit"
 
   after_script:
     - rm -rf $CI_PROJECT_DIR/.ssh
