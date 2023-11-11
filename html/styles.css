@@ -181,7 +181,7 @@ ul {
 .feature1-body {
   min-height: 100%;
   display: flex;
-  max-width: 60%;
+  /* max-width: 60%; */
   justify-content: center;
   align-items: center;
 }
