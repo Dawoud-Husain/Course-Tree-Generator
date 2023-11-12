@@ -21,7 +21,9 @@ test:
   stage: test
   script: 
     - cd
-    - cd ../../var/www/html/
+    - cd ../../
+    - sudo chmod 777 /var/www/html -R
+    - cd var/www/html/
     - cd e2eTesting
     - source .venv/bin/activate
     - pytest
