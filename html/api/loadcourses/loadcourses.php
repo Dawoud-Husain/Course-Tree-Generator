@@ -1,78 +1,75 @@
 <?php
+
 $host = 'localhost';
 $user = 'cis3760';
 $password = 'pass1234';
 $dsn = "mysql:host=localhost;";
+
 try {
-	$pdo = new PDO($dsn, $user,$password);
-    $pdo->exec("CREATE DATABASE IF NOT EXISTS courses");
-    $pdo->exec("USE courses");
-    $pdo->exec("DROP TABLE IF EXISTS Prerequisite;");
-    $pdo->exec("DROP TABLE IF EXISTS Course;");
+	$pdo = new PDO($dsn, $user, $password); // Connect to database
+    $pdo->exec("CREATE DATABASE IF NOT EXISTS courses"); // Create database
+    $pdo->exec("USE courses"); // Use courses
+
+    $pdo->exec("DROP TABLE IF EXISTS Prerequisite;"); // Drop Prerequisite table if it exists
+    $pdo->exec("DROP TABLE IF EXISTS Course;"); // Drop Course table if it exists
+
+    // CREATE COURSE TABLE
     $pdo->exec("CREATE TABLE IF NOT EXISTS Course (
-        courseCode VARCHAR(20),
+        courseCode VARCHAR(20) PRIMARY KEY,
         courseName TEXT,
         courseDesc TEXT,
-        credits DOUBLE,
+        credits TEXT,
         location TEXT,
-        restrictions TEXT,
-        prereq1 TEXT,
-        prereq2 TEXT,
-        prereq3 TEXT,
-        prereq4 TEXT,
-        prereq5 TEXT,
-        prereq6 TEXT,
-        prereq7 TEXT,
-        PRIMARY KEY (courseCode)
-        );");
-    $pdo->exec("LOAD DATA INFILE '/var/www/html/api/loadcourses/courses.csv'
-    INTO TABLE Course
-    FIELDS TERMINATED BY ',' 
-    ENCLOSED BY '\"'
-    LINES TERMINATED BY '\n'
-    (@coursecode, @coursename, @coursedesc, @credits, @location, @restrictions, @prereq1, @prereq2, @prereq3, @prereq4, @prereq5, @prereq6, @prereq7)
-    SET
-    coursecode = NULLIF(@coursecode, ''),
-    coursename = NULLIF(@coursename, ''),
-    coursedesc = NULLIF(@coursedesc, ''),
-    credits = NULLIF(@credits, ''),
-    location = NULLIF(@location, ''),
-    restrictions = NULLIF(@restrictions, ''),
-    prereq1 = NULLIF(@prereq1, ''),
-    prereq2 = NULLIF(@prereq2, ''),
-    prereq3 = NULLIF(@prereq3, ''),
-    prereq4 = NULLIF(@prereq4, ''),
-    prereq5 = NULLIF(@prereq5, ''),
-    prereq6 = NULLIF(@prereq6, ''),
-    prereq7 = NULLIF(@prereq7, '');");
+        restrictions TEXT
+    );");
+
+    // CREATE PREREQUISITE TABLE
     $pdo->exec("CREATE TABLE IF NOT EXISTS Prerequisite (
         courseCode VARCHAR(20),
         description TEXT,
         FOREIGN KEY (courseCode) REFERENCES Course(courseCode)
         ON DELETE CASCADE
     );");
-    $stmt = $pdo->query("SELECT * FROM Course");
-    $result = $stmt->fetchAll(PDO::FETCH_NUM);
-    foreach($result as $row) {
-        for ($i = 6; $i < 13; $i ++) {
-            if($row[$i] != NULL && $row[$i] != "\r") {
-                $prereqadd = $pdo->prepare("INSERT INTO Prerequisite (courseCode, description) VALUES (:courseCode, :descrip);");
-                $prereqadd->bindParam(':courseCode', $row[0], PDO::PARAM_STR);
-                $prereqadd->bindParam(':descrip', $row[$i], PDO::PARAM_STR);
-                $prereqadd->execute();
-            } 
+
+    $file = fopen('./courses.csv', "r"); // Load courses.csv file
+    
+    while ($line = fgets($file)) { // For each line
+        if (empty($line)) continue; // If line is empty, continue
+        
+        $fields = explode(",", $line); // Split by fields in line
+
+        $courseCode = addslashes(trim($fields[0])); // Get courseCode
+        $courseName = addslashes(trim($fields[1])); // Get courseName
+        $courseDescription = addslashes(trim(str_replace('|', ',', $fields[2]))); // Get courseDescription
+        $courseCredits = addslashes(trim($fields[3])); // Get courseCredits
+        $courseLocation = addslashes(trim($fields[4])); // Get courseLocation
+        $courseRestrictions = addslashes(trim(str_replace('|', ',', $fields[5]))); // Get courseRestrictions
+        $coursePrerequisites = array_slice($fields, 6); // Get coursePrerequisites
+
+        // INSERT ROW INTO COURSE
+        $pdo->exec("INSERT INTO Course VALUES (
+            '$courseCode',
+            '$courseName',
+            '$courseDescription',
+            '$courseCredits',
+            '$courseLocation',
+            '$courseRestrictions'
+        );");
+
+        foreach($coursePrerequisites as $coursePrerequisite) { // For each coursePrerequisite
+            $coursePrerequisite = addslashes(trim(str_replace('|', ',', $coursePrerequisite))); // Remove csv formatting from coursePrerequisite
+            
+            // INSERT ROW INTO PREREQUISITE
+            $pdo->exec("INSERT INTO Prerequisite VALUES (
+                '$courseCode',
+                '$coursePrerequisite'
+            );");
         }
     }
-    $pdo->exec("ALTER TABLE Course
-    DROP COLUMN prereq1,
-    DROP COLUMN prereq2,
-    DROP COLUMN prereq3,
-    DROP COLUMN prereq4,
-    DROP COLUMN prereq5,
-    DROP COLUMN prereq6,
-    DROP COLUMN prereq7
-     ;");
-header("Location: https://cis3760f23-04.socs.uoguelph.ca/ApiExamples");
+    
+    fclose($file);
+    echo "Courses Successfully loaded!";
+
 } catch (PDOException $e) {
 	echo $e->getMessage();
 }
