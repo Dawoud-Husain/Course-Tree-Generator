@@ -1,16 +1,10 @@
 <?php
-
-$host = 'localhost';
-$user = 'cis3760';
-$password = 'pass1234';
-$dsn = "mysql:host=localhost;dbname=courses";
-
-// Attempt to connect to the database
-try {
-	$pdo = new PDO($dsn, $user, $password);
-} catch (PDOException $e) {
-	echo $e->getMessage();
+require_once "../db.php";
+$pdo = getDatabaseConnection(TRUE);
+if ($pdo === null) {
     http_response_code(500);
+    echo "Internal Server Error";
+    exit;
 }
 
 // Check what request is being made or else return error 

@@ -1,19 +1,18 @@
 <?php
-
-$host = 'localhost';
-$user = 'cis3760';
-$password = 'pass1234';
-$dsn = "mysql:host=localhost;";
+require_once "../db.php";
 
 try {
-	$pdo = new PDO($dsn, $user, $password); // Connect to database
-    $pdo->exec("CREATE DATABASE IF NOT EXISTS courses"); // Create database
-    $pdo->exec("USE courses"); // Use courses
+	$pdo = getDatabaseConnection(TRUE);
+    if ($pdo === null) {
+        http_response_code(500);
+        echo "Internal Server Error";
+        exit;
+    }
 
-    $pdo->exec("DROP TABLE IF EXISTS Prerequisite;"); // Drop Prerequisite table if it exists
-    $pdo->exec("DROP TABLE IF EXISTS Course;"); // Drop Course table if it exists
-
-    // CREATE COURSE TABLE
+    $pdo->exec("CREATE DATABASE IF NOT EXISTS courses");
+    $pdo->exec("USE courses");
+    $pdo->exec("DROP TABLE IF EXISTS Prerequisite;");
+    $pdo->exec("DROP TABLE IF EXISTS Course;");
     $pdo->exec("CREATE TABLE IF NOT EXISTS Course (
         courseCode VARCHAR(20) PRIMARY KEY,
         courseName TEXT,

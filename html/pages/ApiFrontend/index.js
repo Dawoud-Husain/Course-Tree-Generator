@@ -1,5 +1,3 @@
-const enterButton = document.getElementById("enterButton"); // Get enter button
-const generateCourses = document.getElementById("generateCourses"); // Get generateCourses button
 const clearCourses = document.getElementById("clearCourses"); // Get course entries table
 
 filterButton.addEventListener("click", () => {
@@ -162,7 +160,7 @@ function filterCourses() {
     updateFilters();
 }
 
-enterButton?.addEventListener("click", () => { // Define onClick event listener for enter button
+document.getElementById("enterButton")?.addEventListener("click", () => { // Define onClick event listener for enter button
     const courseInput = document.getElementById("courseInput"); // Get course input box
     const courseEntries = document.getElementById("courseEntries"); // Get course entries table
     const courseEntriesBody = document.getElementById("courseEntriesBody"); // Get course entries table body
@@ -243,7 +241,7 @@ function isNewCourseCode(courseCode) { // Returns true if the inputted course co
     return !(getInputCourses().find((course) => (course == courseCode))); // Return true if find() function returns undefined, else false
 }
 
-generateCourses?.addEventListener("click", () => { // Define onClick event listener for generateCourses button
+document.getElementById("generateCourses")?.addEventListener("click", () => { // Define onClick event listener for generateCourses button
     clearEligibleCoursesTable(); // Clear current table rows, will be repopulated
     
     const inputCourses = getInputCourses(); // Get list of inputted courses
