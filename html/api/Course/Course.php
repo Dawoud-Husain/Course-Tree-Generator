@@ -226,7 +226,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     $deletedCount = $stmt->rowCount();
 
-    $deleteStatement = $pdo->prepare("DELETE FROM prerequisite WHERE courseCode IN ($courses)");
+    $deleteStatement = $pdo->prepare("DELETE FROM Prerequisite WHERE courseCode IN ($courses)");
     $deleteStatement->execute($courseCodes);
     
     if ($deletedCount > 0) {
