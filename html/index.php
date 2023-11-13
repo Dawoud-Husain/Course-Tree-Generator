@@ -52,7 +52,7 @@
                 <div class="text_button">
                     <p class="VBAdownload_text">Introducing VBA Induced Student Course Management Tool</p>
                     <a href="./downloads/Sprint2_Final.xlsm" class="a_button">Download Excel</a>
-                    <a href=<?php echo $url . "pages/ApiExamples/" ?> class="a_button">Web Api</a>
+                    <!-- <a href=<?php echo $url . "pages/ApiExamples/" ?> class="a_button">Web Api</a> -->
                 </div>
                 <img class="macbook" src="./media/macbook.png" alt="macbook.png">
             </div>

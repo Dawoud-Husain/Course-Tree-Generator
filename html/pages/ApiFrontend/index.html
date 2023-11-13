@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
   <body>
     <section class="header d-flex flex-column justify-content-center align-items-center pt-5 mt-5" role="banner">
@@ -46,15 +47,45 @@
       <h2 class="steps text-white">2. Click generate to view eligible courses</h2>
       <button type="button" class="btn btn-dark btn-lg" id="generateCourses">Generate</button>  
       <!-- ********    TO DO FILTER UI ******** - DAWOUD  -->
-      <button class="btn btn-dark btn-md" id="filterButton">Filter</button>
-      <!-- <div class="categories">
-        <h2>SUBJECT</h2>
-        <div class="courseCodePrefixes">
+      <button class="btn btn-dark btn-md" id="showHideFiltersButton"><i class="fa fa-filter" style="font-size:36px;color:white;background:#212529"></i> Filters</button>
+
+      <div class="categories" style="margin-left: 50px; margin-bottom: 50px;">
+
+        <div class="btn-group">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuSubject" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" style="background:#212529; margin-bottom: 10px; margin-top: 30px">
+            SUBJECT
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuSubject" style="background:#212529; padding: 10px; margin-top: 30px">
+            <div class="courseCodePrefixes">
+              <li style="color:white; background:#212529;">
+                <!-- <div class="form-check form-switch" style="color:white; background:#212529;">
+                  <input class="form-check-input" type="checkbox" id="flexSwitchSubject">
+                      <label class="form-check-label" for="flexSwitchSubject">CIS</label>
+                </div> -->
+              </li>
+            </div>
+          </ul>
         </div>
-        <h2>LEVEL</h2>
-        <div class="courseCodeLevels">
+      
+        <div class="btn-group">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuLevel" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" style="background:#212529; margin-bottom: 10px; margin-top: 30px">
+            LEVEL
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuLevel" style="background:#212529; padding: 10px;">
+            <div class="courseCodeLevels">
+            <li style="color:white; background:#212529;">
+              <!-- <div class="form-check form-switch" style="color:white; background:#212529;">
+                <input class="form-check-input" type="checkbox" id="flexSwitchLevel">
+                  <label class="form-check-label" for="flexSwitchLevel">1</label>
+              </div> -->
+            </li>
+          </div>
+          </ul>
         </div>
-      </div> -->
+      
+        <button class="btn btn-dark btn-md" id="filterButton" style="margin-top: 30px">Apply</button>
+      
+      </div>
       <!-- ********    TO DO FILTER UI ******** - DAWOUD  -->
       
       <!-- Elegible course table -->
@@ -80,6 +111,7 @@
 
     </section>
 	  <script src="index.js"></script>
+    <script src="modules/filter.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
   </body>
 </html>
