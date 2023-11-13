@@ -1,5 +1,5 @@
 <?php  
-    $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}"; // Current URL, used for routing
+    $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
 ?>
 
 <html>
@@ -45,7 +45,9 @@
 
         <section class="homepageBody">
             <p class="homepageBodyTitle">F_23_CIS3760: Group_104</p>
-            <p class="homepageBodyText">Welcome to Group 104's PHP-powered homepage, where innovation and collaboration thrive 🚀.</p>
+            <p class="homepageBodyText">
+                Welcome to Group 104's PHP-powered homepage, where innovation and collaboration thrive 🚀.
+            </p>
             <div class="VBAdownload">
                 <div class="text_button">
                     <p class="VBAdownload_text">Introducing VBA Induced Student Course Management Tool</p>
@@ -81,7 +83,7 @@
 
         <section class="feature1" style="background-color: #14529B">
             <div class="feature1-body">
-                <div class="feature1-desc" style="margin-bottom: 150px;">
+                <div class="feature1-desc">
                     <h1> Minimalistic Design </h1>
                     <h6 class = "featuredescriptionText">  No hassle in navigating through endless menus to find the correct options needed. Simply press a button to enter your courses, and then another to find the ones you can take  </h6>
                 </div>
@@ -91,7 +93,7 @@
 
         <section class="feature1">
             <div class="feature1-body">
-                <div class="feature1-desc" style="margin-bottom: 150px;">
+                <div class="feature1-desc">
                     <h1> Robust End Product </h1>
                     <h6 class = "featuredescriptionText">  Our developers have extensively tested this product from preventing the software from crashing to make the user experience better  </h6>
                 </div>
@@ -102,7 +104,7 @@
 
         <section class="feature1" style="background-color: #175EB2">
             <div class="feature1-body">
-                <div class="feature1-desc" style="margin-bottom: 150px;">
+                <div class="feature1-desc">
                     <h1> Secure </h1>
                     <h6 class = "featuredescriptionText"> COURSE MANAGER ® Only runs and stores data locally within the users device. Not communicating over any networks ensures that private user information cannot be stolen   </h6>
                 </div>
@@ -113,30 +115,30 @@
 
         <section class="feature1" style="background-color: #14529B">
             <div class="feature1-body">
-                <div class="feature1-desc" style="margin-bottom: 150px;">
+                <div class="feature1-desc">
                     <h1> Offline Functionally  </h1>
                     <h6 class = "featuredescriptionText">  Storing all data and handling all process within the user device also means that no internet connection is required to run the program  </h6>
                 </div>
-                <img class="feature-image" src="./media/offline.png" width="200px" height="500px">
+                <img class="feature-image" src="./media/offlineFeature.png">
             </div>
         </section>
 
 
-        <section class="feature1" id="lastFeature">
-            <div class="lastFeatureDiv">
+        <section class="feature1">
+            <!-- <div class="lastFeatureDiv"> -->
                 <div class="feature1-body">
-                    <div class="feature1-desc" style="margin-bottom: 150px;">
+                    <div class="feature1-desc">
                         <h1> Open Source </h1>
-                        <h6 class = "featuredescriptionText">   Users not happy with a certain aspect of the software or would like to add additional functionality can directly edit the program to make it meet their needs </h6>
+                        <h6 class = "featuredescriptionText">Users not happy with a certain aspect of the software or would like to add additional functionality can directly edit the program to make it meet their needs </h6>
                     </div>
                     <img class="feature-image" src="./media/open-source.png">
                     
                 </div>
-                <h1>Getting Started</h1>
-            </div>
+            <!-- </div> -->
         </section>
 
         <section class="getStarted" id="setup">
+            <h1>Getting Started</h1>
             <div class="step1-container">
                 <div class="step1">
                     <h1>Step 1: Download The Software</h1>
@@ -159,8 +161,9 @@
             </div>
         </section>
 
+
         <section class="using" id="using">
-            <h1> Using The Software </h1>
+        <h1> Using The Software </h1>
             <div class="using-container">
                 <div class="using-steps">
                     <h1>Step 1: Enter Your Courses</h1>
