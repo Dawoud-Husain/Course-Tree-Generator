@@ -1,16 +1,18 @@
 <?php
+
 $host = 'localhost';
 $user = 'cis3760';
 $password = 'pass1234';
 $dsn = "mysql:host=localhost;dbname=courses";
+
 // Attempt to connect to the database
 try {
 	$pdo = new PDO($dsn, $user, $password);
-
 } catch (PDOException $e) {
 	echo $e->getMessage();
     http_response_code(500);
 }
+
 // Check what request is being made or else return error 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $checkMulti = False;
@@ -220,7 +222,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         echo "No course codes provided.";
         http_response_code(400);
         exit;
-    }
+    } 
 
     $courses= join(',', array_fill(0, count($courseCodes), '?'));
     $stmt = $pdo->prepare("DELETE FROM Course WHERE courseCode IN ($courses)");
