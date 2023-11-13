@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents("php://input"), true);
     $courseCodes = $data['coursesTaken'] ?? [];
     $query2 = "";
-    $query1 = "SELECT c.* FROM Course AS c LEFT JOIN Prerequisite AS p ON c.courseCode = p.courseCode WHERE p.courseCode IS NULL ORDER BY `courseCode` ASC";
+    $query1 = "SELECT c.*,p.description FROM Course AS c LEFT JOIN Prerequisite AS p ON c.courseCode = p.courseCode WHERE p.description = ''";
     if (!empty($courseCodes)) {
         $query2 = "SELECT courseCode FROM Prerequisite  ";
         $whereStatement = ' WHERE';

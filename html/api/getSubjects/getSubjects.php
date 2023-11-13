@@ -1,7 +1,7 @@
 <?php
 require_once "../db.php";
 
-$pdo = getDatabaseConnection();
+$pdo = getDatabaseConnection(TRUE);
 if ($pdo === null) {
     http_response_code(500);
     echo "Internal Server Error";
