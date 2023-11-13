@@ -1,77 +1,42 @@
-# Sprint 6 
+# Sprint 7
 
-## Description 
-This Sprint implements a front end utilzing an API provided with the following documentation link
+## Refactoring
 
-https://cis3760f23-14.socs.uoguelph.ca/documentation/
+In sprint 7, we've refactored our front-end API to use our own backend instead of team 404s. When we moved to using our own API, we updated some of it to improve time complexity. We've also updated our `getPossibleCourses` to properly handle ORs, 1OFs, ANDs, etc.
 
+We've also updated our filter code to fix a few bugs discovered in testing, including allowing courses to be filtered multiple times.
 
-## Running and installing the project
+Additionally, we've refactored the code used to access the backend database and stored it in its own PHP function rather than global variables.
 
-This requires PHP installed the best recommendation is getting started using XAMMP 
+## Clean URLs
 
-https://www.apachefriends.org
+Working with the NGINX settings, we were able to use our existing file structure, along with some rewrite rules, to ensure our URLs looked clean and did not contain file extensions. In order to do this, we used `try_files` to try files first as their initial URL but second as a directory.
 
-From there go into XAMMP with the htdocs and clone the Repo start the server from there you should be able to get started.
+This is shown by the `$uri/`. This, along with the index variables set, means that with our file structure, where we use folders containing individual `index.php`s or `index.html`s, we can have the URLs clean.
 
-## Production Server 
+Second, the API calls are made with `Course.php` and `getPossibleCourses.php`. Initially, our API calls were:
+- [https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course.php](https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course.php)
+- [https://cis3760f23-04.socs.uoguelph.ca/api/Course/getPossibleCourses.php](https://cis3760f23-04.socs.uoguelph.ca/api/Course/getPossibleCourses.php)
 
-The production link can be found here
+These are quite ugly, and using rewrite rules, we were able to change the calls. We can instead use:
+- [https://cis3760f23-04.socs.uoguelph.ca/api/getPossibleCourses](https://cis3760f23-04.socs.uoguelph.ca/api/getPossibleCourses)
+- [https://cis3760f23-04.socs.uoguelph.ca/api/Course](https://cis3760f23-04.socs.uoguelph.ca/api/Course)
 
-https://cis3760f23-04.socs.uoguelph.ca
+With these rules, there are no longer any file extensions used in URLs, and we've shortened the API calls for simplicity and ease of use. These rewrite rules simply replace parts of the URL with full versions and then recall them, so they are caught by the original rule that catches all `.php`s, which passes them over to FastCGI to handle the PHP coding.
 
-## Sprint 6 Update 
+**Sources:**
+- [Baeldung - Forward HTTP POST Request using Rewrite in Nginx](https://www.baeldung.com/linux/forward-http-post-request-using-rewrite#:~:text=In%20Nginx%2C%20URL%20rewriting%20uses,HTTP%20method%20of%20the%20request.)
+- [NGINX Blog - Creating NGINX Rewrite Rules](https://www.nginx.com/blog/creating-nginx-rewrite-rules/)
+- [NGINX Wiki - Config Pitfalls](https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/)
 
-This Sprint included the following updates 
+## Automated Testing
 
-- Utilzing a API which can be found from the following link https://cis3760f23-14.socs.uoguelph.ca/documentation/
+We used the playwright library to create Python code for automated testing. We added tests for both our front-end and our API calls.
 
-- Created a front end with the following features
-    - Users ability to enter courses they've taken
-    - Generate Possible courses students can take in the future this include courses where students haven't taken any courses before
-    - Filter Option based by Subject and Year
-- Created a wrapper Function call in Php to call the API
-- Utilzied JS to call the wrapper function in order to get a response from the api
+## CI/CD
 
-To access the updates 
+In order to simplify pushing to production, we've used GitLab's own CI/CD pipeline functionality. This allows us to develop our production environment in a more secure way and automatically push from our current sprint branch.
 
-https://cis3760f23-04.socs.uoguelph.ca/ApiFrontend
+## Responsivity
 
-
-### API's Used 
-
-https://cis3760f23-14.socs.uoguelph.ca/api/get_more_prereqs
-
-- Provides the ability to get future courses a student can take and also provides the ability to take query 
-parameters
-
-Example Query with Parameters: 
-https://cis3760f23-14.socs.uoguelph.ca/api/get_more_prereqs?courseCodes=CIS*1300
-
-https://cis3760f23-14.socs.uoguelph.ca/api/get_courses
-
-- Provides the list of all courses and takes in no query parameters and only grabs the list of all courses
-
-https://cis3760f23-14.socs.uoguelph.ca/api/get_course
-
-- Provides the ability to get one singular courses using query parameters
-
-Example with Query Parameters: 
-https://cis3760f23-14.socs.uoguelph.ca/api/get_course?courseCode=CIS*1300
-
-
-![Get Possible Courses](/Documentation/Sprint6/ApiFrontEnd.png)
-
-## Test cases and User Story
- 
-The following Tests were added for the updated Front End
-
-- Generate Courses when Student has taken no course
-- Generate Courses When a Student has taken CIS*1300
-- Generate Courses When a Student has taken CIS*1300 + CIS*1910
-- Generate Courses When a Student has taken CIS*1300, CIS*1910, PSYC 1000
-- Generate Courses When a student Takes CIS*1300 and Filter Only 2nd year courses
-
-For more information on Test cases and User Story Refer to the 
-
-[User Story and Test Case](Documentation/Sprint6/User_stories_Test_cases.pdf)
+To make our webpage properly responsive, we used Bootstrap to dynamically resize elements and parts of the webpage and to have a proper mobile view. Bootstrap allows us to simply assign elements to its pre-made responsiveness items, and it does the work for us!
