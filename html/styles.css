@@ -8,7 +8,7 @@ h1 {
   color: white;
 }
 
-/****** THE NAVBAR *****/
+/****** NAVBAR *****/
 
 nav {
   text-align: right;
@@ -71,7 +71,7 @@ ul {
 }
 
 .homepageBody {
-    min-height: 100vh;
+    min-height: 6vh;
     padding-top: 2%;
     width: 100%;
     font-family: 'Inter';
@@ -173,41 +173,51 @@ ul {
 
 /****** FEATURE1 ******/
 .feature1 {
-    height: 100vh;
-    width: 100%;
-    background-color: #1A69C8;
-}
-
-.feature1-body {
-  min-height: 100%;
+  height: auto; /* Adjust to dynamic height based on content */
+  min-height: 66vh;
+  width: 100%;
+  background-color: #1A69C8;
+  padding: 2%; /* Adjust padding for spacing on smaller screens */
   display: flex;
-  /* max-width: 60%; */
+  flex-direction: column; /* Stack content vertically on smaller screens */
   justify-content: center;
   align-items: center;
 }
 
+.feature1-body {
+  display: flex;
+  flex-direction: row; /* Display text and image side by side */
+  align-items: center;
+  text-align: left;
+}
+
 .feature1-desc {
-  width: 40%;
+  width: 60%; /* Adjust width for smaller screens */
+  max-width: 100%; /* Ensure it doesn't exceed the screen width */
+  padding: 10px; /* Adjust padding for spacing on smaller screens */
+  text-align: left;
 }
 
 .feature1-body h1 {
-  font-size: 50px;
+  font-size: 30px; /* Adjust font size for smaller screens */
   color: #FFF;
-  padding-bottom: 20px;
+  padding-bottom: 10px; /* Adjust padding for spacing on smaller screens */
+  text-align: left;
 }
-
 
 .feature1-body h6 {
-  max-width: 90%;
-  font-size: 20px;
-  color: black;
+  max-width: 100%; /* Ensure it doesn't exceed the screen width */
+  font-size: 15px; /* Adjust font size for smaller screens */
+  color: white;
+  padding: 1%;
+  margin-right: 5%;
 }
-
 
 .feature1-body img {
-  width: 35%;
+  width: 40%; /* Adjust width for smaller screens */
+  max-width: 100%; /* Ensure it doesn't exceed the screen width */
+  margin-top: 20px; /* Add some space between text and image */
 }
-
 
 /****** FEATURE1 ******/
 
@@ -235,8 +245,10 @@ ul {
    background-color: #1A69C8;
    display: flex;
    flex-direction: column;
-   gap: 150px;
-   padding: 50px;
+   gap: 100px;
+   padding: 65px;
+   color: white;
+   text-align: center;
 }
 
 .step1-container {
@@ -316,21 +328,24 @@ ul {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 300px; 
+  height: auto; /* Remove fixed height for responsiveness */
   width: 100%;
   background-color: #0C2F59;
   gap: 10px;
-  padding: 50px;
+  padding: 20px; /* Adjust padding for spacing on smaller screens */
 }
 
 .contributors h1 {
   font-size: 25px;
   color: #fff;
-  padding: 25px;
+  padding: 10px 0; /* Adjust padding for spacing on smaller screens */
 }
 
 .contributor-content {
   display: flex;
+  flex-wrap: wrap; /* Allow flex items to wrap to the next line on smaller screens */
+  justify-content: center;
+  gap: 10px; /* Adjust gap for spacing between items on smaller screens */
 }
 
 /****** CONTRIBUTORS ******/
@@ -349,3 +364,91 @@ ul {
 }
 
 /****** FOOTER ******/
+
+/* iPhone changes begin here */
+@media only screen and (max-width: 768px) {
+  .navbar {
+    text-align: center;
+  }
+
+  .navbar a {
+    margin-left: 0px;
+  }
+
+  .homepageBody img {
+    width: 100%;
+    float: none;
+    max-height: none;
+  }
+
+  .homepageBodyTitle,
+  .homepageBodyText {
+    margin-left: 10px;
+    text-align: center;
+  }
+
+  .homepageBodyText{
+    font-size: 0.8rem;
+    margin-left: 20%;
+    margin-right: 20%;
+  }
+
+  .macbook {
+    width: 100%; /* Adjust the width for smaller screens */
+  }
+
+  .VBAdownload {
+    flex-direction: column;
+    align-items: center;
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+
+  .VBAdownload_text {
+      font-size: 20px; /* Adjust the font size for smaller screens */
+      text-align: center;
+  }
+
+  .a_button {
+    width: 80%; /* Adjust the width for smaller screens */
+    margin-left: 10%; /* Add some margin to center the button */
+  }
+
+  .contributors h1 {
+    font-size: 20px;
+  }
+
+ /* feature 1 iPhone begins here */
+
+ .feature1-body {
+  flex-direction: column; /* Stack content vertically on smaller screens */
+  text-align: left; /* Align text to the left on smaller screens */
+  }
+
+  .feature1-desc,
+  .feature1-body img {
+    width: 90%; /* Adjust width for smaller screens */
+  }
+
+  /* feature 1 iPhone ends here */
+
+  .lastFeatureDiv h1 {
+    margin-top: 50px;
+    font-size: 40px;
+  }
+
+  .getStarted {
+    gap: 50px;
+    padding: 20px;
+  }
+
+  .step1-container {
+    padding: 20px;
+  }
+
+  .footer {
+    height: 80px;
+    padding-top: 0;
+  }
+}
+/* iPhone changes end here */
