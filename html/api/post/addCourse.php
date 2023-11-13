@@ -1,8 +1,5 @@
 <?php 
-    $hostname = 'localhost';
-    $username = 'cis3760'; // change to cis3760
-    $password = 'pass1234'; // change to pass1234
-    $dsn = "mysql:host=localhost;dbname=Course;"; // change to "mysql:host=localhost;dbname=courses;"
+    require_once "../db.php";
 
     if($_SERVER['REQUEST_METHOD'] == "POST") {
         $code = $_GET["courseCode"]; 
@@ -19,7 +16,12 @@
                     ('$code', '$name', '$desc', '$credit', '$restrict', '$location');";
             
             // connect to db
-            $pdo = new PDO($dsn, $username, $password);
+            $pdo = getDatabaseConnection(TRUE);
+            if ($pdo === null) {
+                http_response_code(500);
+                echo "Internal Server Error";
+                exit;
+            }
 
             // query
             $query = "INSERT INTO Course (courseCode, courseName, courseDesc, credits, location, restrictions)

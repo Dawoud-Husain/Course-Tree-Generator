@@ -1,10 +1,14 @@
 <?php
-$host = 'localhost';
-$user = 'cis3760';
-$password = 'pass1234';
-$dsn = "mysql:host=localhost;dbname=courses";
+require_once "../db.php";
+
+
 try {
-    $pdo = new PDO($dsn, $user,$password);
+    $pdo = getDatabaseConnection(TRUE);
+    if ($pdo === null) {
+        http_response_code(500);
+        echo "Internal Server Error";
+        exit;
+    }
     if ($_SERVER['REQUEST_METHOD'] === 'DELETE'){
         $body = file_get_contents("php://input");
         if(!empty($body)){
