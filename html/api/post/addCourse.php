@@ -1,7 +1,7 @@
 <?php 
     $hostname = 'localhost';
-    $username = 'root'; // change to cis3760
-    $password = ''; // change to pass1234
+    $username = 'cis3760'; // change to cis3760
+    $password = 'pass1234'; // change to pass1234
     $dsn = "mysql:host=localhost;dbname=Course;"; // change to "mysql:host=localhost;dbname=courses;"
 
     if($_SERVER['REQUEST_METHOD'] == "POST") {
