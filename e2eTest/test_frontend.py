@@ -48,10 +48,9 @@ def test_features_homepage(page: Page):
     expect(page.locator("#lastFeature").get_by_role("img")).to_be_visible()
 
 
-def test_features_homepage(page: Page):
+def test_getting_started(page: Page):
     page.goto("https://cis3760f23-04.socs.uoguelph.ca")
     page.get_by_role("link", name="Setup").click()
-    page.get_by_role("heading", name="Getting Started").click()
     expect(page.get_by_role("heading", name="Step 1: Download The Software")).to_be_visible()
     expect(page.locator("#setup").get_by_role("img").first).to_be_visible()
     expect(page.get_by_role("heading", name="Step 2: Enable Permissions")).to_be_visible()
