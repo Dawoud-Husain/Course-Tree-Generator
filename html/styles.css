@@ -205,7 +205,7 @@ ul {
   text-align: left;
 }
 
-.feature1-body h6 {
+.feature1-body h2 {
   max-width: 100%; /* Ensure it doesn't exceed the screen width */
   font-size: 15px; /* Adjust font size for smaller screens */
   color: white;

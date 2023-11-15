@@ -2,7 +2,7 @@
     $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
 ?>
 
-<html>
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,6 +10,27 @@
         <link rel="stylesheet" href="styles.css">
         <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha384-UG8ao2jwOWB7/oDdObZc6ItJmwUkR/PfMyt9Qs5AwX7PsnYn1CRKCTWyncPTWvaS" crossorigin="anonymous"></script>
+        <script type="text/javascript">
+            var staticGifSuffix = ".jpg";
+            var gifSuffix = ".gif";
+            $(document).ready(function() {
+                $(".stepsImage").each(function () {
+                $(this).hover(
+                function()
+                {
+            var originalSrc = $(this).attr("src");
+            $(this).attr("src", originalSrc.replace(staticGifSuffix, gifSuffix));
+            },
+            function()
+            {
+             var originalSrc = $(this).attr("src");
+             $(this).attr("src", originalSrc.replace(gifSuffix, staticGifSuffix));  
+            }
+            );
+        });
+    });
+</script>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg ms-auto" style="background-color: #1D75DE;">
@@ -63,9 +84,9 @@
             <div class="feature1-body">
                 <div class="feature1-desc">
                     <h1> Free To Use </h1>
-                    <h6 class = "featuredescriptionText">   COURSE MANAGER ® remains a free product for educational staff and students to use  </h6>
+                    <h2 class = "featuredescriptionText">   COURSE MANAGER ® remains a free product for educational staff and students to use  </h2>
                 </div>
-                <img class="feature-image" src="./media/free.png"> 
+                <img class="feature-image" src="./media/free.png" alt="free"> 
             </div>
             
         </section>
@@ -75,9 +96,9 @@
             <div class="feature1-body">
                 <div class="feature1-desc">
                     <h1>No External Software Needed </h1>
-                    <h6 class = "featuredescriptionText">    Our application runs all within Microsoft Excel, no need to install any third party applications  </h6>
+                    <h2 class = "featuredescriptionText">    Our application runs all within Microsoft Excel, no need to install any third party applications  </h2>
                 </div>
-                <img class="feature-image" src="./media/Microsoft_Office_13-16_Logo.png"> 
+                <img class="feature-image" src="./media/Microsoft_Office_13-16_Logo.png" alt="Office Logo"> 
             </div>
         </section>
 
@@ -85,9 +106,9 @@
             <div class="feature1-body">
                 <div class="feature1-desc">
                     <h1> Minimalistic Design </h1>
-                    <h6 class = "featuredescriptionText">  No hassle in navigating through endless menus to find the correct options needed. Simply press a button to enter your courses, and then another to find the ones you can take  </h6>
+                    <h2 class = "featuredescriptionText">  No hassle in navigating through endless menus to find the correct options needed. Simply press a button to enter your courses, and then another to find the ones you can take  </h2>
                 </div>
-                <img class="feature-image" src="./media/minimalistic.png">
+                <img class="feature-image" src="./media/minimalistic.png" alt="Minimalistic">
             </div>
         </section>
 
@@ -95,9 +116,9 @@
             <div class="feature1-body">
                 <div class="feature1-desc">
                     <h1> Robust End Product </h1>
-                    <h6 class = "featuredescriptionText">  Our developers have extensively tested this product from preventing the software from crashing to make the user experience better  </h6>
+                    <h2 class = "featuredescriptionText">  Our developers have extensively tested this product from preventing the software from crashing to make the user experience better  </h2>
                 </div>
-                <img class="feature-image" src="./media/robust.png">
+                <img class="feature-image" src="./media/robust.png" alt="Robust">
             </div>
         </section>
 
@@ -106,9 +127,9 @@
             <div class="feature1-body">
                 <div class="feature1-desc">
                     <h1> Secure </h1>
-                    <h6 class = "featuredescriptionText"> COURSE MANAGER ® Only runs and stores data locally within the users device. Not communicating over any networks ensures that private user information cannot be stolen   </h6>
+                    <h2 class = "featuredescriptionText"> COURSE MANAGER ® Only runs and stores data locally within the users device. Not communicating over any networks ensures that private user information cannot be stolen   </h2>
                 </div>
-                <img class="feature-image" src="./media/secure.png">
+                <img class="feature-image" src="./media/secure.png" alt="Secure">
             </div>
         </section>
 
@@ -117,9 +138,9 @@
             <div class="feature1-body">
                 <div class="feature1-desc">
                     <h1> Offline Functionally  </h1>
-                    <h6 class = "featuredescriptionText">  Storing all data and handling all process within the user device also means that no internet connection is required to run the program  </h6>
+                    <h2 class = "featuredescriptionText">  Storing all data and handling all process within the user device also means that no internet connection is required to run the program  </h2>
                 </div>
-                <img class="feature-image" src="./media/offlineFeature.png">
+                <img class="feature-image" src="./media/offlineFeature.png" alt= "Offline">
             </div>
         </section>
 
@@ -129,55 +150,46 @@
                 <div class="feature1-body">
                     <div class="feature1-desc">
                         <h1> Open Source </h1>
-                        <h6 class = "featuredescriptionText">Users not happy with a certain aspect of the software or would like to add additional functionality can directly edit the program to make it meet their needs </h6>
+                        <h2 class = "featuredescriptionText">Users not happy with a certain aspect of the software or would like to add additional functionality can directly edit the program to make it meet their needs </h2>
                     </div>
-                    <img class="feature-image" src="./media/open-source.png">
+                    <img class="feature-image" src="./media/open-source.png" alt= "Open Source">
                     
                 </div>
             <!-- </div> -->
         </section>
-
-        <section class="getStarted" id="setup">
+        <section class="using" id="setup">
             <h1>Getting Started</h1>
-            <div class="step1-container">
-                <div class="step1">
+            <div class="using-container">
+                <div class="using-steps">
                     <h1>Step 1: Download The Software</h1>
-                    <img class="stepsImage" src="./media/download.gif">
+                    <img class="stepsImage" src="./media/download.jpg" alt="Download">
                 </div>
-            </div>
-
-            <div class="step1-container" style="padding: 25px;">
-                <div class="step1">
+                <div class="using-steps">
                     <h1>Step 2: Enable Permissions</h1>
-                    <img  class = "stepsImage"  src="./media/enable-permissions.gif">
+                    <img  class = "stepsImage"  src="./media/enable-permissions.jpg" alt= "Enable permissions">
                 </div>
-            </div>
-
-            <div class="step1-container">
-                <div class="step1">
+                <div class="using-steps">
                     <h1> Step 3: Open the excel workbook</h1>
-                    <img class="stepsImage" src="./media/open.gif">
+                    <img class="stepsImage" src="./media/open.jpg"alt="Open">
                 </div>
             </div>
         </section>
-
-
         <section class="using" id="using">
         <h1> Using The Software </h1>
             <div class="using-container">
                 <div class="using-steps">
                     <h1>Step 1: Enter Your Courses</h1>
-                    <img  class = "stepsImage" src="./media/add_course.gif">
+                    <img  class = "stepsImage" src="./media/add_course.jpg" alt="Add">
                 </div>
 
                 <div class="using-steps">
                     <h1>Step 2: Generate & View The eligible courses</h1>
-                    <img  class = "stepsImage"  src="./media/load_courses.gif">
+                    <img  class = "stepsImage"  src="./media/load_courses.jpg" alt="Load">
                 </div>
 
                 <div class="using-steps">
                     <h1>Step 3: Delete Unwanted Courses</h1>
-                    <img  class = "stepsImage"  src="./media/delete_courses.gif">
+                    <img  class = "stepsImage"  src="./media/delete_courses.jpg" alt= "delete">
                 </div>
             </div>
         </section>
