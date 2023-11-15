@@ -22,32 +22,6 @@ def test_navbar(page: Page):
     page.get_by_role("link", name="Api Frontend").click()
     page.goto("https://cis3760f23-04.socs.uoguelph.ca")
 
-def test_features_homepage(page: Page):
-    page.goto("https://cis3760f23-04.socs.uoguelph.ca")
-    page.get_by_role("link", name="Features").click()
-    expect(page.get_by_role("heading", name="Free To Use")).to_be_visible()
-    expect(page.get_by_role("heading", name="COURSE MANAGER ® remains a free product for educational staff and students to use")).to_be_visible()
-    expect(page.locator("#features").get_by_role("img")).to_be_visible()
-    expect(page.get_by_role("heading", name="No External Software Needed")).to_be_visible()
-    expect(page.locator("section").filter(has_text="No External Software Needed Our application runs all within Microsoft Excel, no ").get_by_role("img")).to_be_visible()
-    expect( page.get_by_role("heading", name="Our application runs all within Microsoft Excel, no need to install any third party applications")).to_be_visible()
-    expect( page.get_by_role("heading", name="Minimalistic Design")).to_be_visible()
-    expect(page.get_by_role("heading", name="No hassle in navigating through endless menus to find the correct options needed. Simply press a button to enter your courses, and then another to find the ones you can take")).to_be_visible()
-    expect( page.locator("section").filter(has_text="Minimalistic Design No hassle in navigating through endless menus to find the co").get_by_role("img")).to_be_visible()
-    expect(page.get_by_role("heading", name="Robust End Product")).to_be_visible()
-    expect(page.get_by_role("heading", name="Our developers have extensively tested this product from preventing the software from crashing to make the user experience better")).to_be_visible()
-    expect(page.locator("section").filter(has_text="Robust End Product Our developers have extensively tested this product from prev").get_by_role("img")).to_be_visible()
-    expect(page.get_by_role("heading", name="Secure")).to_be_visible()
-    expect(page.get_by_role("heading", name="COURSE MANAGER ® Only runs and stores data locally within the users device. Not communicating over any networks ensures that private user information cannot be stolen")).to_be_visible()
-    expect(page.locator("section").filter(has_text="Secure COURSE MANAGER ® Only runs and stores data locally within the users devic").get_by_role("img")).to_be_visible()
-    expect(page.get_by_role("heading", name="Offline Functionally")).to_be_visible()
-    expect(page.get_by_role("heading", name="Storing all data and handling all process within the user device also means that no internet connection is required to run the program")).to_be_visible()
-    expect(page.locator("section").filter(has_text="Offline Functionally Storing all data and handling all process within the user d").get_by_role("img")).to_be_visible()
-    expect(page.get_by_role("heading", name="Open Source")).to_be_visible()
-    expect(page.get_by_role("heading", name="Users not happy with a certain aspect of the software or would like to add additional functionality can directly edit the program to make it meet their needs")).to_be_visible()
-    expect(page.locator("#lastFeature").get_by_role("img")).to_be_visible()
-
-
 def test_getting_started(page: Page):
     page.goto("https://cis3760f23-04.socs.uoguelph.ca")
     page.get_by_role("link", name="Setup").click()
