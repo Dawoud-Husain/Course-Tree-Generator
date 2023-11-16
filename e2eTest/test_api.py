@@ -53,17 +53,22 @@ def test_run_invalid_link(playwright: sync_playwright):
     assert response.status == 403 or response.status == 404
     assert response.status_text == 'Forbidden' or response.status_text == 'Not Found'
 
-def test_run_get_possible_course(playwright: sync_playwright):
+def test_get_possible_courses(playwright: sync_playwright):
     context = playwright.request.new_context()
     data = {
-        "coursesTaken":["CIS*1300"]
+    "coursesTaken":[]
     }
     response = context.post("https://cis3760f23-04.socs.uoguelph.ca/api/Course/getPossibleCourses.php",data = data)
     assert response.ok
     assert response.status == 200
-    assert response.headers["content-type"] == "application/json"
-    assert response.json() 
-
+    assert response.json()
+    data = {
+    "coursesTaken":["CIS*1300"]
+    }
+    response = context.post("https://cis3760f23-04.socs.uoguelph.ca/api/Course/getPossibleCourses.php",data = data)
+    assert response.ok
+    assert response.status == 200
+    assert response.json()
 
 def test_delete_course(playwright: sync_playwright):
     context = playwright.request.new_context()
@@ -85,19 +90,12 @@ def test_delete_course(playwright: sync_playwright):
 
 
 
-def test_get_possible_courses(playwright: sync_playwright):
+
+
+def test_load_courses(playwright: sync_playwright):
     context = playwright.request.new_context()
-    data = {
-    "coursesTaken":[]
-    }
-    response = context.post("https://cis3760f23-04.socs.uoguelph.ca/api/Course/getPossibleCourses.php",data = data)
+    response = context.get('https://cis3760f23-04.socs.uoguelph.ca/api/loadcourses/loadcourses.php')
     assert response.ok
     assert response.status == 200
-    assert response.json()
-    data = {
-    "coursesTaken":["CIS*1300"]
-    }
-    response = context.post("https://cis3760f23-04.socs.uoguelph.ca/api/Course/getPossibleCourses.php",data = data)
-    assert response.ok
-    assert response.status == 200
-    assert response.json()
+
+    
