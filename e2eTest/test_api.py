@@ -58,7 +58,7 @@ def test_run_get_possible_course(playwright: sync_playwright):
     data = {
         "coursesTaken":["CIS*1300"]
     }
-    response = context.post("https://cis3760f23-04.socs.uoguelph.ca/api/Course/getPossibleCourses.php",data = data)
+    response = context.post("https://cis3760f23-04.socs.uoguelph.ca/api/Course/getPossibleCourses",data = data)
     assert response.ok
     assert response.status == 200
     assert response.headers["content-type"] == "application/json"
