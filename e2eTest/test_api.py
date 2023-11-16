@@ -90,14 +90,14 @@ def test_get_possible_courses(playwright: sync_playwright):
     data = {
     "coursesTaken":[]
     }
-    response = context.post("https://cis3760f23-04.socs.uoguelph.ca/api/Course/getPossibleCourses.php",data = data)
+    response = context.post("https://cis3760f23-04.socs.uoguelph.ca/api/Course/getPossibleCourses",data = data)
     assert response.ok
     assert response.status == 200
     assert response.json()
     data = {
     "coursesTaken":["CIS*1300"]
     }
-    response = context.post("https://cis3760f23-04.socs.uoguelph.ca/api/Course/getPossibleCourses.php",data = data)
+    response = context.post("https://cis3760f23-04.socs.uoguelph.ca/api/Course/getPossibleCourses",data = data)
     assert response.ok
     assert response.status == 200
     assert response.json()

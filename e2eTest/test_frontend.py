@@ -61,4 +61,4 @@ def test_Api_front_end_components(page:Page):
     expect(page.get_by_role("columnheader", name="Restrictions")).to_be_visible()
     expect(page.get_by_role("columnheader", name="Course Code")).to_be_visible()
     expect(page.get_by_role("columnheader", name="Name")).to_be_visible()
-    expect(page.get_by_role("columnheader", name="Description")).to_be_visible()
+    expect(page.get_by_role("columnheader", name="Description")).to_be_visible() 
