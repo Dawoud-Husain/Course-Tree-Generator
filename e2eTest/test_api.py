@@ -1,5 +1,10 @@
 from playwright.sync_api import Page, expect, sync_playwright
 
+def test_load_courses_start(playwright: sync_playwright):
+    context = playwright.request.new_context()
+    response = context.get('https://cis3760f23-04.socs.uoguelph.ca/api/loadcourses/loadcourses.php')
+    assert response.ok
+    assert response.status == 200
 
 def test_run_search(playwright: sync_playwright):
     context = playwright.request.new_context()
@@ -86,9 +91,6 @@ def test_delete_course(playwright: sync_playwright):
     response = context.delete("https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course.php")
     assert response.status == 400
     assert response.body()
-
-
-
 
 
 
