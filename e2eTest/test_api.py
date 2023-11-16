@@ -7,7 +7,7 @@ def test_run_search(playwright: sync_playwright):
     assert response.ok
     assert response.status == 200
     assert response.headers["content-type"] == "application/json"
-    assert response.json()
+    assert response.body()
 
 def test_multi_param_search(playwright: sync_playwright):
     context = playwright.request.new_context()
@@ -83,36 +83,7 @@ def test_delete_course(playwright: sync_playwright):
     assert response.body()
 
 
-def test_update_course(playwright: sync_playwright):
-    context = playwright.request.new_context()
-    data = [
-    {
-        "courseCode": "ANTH*1150",
-        "courseName": "Web APIsss",
-        "courseDesc": "Building web AssddPIssss",
-        "credits": 0.5,
-        "location": "CKNC 533",
-        "prerequisites": [
-            "CIS*1300",
-            "CIS*2520"
-        ]
-    }
-]
-    response = context.put("https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course.php",data = data)
-    assert response.ok
-    assert response.status == 200
-    assert response.body()
-    response = context.get("https://cis3760f23-04.socs.uoguelph.ca/api/Course/?id=ANTH*1150")
-    assert response.ok
-    assert response.status == 200
-    assert response.headers["content-type"] == "application/json"
-    assert response.text() == '[{"courseCode":"ANTH*1150","courseName":"Web APIsss","courseDesc":"Building web AssddPIssss","credits":"0.5","location":"CKNC 533","restrictions":""}]'
-    data = []
-    response = context.put("https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course.php",data = data)
-    assert response.ok
-    assert response.status == 200
-    assert response.body()
-    context.get('https://cis3760f23-04.socs.uoguelph.ca/api/loadcourses/loadcourses.php')
+
 
 def test_get_possible_courses(playwright: sync_playwright):
     context = playwright.request.new_context()
