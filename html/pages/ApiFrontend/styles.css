@@ -38,32 +38,37 @@ hr {
 #main-section {
   width: 100%;
   padding-top: 50px;
-  padding-left: 250px;
+  padding-left: 100px;
   padding-right: 100px;
   background-color: #1D75DE;
-
 }
 
 #main-section h2 {
  padding-bottom: 20px;
 }
 
-#courseEntriesContainer {
- max-height: 250px;
+.courseTable {
+ max-height: 600px;
+ width: 1250px;
+ overflow-y: scroll;
  margin-top: 25px;
- margin-bottom: 150px;
- width: 250px;
+ margin-bottom: 75px;
 }
 
-#courseEntries {
- height: 100%;
- width: 100%;
+.courseTableHeader {
+  position: sticky;
+  top: 0;
 }
 
-#clearCourses {
- display: none;
+#completedCoursesContainer {
+  margin-left: 150px;
+  font-size: xx-large;
 }
 
+#completedCourses {
+  margin-top: 50px;
+  margin-bottom: 150px;
+}
 
 /******** Enter Courses End **********/
 
@@ -79,18 +84,21 @@ hr {
 }
 
 #generateCourses {
- width: 150px;
- margin-bottom: 50px;
+  width: 150px;
+  margin-bottom: 50px;
 }
 
-#eligbleCoursesTableContainer {
- width: 1500px;
- margin-bottom: 100px;
-}
-
-#filterButton {
+#applyFilters {
  margin-bottom: 10px;
  width: 100px;
+}
+
+.categories {
+  display: none;
+}
+
+.form-check-label {
+  background-color: black;
 }
 
 /******** Elegible Courses End **********/
@@ -123,12 +131,7 @@ hr {
      padding-right: 50px;
     }
 
-    #courseEntriesContainer {
-     margin-top: 50px;
-     width: 205px;
-    }
-
-    #filterButton {
+    #applyFilter {
      width: 75px;
     }
 
