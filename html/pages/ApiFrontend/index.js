@@ -61,12 +61,42 @@ function populateCourseTable(id, courses, headers) {
                 }   
              
                 cell.appendChild(deleteBtn);
+            } else if (header === 'location' || header === 'restrictions' || header === 'courseDesc' || header === 'credits' || header === 'courseName') {
+                cell.classList.add('d-none', 'd-md-table-cell');
+                cell.innerHTML = course[header];
             } else {
                 cell.innerHTML = course[header]; // Populate course code cell
             }
         });
+        if (window.innerWidth <= 767 && headers.includes('location')) {
+        tr.addEventListener('click', function() {
+            displayHiddenInfo(tr, course);
+        });
+    }
     });
 };
+function displayHiddenInfo(row, course) {
+    var newRow = document.createElement('tr');
+    var colspan = row.getElementsByTagName('td').length; // Set colspan to span the entire row
+  
+    // Create a cell to contain the additional information
+    var cell = document.createElement('td');
+    cell.classList.add('additional-info'); // Add a class for styling purposes
+    cell.setAttribute('colspan', colspan);
+    cell.innerHTML = `Name: ${course.courseName}<br>Description: ${course.courseDesc}<br>Credits: ${course.credits}<br>Location: ${course.location}<br>Restrictions: ${course.restrictions}`;
+  
+    // Append the cell to the new row
+    newRow.appendChild(cell);
+  
+    // Insert the new row below the clicked row
+    row.insertAdjacentElement('afterend', newRow);
+    newRow.addEventListener('click', function() {
+        removeHiddenInfo(newRow);
+      });
+  }
+  function removeHiddenInfo(row) {
+    row.parentNode.removeChild(row);
+  }
 
 function displayUserCourses() {
     const completedCourses = document.getElementById("completedCourses");
