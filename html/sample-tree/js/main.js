@@ -37,7 +37,7 @@ function addNode(courseData, nodes) {
 
 async function getPrerequisites(courseCode, nodes, edges, childNodeId = null) {
     try {
-        const response = await fetch(`http://localhost/f23_cis3760_104/html/api/Course/Course.php?id=${courseCode}&preq=`);
+        const response = await fetch(`https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course.php?id=${courseCode}&preq=`);
         const courseDataArray = await response.json();
         // console.log("API Response:", courseDataArray);
         const courseData = courseDataArray[0];

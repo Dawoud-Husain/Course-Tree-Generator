@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 async function getAllCoursesAndBuildTree(subject, nodes, edges) {
     // console.log("test\n");
-    const response = await fetch(`http://localhost/f23_cis3760_104/html/api/Course/Course.php?id=${subject}*&preq=`);
+    const response = await fetch(`https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course.php?id=${subject}*&preq=`);
     const coursesArray = await response.json();
 
     // Check if the fetched data is an array
@@ -103,12 +103,12 @@ function addNode(courseData, nodes) {
 
 async function getPrerequisites(courseCode, nodes, edges, childNodeId = null) {
     try {
-        const response = await fetch(`http://localhost/f23_cis3760_104/html/api/Course/Course.php?id=${courseCode}&preq=`);
+        const response = await fetch(`https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course.php?id=${courseCode}&preq=`);
         const courseDataArray = await response.json();
         // console.log("API Response:", courseDataArray);
         const courseData = courseDataArray[0];
 
-        const response2 = await fetch(`http://localhost/f23_cis3760_104/html/api/Course/Course.php?id=${childNodeId}&preq=`);
+        const response2 = await fetch(`https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course.php?id=${childNodeId}&preq=`);
         const courseDataArray2 = await response2.json();
         // console.log("API Response:", courseDataArray);
         const courseData2 = courseDataArray2[0];
