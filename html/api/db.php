@@ -1,6 +1,8 @@
 <?php
-function getDatabaseConnection($isProdEnv) {
-    $host = 'localhost';
+function getDatabaseConnection() {
+    $url = "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+    $isProdEnv = str_contains($url, 'cis3760f23-04.socs.uoguelph.ca');
+    
     $user = $isProdEnv ? 'cis3760' : 'root';
     $password = $isProdEnv ? 'pass1234' : '';
     $dsn = "mysql:host=localhost;dbname=courses";

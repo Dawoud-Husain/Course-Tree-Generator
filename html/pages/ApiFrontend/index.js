@@ -1,343 +1,187 @@
-const enterButton = document.getElementById("enterButton"); // Get enter button
+import { getCourses, getPossibleCourses } from "./modules/calls.js";
+import { filterCourses, getSubjects, getLevels } from "./modules/filter.js";
+
+let userCourses = []; // Stores chosen courses by the user
+let possibleCourses = []; // Stores possible courses the user can take
+
 const generateCourses = document.getElementById("generateCourses"); // Get generateCourses button
-const clearCourses = document.getElementById("clearCourses"); // Get course entries table
-const api_url = window.location.href.replace(/\/pages\/.*/, '/api/'); // Get url of api directory
+const filters = document.getElementById("filters"); // Get filters
+const applyFilters = document.getElementById("applyFilters"); // Get apply filters button
 
-filterButton.addEventListener("click", () => {
-    filterCourses();
-});
+window.onload = () => {
+    const courses = getCourses(); // Get list of courses in database
+    const headers = getHeaders("courseList"); // Get headers in courseList table
+    populateCourseTable("courseListBody", courses, headers); // Populate table with list of courses
+}
 
-function updateFilters() {
-    const eligibleCoursesTable = document.getElementById("eligibleCoursesTable");
-    const courseCodeFilter = document.getElementById("courseCode");
-    const courseCodePrefixes = document.getElementsByClassName("courseCodePrefixes")[0];
-    const courseCodeLevels = document.getElementsByClassName("courseCodeLevels")[0];
+function getHeaders(id) {
+    const table = document.getElementById(id); // Get table
+    const headerCells = table.querySelectorAll("th"); // Get table header cells
+    const headers = []; // Stores array of header labels
 
-    // Clear existing filters
-    courseCodePrefixes.innerHTML = "";
-    courseCodeLevels.innerHTML = "";
+    headerCells.forEach((header) => { // For each header cell
+        headers.push(header.innerText); // Push header cell text to headers array
+    });
 
-    const courseCodes = new Set(); // Use a Set to store unique course codes
-    const courseLevels = new Set();
+    return headers; // Return headers array
+}
 
-    Array.from(eligibleCoursesTableBody.rows).forEach((row) => {
-        const courseCode = row.cells[1].textContent;
-        codePrefix = courseCode.split("*")[0];
+function populateCourseTable(id, courses, headers) {
+    const courseTableBody = document.getElementById(id); // Get table body of course list
+    if (courseTableBody == null) return; // NULL object check
 
-        // Add course prefix html 
-        if (!courseCodes.has(codePrefix)) {
-            // Create a new filter checkbox and corresponding label
-            const checkbox = document.createElement("input");
-            checkbox.type = "checkbox";
-            checkbox.className = "checkbox";
-            checkbox.name = "course-code-prefix";
-            checkbox.id = codePrefix;
+    courses.forEach((course, index) => { // For each course
+        const tr = courseTableBody.insertRow(); // Create row
+        tr.id = `${id}_row${index}`; // Set row id
+
+        headers.forEach((header) => {
+            const cell = tr.insertCell(); // Create cell in new row
+
+            if (header == "select") {
+                const checkbox = document.createElement('input'); // Create input  
+                checkbox.type = "checkbox"; // Set as checkbox
+
+                checkbox.onchange = (e) => {
+                    if (e.target.checked) userCourses.push(course);
+                    else userCourses = userCourses.filter((userCourse) => (userCourse.courseCode != course.courseCode));
+
+                    displayUserCourses();
+                }
+
+                cell.appendChild(checkbox); // Add checkbox to select
+            } else if (header == "delete") {
+                const deleteBtn = document.createElement("button"); // Create delete button for course
         
-
-            const label = document.createElement("label");
-            label.htmlFor = courseCode;
-            label.className = "checkboxLabel";
-            label.textContent = codePrefix;
-
-            const br = document.createElement("br");
-
-            // Add the checkbox and label to the courseCodePrefixes section
-            courseCodePrefixes.appendChild(checkbox);
-            courseCodePrefixes.appendChild(label);
-            courseCodePrefixes.appendChild(br);
-
-            // Add the course code to the Set
-            courseCodes.add(label.textContent);
-        }
+                deleteBtn.className = "btn btn-danger btn-sm"; // Add bootstrap button styles
+                deleteBtn.innerHTML = "x"; // Add x icon in delete button
+                deleteBtn.rowID = tr.id; // Add id to object
+    
+                deleteBtn.onclick = (e) => {
+                    document.getElementById(e.target.rowID).remove(); // Remove row element from table
+                }   
+             
+                cell.appendChild(deleteBtn);
+            } else {
+                cell.innerHTML = course[header]; // Populate course code cell
+            }
+        });
     });
+};
 
-    // Add Course levels html
-    Array.from(eligibleCoursesTableBody.rows).forEach((row) => {
-        const courseCode = row.cells[1].textContent;
-        level = courseCode.charAt(courseCode.indexOf("*") + 1);
+function displayUserCourses() {
+    const completedCourses = document.getElementById("completedCourses");
+    completedCourses.innerHTML = "";
 
-        if(level == '1' || level == '2' || level == '3' || level == '4' || level == '5') {
-            if(!courseLevels.has(level)){
-                // Create a new filter checkbox and corresponding label
-                const checkbox = document.createElement("input");
-                checkbox.type = "checkbox";
-                checkbox.className = "checkbox";
-                checkbox.id = level;
-                checkbox.name = "course-code-level";
-            
-                const label = document.createElement("label");
-                label.htmlFor = courseCode;
-                label.className = "checkboxLabel";
-                label.textContent = level;
-            
-                const br = document.createElement("br");
-            
-                // Add the checkbox and label to the courseCodePrefixes section
-                courseCodeLevels.appendChild(checkbox);
-                courseCodeLevels.appendChild(label);
-                courseCodeLevels.appendChild(br);
-            
-                // Add the course code to the Set
-                courseLevels.add(label.textContent);
-            }
-        }
-    });
-}
-
-function filterCourses() {
-	let selectedCourseCodeFilters = [];
-    let selelectedCourseLevelFilters = [];
-    
-	// Get all checked checkboxes
-	const prefixCheckboxes = document.getElementsByName("course-code-prefix");
-    const courseCodeLevelsCheckboxes = document.getElementsByName("course-code-level");
-    
-	// Loop through checkboxes and add id to filters array if checked
-	for(let i = 0; i < prefixCheckboxes.length; i++) {
-    	if(prefixCheckboxes[i].checked) {
-        	selectedCourseCodeFilters.push(prefixCheckboxes[i].id);
-    	}
-	}
-
-     for(let i = 0; i < courseCodeLevelsCheckboxes.length; i++) {
-         if(courseCodeLevelsCheckboxes[i].checked) {
-            selelectedCourseLevelFilters.push(courseCodeLevelsCheckboxes[i].id);
-            //  alert(courseCodeLevelsCheckboxes[i].id);
-        }
-    }
-    
-	// Get table body
-	let tableBody = document.getElementById("eligibleCoursesTableBody");
-    
-	// Loop through rows
-
-    if(selectedCourseCodeFilters.length != 0){
-        for(let i = tableBody.rows.length - 1; i >= 0; i--) {
-   	 
-            // Get course code from first cell
-            let courseCode = tableBody.rows[i].cells[1].innerText;
-            
-            // Check if course code doesn't start with any of the filters
-            let matchFound = false;
-            for(let j = 0; j < selectedCourseCodeFilters.length; j++) {
-                if(courseCode.startsWith(selectedCourseCodeFilters[j])) {
-                    matchFound = true;
-                    break;
-                }
-            }
-            
-            // If no match, delete the row
-            if(!matchFound) {
-                tableBody.deleteRow(i);
-            }
-        }   
-    }
-
-
-    // Loop through rows and delete course level filters that do not match
-
-    if(selelectedCourseLevelFilters.length != 0){
-        for(let i = tableBody.rows.length - 1; i >= 0; i--) {
-            
-            // Get course code from first cell
-            let courseCode = tableBody.rows[i].cells[1].innerText;
-            let level = courseCode.charAt(courseCode.indexOf("*") + 1);
-            
-            // Check if course code doesn't start with any of the filters
-            let matchFound = false;
-            for(let j = 0; j < selelectedCourseLevelFilters.length; j++) {
-                // alert(level, selelectedCourseLevelFilters[j]);
-                if(level === (selelectedCourseLevelFilters[j])) {
-                    matchFound = true;
-                    break; 
-                }
-            }
-            
-            // If no match, delete the row
-            if(!matchFound) {
-                tableBody.deleteRow(i);
-            }
-        }   
-    }
-
-    updateFilters();
-}
-
-enterButton?.addEventListener("click", () => { // Define onClick event listener for enter button
-    const courseInput = document.getElementById("courseInput"); // Get course input box
-    const courseEntries = document.getElementById("courseEntries"); // Get course entries table
-    const courseEntriesBody = document.getElementById("courseEntriesBody"); // Get course entries table body
-
-    const courseCode = courseInput?.value?.toUpperCase(); // Extract course input box value
-    const errorMsg = document.getElementById("errorMsg"); // Get errorMsg
-
-    if (validateCourseCode(courseCode) == false) errorMsg.innerText = "Invalid course code format!"; // If course input is invalid, set error text
-    else if (getCourse(courseCode) == undefined) errorMsg.innerText = "Course not found!"; // If course doesn't exist, set error text
-    else if (isNewCourseCode(courseCode) == false) errorMsg.innerText = "Course code already added!"; // If course code already added, set error text
-    else errorMsg.innerText = ""; // Clear the error message
-
-    if (errorMsg.innerText) return; // If error occured, exit
-    const tr = document.createElement("tr"); // Create new table row element
-    const td1 = document.createElement("td"); // Create new table data cell element
-    const td2 = document.createElement("td"); // Create new table data cell element
-    const text = document.createTextNode(courseCode); // Create text node for table data cell element
-    const deleteBtn = document.createElement("button"); // Create delete button for course
-
-    tr.className = "courseEntry"; // Set className to "courseEntry"
-    tr.id = courseCode; // Set unique course code for each row as ID
-    tr.appendChild(td1); // Append table data to table row
-    td1.appendChild(text); // Append text to table data cell
-
-    deleteBtn.className = "btn btn-danger btn-sm"; // Add bootstrap button styles
-    deleteBtn.innerHTML = "x"; 
-    deleteBtn.style.marginLeft = "20px";
-
-    deleteBtn.onclick = (e) => {
-        document.getElementById(`${courseCode}`).remove(); // Remove row element from table
-    }
-
-    tr.appendChild(td2); // Append second table data cell to row
-    td2.appendChild(deleteBtn);  // Append delete button into second table data cell 
-
-    courseEntriesBody.appendChild(tr); // Append list element to course entries
-    courseEntries.className = "table table-hover align-middle text-center"; // Redefine bootstrap class 
-
-    clearCourses.style.display = 'inline-flex'; // display clearCourses button
-    courseInput.value = ""; // Clear input box value
-});
-
-clearCourses?.addEventListener("click", (e) => { // Define onClick event listener for enter button
-    const courseEntries = document.getElementById("courseEntriesBody"); // Get course entries table
-
-    const td_elements = courseEntries.querySelectorAll('td'); // Get all current table data cells
-    td_elements.forEach((td_element) => td_element.remove()); // Populate elements
-
-    const tr_elements = courseEntries.querySelectorAll('tr'); // Get all current table data cells
-    tr_elements.forEach((tr_element) => tr_element.remove()); // Populate elements
-
-    clearCourses.style.display = 'none'; // remove clearCourses button
-});
-
-function deleteCourse(element) {
-    $(element).closest('tr').remove();
-}
-
-function validateCourseCode(courseCode) { // Given a couse code, return true if it is a valid course code, else return false
-    const courseCodeRegex = /^[A-Z][A-Z][A-Z][A-Z]?\*\d\d\d\d$/; // Regex used to validate course code
-    if (!courseCodeRegex.test(courseCode)) return false; // Return false if regex doesn't match
-}
-
-function getCourse(courseCode) { // Given courseCode, make network call to get course object
-    const url = `${api_url}Course/Course.php?id=${courseCode}`; // Store url of GET request
-    const xhttp = new XMLHttpRequest(); // Make a network request
-
-    xhttp.open("GET", url, false); // Define GET request to url
-    
-    try { // Try to send request to get course object
-        xhttp.send(); // Send GET request to url
-        const response = JSON.parse(xhttp.responseText); // Fetch response as JS object
-        return response.length ? response : undefined; // Return result   
-    } catch (e) { // If request fails
-        return undefined; // Return undefined
-    }
-}
-
-function isNewCourseCode(courseCode) { // Returns true if the inputted course code hasn't already been added
-    return !(getInputCourses().find((course) => (course == courseCode))); // Return true if find() function returns undefined, else false
+    userCourses.forEach((userCourse, index) => {
+        completedCourses.innerHTML += `${index + 1}) ${userCourse.courseCode} - ${userCourse.courseName}<br>`;
+    })
 }
 
 generateCourses?.addEventListener("click", () => { // Define onClick event listener for generateCourses button
-    clearEligibleCoursesTable(); // Clear current table rows, will be repopulated
-    
-    const inputCourses = getInputCourses(); // Get list of inputted courses
-    const queryParam = inputCourses.join(',') // Get query parameter string with comma glue char
+    const userCourseCodes = userCourses.map((userCourse) => userCourse.courseCode); // Get array of course codes
+    possibleCourses = getPossibleCourses(userCourseCodes); // Get list of courses the user can take
 
-    const url = `${api_url}Course/getPossibleCourses.php`; // Get url of network request
-    const xhttp = new XMLHttpRequest(); // Make a network request
+    const headers = getHeaders("eligibleCourseList"); // Get headers in eligibleCourseList table
+    const id = "eligibleCourseListBody"; // get id of table body in eligibleCourseList
 
-    const body = { // Define POST request body
-        coursesTaken: inputCourses // Add current user input courses in POST request body
-    };
-
-    xhttp.onload = function() { // Runs once the response recieved
-        const response = this.responseText; // Get response as JSON text
-        // console.log(response);
-
-        const eligibleCourses = JSON.parse(response); // Convert to JS array of objects
-        displayEligibleCourses(eligibleCourses); // repopulate table with new courses
-    }
-
-    xhttp.open("POST", url, true); // Define POST request
-    xhttp.send(JSON.stringify(body)); // Send POST request with body
+    clearTable(id); // Clear current table rows, will be repopulated
+    populateCourseTable(id, possibleCourses, headers); // populate rows in eligibleCourseList
+    populateFilters(possibleCourses); // populate filter dropdowns with new courses
 });
 
-function getInputCourses() { // Returns an array of course codes
-    const courseEntryRows = document.getElementsByClassName('courseEntry'); // Get all table rows
-    // const courseEntryRows = document.getElementById("courseEntries"); // Get all table rows
-
-    if(!courseEntryRows || courseEntryRows.length === 0) {
-        return [];
-    }
-
-    const courses = []; // Stores array of course codes to return
-
-    for (let i = 0; i < courseEntryRows.length; i++) {
-        const courseEntryRow = courseEntryRows[i];
-        courses.push(courseEntryRow.firstChild.innerText);
-    }
-
-    // alert(courses);
-
-    return courses; // Return array of course codes
+function clearTable(id) { // Clear table rows for repopulation
+    const tableBody = document.getElementById(id); // Get <tbody> object for table
+    tableBody.innerHTML = ""; // Clear <tbody> object for table
 }
 
+function populateFilters(courses) {
+    const subjects = getSubjects(courses);
+    const levels = getLevels(courses);
 
+    const subjectsDiv = document.getElementById("subjects");
+    const courseLevels = document.getElementById("courseLevels");
 
-function displayEligibleCourses(eligibleCourses) { // Given an array of course objects, display these as rows on the eligibleCoursesTable
-    // console.log(eligibleCourses);
-    const eligibleCoursesTableBody = document.getElementById("eligibleCoursesTableBody"); // Get <tbody> object for eligibleCoursesTable
+    subjectsDiv.innerHTML = ""; // Clear current subjectsDiv
+    courseLevels.innerHTML = ""; // Clear current courseLevels
 
-    eligibleCourses?.forEach((eligibleCourse, index) => { // For all course objects in array
-        const row = eligibleCoursesTableBody.insertRow(-1); // Add new row in table
-        row.id = `row${index}`; // Assign id to row for delete functionality
+    subjects.forEach((subject) => {
+        const checkbox = document.createElement('input'); // Create checkbox
+        const label = document.createElement('label'); // Create label for checkbox
 
-        // Add new cells in row
-        const courseCodeCell = row.insertCell(0); // Contains course code
-        const nameCell = row.insertCell(1); // Contains course name
-        const descriptionCell = row.insertCell(2); // Contains course description
-        const creditsCell = row.insertCell(3); // Contains course credits
-        const locationCell = row.insertCell(4); // Contains course location
-        const restrictionsCell = row.insertCell(5); // Contains course restrictions
-        const deleteCell = row.insertCell(6); // Contains delete row icon
-        
-        deleteCell.appendChild(getDeleteRowImg(index)); // Populate delete row cell
-        courseCodeCell.innerHTML = eligibleCourse.courseCode; // Populate course code cell
-        descriptionCell.innerHTML = eligibleCourse.courseDesc; // Populate course description cell
-        nameCell.innerHTML = eligibleCourse.courseName; // Populate course name cell
-        creditsCell.innerHTML = eligibleCourse.credits; // Populate course credits cell
-        locationCell.innerHTML = eligibleCourse.location; // Populate course location cell
-        restrictionsCell.innerHTML = eligibleCourse.restrictions; // Populate course restrictions cell
+        checkbox.type = 'checkbox'; // Set input as checkbox
+        checkbox.className = 'form-check-input'; // Bootstrap
+        checkbox.id = subject; // Set id as subject for label
+        checkbox.name = "subjectCheckbox"; // Set name
+
+        label.className = 'form-check-label'; // Bootstrap
+        label.htmlFor = subject; // Connect to checkbox
+        label.textContent = subject; // Add label text content
+
+        // Create div with form-check classes
+        const div = document.createElement('div');
+        div.className = 'form-check form-switch';
+        div.style = 'color:white; background: black;';
+
+        // Add checkbox + label to DOM
+        div.appendChild(checkbox);
+        div.appendChild(label);
+        subjectsDiv.appendChild(div);
     });
 
-    updateFilters();
+    levels.forEach((level) => {
+        const checkbox = document.createElement('input');
+        const label = document.createElement('label');
+
+        checkbox.type = 'checkbox'; // Set input as checkbox
+        checkbox.className = 'form-check-input'; // Bootstrap
+        checkbox.id = level; // Set id as level for label
+        checkbox.name = "levelCheckbox" // Set name
+
+        label.className = 'form-check-label'; // Bootstrap
+        label.htmlFor = level; // Connect to checkbox
+        label.textContent = level; // Add label text content
+
+        // Create div with form-check classes
+        const div = document.createElement('div');
+        div.className = 'form-check form-switch';
+        div.style = 'color: white; background: black;';
+
+        // Add checkbox + label to DOM
+        div.appendChild(checkbox);
+        div.appendChild(label);
+        courseLevels.appendChild(div);
+    });
 }
 
-function getDeleteRowImg(index) { // Returns an img element containing delete row icon, with delete functionality
+filters.addEventListener("click", () => {
+    const categories = document.getElementById("categories");
+    categories.style.display = categories.style.display ? "" : "block";
+});
 
-   const deleteBtn = document.createElement("button"); // Create delete button for course
+applyFilters.addEventListener("click", () => {
+    const subjectCheckboxes = document.getElementsByName("subjectCheckbox");
+    const levelCheckboxes = document.getElementsByName("levelCheckbox");
+
+    const filterSubjects = [];
+    const filterLevels = [];
     
-   deleteBtn.className = "btn btn-danger btn-sm"; // Add bootstrap button styles
-   deleteBtn.innerHTML = "x"; 
-   deleteBtn.style.marginLeft = "20px";
-   deleteBtn.onclick = (e) => {
-        document.getElementById(`row${index}`).remove(); // Remove row element from table
-   }   
+    subjectCheckboxes.forEach((subjectCheckbox) => {
+        if (subjectCheckbox.checked) filterSubjects.push(subjectCheckbox.id);
+    });
 
-   return(deleteBtn);
-}
+    levelCheckboxes.forEach((levelCheckbox) => {
+        if (levelCheckbox.checked) filterLevels.push(levelCheckbox.id);
+    });
 
+    const filterInfo = {
+        subjects: filterSubjects,
+        levels: filterLevels,
+    };
 
-function clearEligibleCoursesTable() { // Clear table rows for repopulation
-    const eligibleCoursesTableBody = document.getElementById("eligibleCoursesTableBody"); // Get <tbody> object for eligibleCoursesTable
-    eligibleCoursesTableBody.innerHTML = ""; // Clear <tbody> object for eligibleCoursesTable
-}
+    const filteredCourses = filterCourses(possibleCourses, filterInfo); // Get filtered Courses
+    const headers = getHeaders("eligibleCourseList"); // Get headers in eligibleCourseList table
+    const id = "eligibleCourseListBody"; // get id of table body in eligibleCourseList
+
+    clearTable(id); // Clear current table rows, will be repopulated
+    populateCourseTable(id, filteredCourses, headers); // populate rows in eligibleCourseList
+});

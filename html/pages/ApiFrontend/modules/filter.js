@@ -1,186 +1,45 @@
+export function filterCourses(courses, filterInfo) { // Filters an array of courses based on filter info
+    const result = []; // Stores filtered courses
 
-filterButton.addEventListener("click", () => {
-    filterCourses();
-});
+    const matchSubject = Boolean(filterInfo.subjects.length); // Stores true if we must match subject
+    const matchLevel = Boolean(filterInfo.levels.length); // Stores true if we must match level
+    if (!matchSubject && !matchLevel) return courses; // Early return if no filtering
 
-showHideFiltersButton.addEventListener("click", () => {
-    hideShowCatagories();
-});
+    courses.forEach((course) => { // For each course, match filter
+        const subject = course.courseCode.replace(/\*\d+/g, ''); // Get subject string
+        const level = course.courseCode.replace(/[^0-9]/g, '')[0] + '000'; // Get level string
+        let match = false; // Stores true if filter match found
 
-function hideShowCatagories() {
-    var catagories = document.getElementsByClassName("categories");
-    
-    Array.from(catagories).forEach((x) => {
-        if (x.style.display === "none") {
-          x.style.display = "block";
-        } else {
-          x.style.display = "none";
-        }
-      })
-} 
+        // FIND FILTER MATCH
+        if (matchSubject && matchLevel) match = filterInfo.subjects.includes(subject) && filterInfo.levels.includes(level);
+        else if (matchSubject) match = filterInfo.subjects.includes(subject);
+        else if (matchLevel) match = filterInfo.levels.includes(level);
+        else match = true;
 
-function updateFilters() {
-    const eligibleCoursesTable = document.getElementById("eligibleCoursesTable");
-    const courseCodeFilter = document.getElementById("courseCode");
-    const courseCodePrefixes = document.getElementsByClassName("courseCodePrefixes")[0];
-    const courseCodeLevels = document.getElementsByClassName("courseCodeLevels")[0];
-
-    // Clear existing filters
-    courseCodePrefixes.innerHTML = "";
-    courseCodeLevels.innerHTML = "";
-
-    const courseCodes = new Set(); // Use a Set to store unique course codes
-    const courseLevels = new Set();
-
-    Array.from(eligibleCoursesTableBody.rows).forEach((row) => {
-        const courseCode = row.cells[0].textContent;
-        codePrefix = courseCode.split("*")[0];
-
-        // Add course prefix html 
-        if (!courseCodes.has(codePrefix)) {
-            
-            // Create checkbox
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.className = 'form-check-input';
-            checkbox.id = codePrefix;
-            checkbox.name = "course-code-prefix";
-
-            // Create label
-            const label = document.createElement('label');
-            label.className = 'form-check-label'; 
-            label.htmlFor = codePrefix;
-            label.textContent = codePrefix;
-
-            // Create div with form-check classes
-            const div = document.createElement('div');
-            div.className = 'form-check form-switch';
-            div.style = 'color:white; background:#212529;';
-
-            // Append elements
-            div.appendChild(checkbox);
-            div.appendChild(label);
-
-            // Add to dom
-            courseCodePrefixes.appendChild(div);
-            courseCodes.add(codePrefix);
-        }
+        if (match) result.push(course); // Add course if filter match found
     });
 
-    // Add Course levels html
-    Array.from(eligibleCoursesTableBody.rows).forEach((row) => {
-        const courseCode = row.cells[0].textContent;
-        level = courseCode.charAt(courseCode.indexOf("*") + 1);
-
-        if(level == '1' || level == '2' || level == '3' || level == '4' || level == '5') {
-            if(!courseLevels.has(level)){
-
-            // Create checkbox
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.className = 'form-check-input';
-            checkbox.id = level;
-            checkbox.name = "course-code-level"
-
-            // Create label
-            const label = document.createElement('label');
-            label.className = 'form-check-label'; 
-            label.htmlFor = courseCode;
-            label.textContent = level;
-
-            // Create div with form-check classes
-            const div = document.createElement('div');
-            div.className = 'form-check form-switch';
-            div.style = 'color:white; background:#212529;';
-
-            // Append elements
-            div.appendChild(checkbox);
-            div.appendChild(label);
-            
-                // Add the course code to the Set
-                courseCodeLevels.appendChild(div);
-                courseLevels.add(level);
-            }
-        }
-    });
+    return result;
 }
 
-function filterCourses() {
-	let selectedCourseCodeFilters = [];
-    let selelectedCourseLevelFilters = [];
-    
-	// Get all checked checkboxes
-	const prefixCheckboxes = document.getElementsByName("course-code-prefix");
-    const courseCodeLevelsCheckboxes = document.getElementsByName("course-code-level");
-    
-	// Loop through checkboxes and add id to filters array if checked
-	for(let i = 0; i < prefixCheckboxes.length; i++) {
-    	if(prefixCheckboxes[i].checked) {
-        	selectedCourseCodeFilters.push(prefixCheckboxes[i].id);
-            // alert(prefixCheckboxes[i].id);
-    	}
-	}
+export function getSubjects(courses) {
+    const subjects = new Set(); // Stores a set of subjects
 
-     for(let i = 0; i < courseCodeLevelsCheckboxes.length; i++) {
-         if(courseCodeLevelsCheckboxes[i].checked) {
-            selelectedCourseLevelFilters.push(courseCodeLevelsCheckboxes[i].id);
-            // alert(courseCodeLevelsCheckboxes[i].id);
-        }
-    }
-    
-	// Get table body
-	let tableBody = document.getElementById("eligibleCoursesTableBody");
-    
-	// Loop through rows
+    courses.forEach((course) => { // Loop through all courses
+        const subject = course.courseCode.replace(/\*\d+/g, ''); // Get subject string
+        subjects.add(subject); // Add subject to subjects set
+    });
 
-    if(selectedCourseCodeFilters.length != 0){
-        for(let i = tableBody.rows.length - 1; i >= 0; i--) {
-   	 
-            // Get course code from first cell
-            let courseCode = tableBody.rows[i].cells[0].innerText;
-            
-            // Check if course code doesn't start with any of the filters
-            let matchFound = false;
-            for(let j = 0; j < selectedCourseCodeFilters.length; j++) {
-                if(courseCode.startsWith(selectedCourseCodeFilters[j])) {
-                    matchFound = true;
-                    break;
-                }
-            }
-            
-            // If no match, delete the row
-            if(!matchFound) {
-                tableBody.deleteRow(i);
-            }
-        }   
-    }
+    return Array.from(subjects).sort(); // Return set of subjects
+}
 
+export function getLevels(courses) {
+    const levels = new Set(); // Stores a set of levels
 
-    // Loop through rows and delete course level filters that do not match
+    courses.forEach((course) => { // Loop through all courses
+        const level = course.courseCode.replace(/[^0-9]/g, '')[0] + '000'; // Get level string
+        levels.add(level); // Add level to levels set
+    });
 
-    if(selelectedCourseLevelFilters.length != 0){
-        for(let i = tableBody.rows.length - 1; i >= 0; i--) {
-            
-            // Get course code from first cell
-            let courseCode = tableBody.rows[i].cells[0].innerText;
-            let level = courseCode.charAt(courseCode.indexOf("*") + 1);
-            
-            // Check if course code doesn't start with any of the filters
-            let matchFound = false;
-            for(let j = 0; j < selelectedCourseLevelFilters.length; j++) {
-                // alert(level, selelectedCourseLevelFilters[j]);
-                if(level === (selelectedCourseLevelFilters[j])) {
-                    matchFound = true;
-                    break; 
-                }
-            }
-            
-            // If no match, delete the row
-            if(!matchFound) {
-                tableBody.deleteRow(i);
-            }
-        }   
-    }
-
-    updateFilters();
+    return Array.from(levels).sort(); // Return set of levels
 }
