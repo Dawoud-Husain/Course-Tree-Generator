@@ -7,7 +7,7 @@ function htmlTitle(html) {
 }
 
 const subjectsEndpoint = `${api_url}getSubjects/getSubjects.php`;
-const getEndpoint = `${api_url}course/Course.php`;
+const getEndpoint = `${api_url}Course/Course.php`;
 
 async function getSubjects() {
  const response = await fetch(subjectsEndpoint, {
