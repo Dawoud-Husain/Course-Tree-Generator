@@ -4,11 +4,11 @@ export function getCourses() {
     const url = `${api_url}Course/Course.php`; // Store url of GET request
     const xhttp = new XMLHttpRequest(); // Make a network request
     
-    xhttp.open("GET", url, false); // Define GET request to url
-    xhttp.send(); // Send GET request to url
+    xhttp.open("POST", url, false); // Define POST request to url
+    xhttp.send(JSON.stringify({})); // Send POST request to url
 
     const response = JSON.parse(xhttp.responseText); // Fetch response as JS object
-    return response.length ? response : undefined; // Return result   
+    return response; // Return result
 }
 
 export function getPossibleCourses(userCourseCodes) {

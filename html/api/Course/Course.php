@@ -1,6 +1,8 @@
 <?php
+
 require_once "../db.php";
 $pdo = getDatabaseConnection();
+
 if ($pdo === null) {
     http_response_code(500);
     echo "Internal Server Error";
@@ -8,127 +10,91 @@ if ($pdo === null) {
 }
 
 // Check what request is being made or else return error 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $requestBody = file_get_contents("php://input"); // Read raw input stream of POST request
+    $requestBody = json_decode($requestBody); // Decode json string into PHP datatypes 
+    // echo json_encode($requestBody); // Encode json string to echo 
+
     $checkMulti = False;
     $whereStatement = 'WHERE';
     $tableStatement = "";
     $query = "";
 
     // Check through each to see what query parameters we have and build the query 
-    if (isset($_GET['preq'])) {
-       $tableStatement = $tableStatement . '(SELECT * FROM Prerequisite WHERE description LIKE \'%' .$_GET['preq'].'%\') as Prerequisite ';
-     }
-    if (isset($_GET['id'])) {
-       $whereStatement = $whereStatement . ' courseCode LIKE \'%' .$_GET['id'].'%\'';
-       $checkMulti = True;
+    if (isset($requestBody -> preq)) {
+        $preq = $requestBody -> preq;
+        $tableStatement = $tableStatement . '(SELECT * FROM Prerequisite WHERE description LIKE \'%' . $preq .'%\') as Prerequisite ';
     }
-    if (isset($_GET['name'])) {
-        if($checkMulti== TRUE){
-            $whereStatement = $whereStatement . ' AND';
-        }
+
+    if (isset($requestBody -> id)) {
+        $id = $requestBody -> id;
+        $whereStatement = $whereStatement . ' courseCode LIKE \'%' . $id .'%\'';
+        $checkMulti = True;
+    }
+
+    if (isset($requestBody -> name)) {
+        if ($checkMulti == True) $whereStatement = $whereStatement . ' AND';
+        $name = $requestBody -> name;
+        
         $whereStatement = $whereStatement . ' courseName LIKE \'%' .$_GET['name'].'%\'';
         $checkMulti = True;
     }
-    if (isset($_GET['description'])) {
-        if($checkMulti== TRUE){
-            $whereStatement = $whereStatement . ' AND';
-        }
-        $whereStatement = $whereStatement . ' courseDesc LIKE \'%' .$_GET['description'].'%\'';
+
+    if (isset($requestBody -> description)) { // description
+        if ($checkMulti == True) $whereStatement = $whereStatement . ' AND';
+        $description = $requestBody -> description;
+        
+        $whereStatement = $whereStatement . ' courseDesc LIKE \'%' . $description .'%\'';
         $checkMulti = True; 
     }
 
-    if (isset($_GET['credit'])) {
-        if($checkMulti== TRUE){
-            $whereStatement = $whereStatement . ' AND';
-        }
-        $whereStatement = $whereStatement . ' credits = ' .$_GET['credit'];
-        $checkMulti = True; 
+    if (isset($requestBody -> credit)) { // credit
+        if ($checkMulti == True) $whereStatement = $whereStatement . ' AND';
+        $credit = $requestBody -> credit;
+
+        $whereStatement = $whereStatement . ' credits = ' . $credit;
+        $checkMulti = True;
     }
-    if (isset($_GET['location'])) {
-        if($checkMulti== TRUE){
-            $whereStatement = $whereStatement . ' AND';
-        }
+
+    if (isset($requestBody -> location)) { // location
+        if ($checkMulti == True) $whereStatement = $whereStatement . ' AND';
+        $location = $requestBody -> location;
+
         $whereStatement = $whereStatement . ' location LIKE \'%' .$_GET['location'].'%\'';
         $checkMulti = True; 
     }
-    if (isset($_GET['restriction'])) {
-        if($checkMulti== TRUE){
-            $whereStatement = $whereStatement . ' AND';
-        }
+
+    if (isset($requestBody -> restriction)) {
+        if ($checkMulti == True) $whereStatement = $whereStatement . ' AND';
+        $restriction = $requestBody -> restriction;
+
         $whereStatement = $whereStatement . ' restriction LIKE \'%' .$_GET['restriction'].'%\'';
         $checkMulti = True; 
     }
-    if(strcmp($tableStatement,"") === 0){
-        $query =  "SELECT * FROM Course ";
-    }else{
-        $query =  "SELECT * FROM Course Natural Join ". $tableStatement." ";
+    
+    if (strcmp($tableStatement,"") === 0) {
+        $query = "SELECT * FROM Course ";
+    } else {
+        $query = "SELECT * FROM Course Natural Join ". $tableStatement." ";
     }
-    if(strcmp($whereStatement,"WHERE")!=0){
-        $query = $query.$whereStatement;
+
+    if (strcmp($whereStatement,"WHERE") != 0) {
+        $query = $query . $whereStatement;
     }
-    // Execute the query
-    try{
-    header("Content-Type: application/json");
-    $statement =  $pdo->query($query);      
-    $results = $statement->fetchAll(PDO::FETCH_ASSOC);
-    $json = json_encode($results);
-    echo $json; 
-    http_response_code(200);
-    }catch (PDOException $e) {
-	echo $e->getMessage();
-    http_response_code(500);
+
+    try {
+        // Execute the query
+        header("Content-Type: application/json");
+        $statement =  $pdo->query($query);      
+        $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        echo json_encode($results);
+        http_response_code(200);
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+        http_response_code(500);
     }
-} else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // read raw input stream of POST request
-        $requestBody = file_get_contents("php://input"); 
 
-        // decode json string into PHP datatypes 
-        $courseData = json_decode($requestBody); // echo json_encode($data[0]);
-
-        // insert courses into db
-        foreach($courseData as $course) {        
-            // echo $course->courseCode;
-            try {
-                $query = "INSERT INTO Course (courseCode, courseName, courseDesc, credits, location, restrictions, prereq1,
-                                                prereq2, prereq3, prereq4, prereq5, prereq6, prereq7)
-                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                
-                // create prepared statement
-                $statement = $pdo->prepare($query);
-
-                // bind values
-                $statement->bindParam(1, $course->courseCode, PDO::PARAM_STR);
-                $statement->bindParam(2, $course->courseName, PDO::PARAM_STR);
-                $statement->bindParam(3, $course->courseDesc, PDO::PARAM_STR);
-                $statement->bindParam(4, $course->credits, PDO::PARAM_STR);
-                $statement->bindParam(5, $course->locations, PDO::PARAM_STR);
-                $statement->bindParam(6, $course->restrictions, PDO::PARAM_STR);
-                $statement->bindParam(7, $course->prereq1, PDO::PARAM_STR);
-                $statement->bindParam(8, $course->prereq2, PDO::PARAM_STR);
-                $statement->bindParam(9, $course->prereq3, PDO::PARAM_STR);
-                $statement->bindParam(10, $course->prereq4, PDO::PARAM_STR);
-                $statement->bindParam(11, $course->prereq5, PDO::PARAM_STR);
-                $statement->bindParam(12, $course->prereq6, PDO::PARAM_STR);
-                $statement->bindParam(13, $course->prereq7, PDO::PARAM_STR);
-
-                // execute statement
-                $statement->execute();
-
-                // check if row was added
-                if ($statement->rowCount() > 0) {
-                    header("Content-Type: text/plain");
-                    echo "Success added: " . $course->courseCode;
-                    http_response_code(200);
-                } else {
-                    header("Content-Type: text/plain");
-                    echo "Internal Server Error";
-                    http_response_code(500);
-                }
-            } catch(Exception $e) {
-                echo 'Exception occured: ' . $e->getMessage();
-                http_response_code(500);
-            } 
-        }
 } else if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
 
     $courses = json_decode(file_get_contents('php://input'), true);
