@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($checkMulti == True) $whereStatement = $whereStatement . ' AND';
         $name = $requestBody -> name;
         
-        $whereStatement = $whereStatement . ' courseName LIKE \'%' .$_GET['name'].'%\'';
+        $whereStatement = $whereStatement . ' courseName LIKE \'%' . $name . '%\'';
         $checkMulti = True;
     }
 
@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($checkMulti == True) $whereStatement = $whereStatement . ' AND';
         $location = $requestBody -> location;
 
-        $whereStatement = $whereStatement . ' location LIKE \'%' .$_GET['location'].'%\'';
+        $whereStatement = $whereStatement . ' location LIKE \'%' . $location . '%\'';
         $checkMulti = True; 
     }
 
@@ -68,8 +68,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($checkMulti == True) $whereStatement = $whereStatement . ' AND';
         $restriction = $requestBody -> restriction;
 
-        $whereStatement = $whereStatement . ' restriction LIKE \'%' .$_GET['restriction'].'%\'';
-        $checkMulti = True; 
+        $whereStatement = $whereStatement . ' restriction LIKE \'%' . $restriction . '%\'';
+        $checkMulti = True;
     }
     
     if (strcmp($tableStatement,"") === 0) {
