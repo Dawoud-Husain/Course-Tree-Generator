@@ -107,6 +107,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $statement =  $pdo->query($query);      
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
+        foreach ($results as $key => $jsonString) {
+            $data = $jsonString;
+            $prereqStatement = $pdo->query('SELECT description FROM Prerequisite WHERE courseCode LIKE \'%' .$data['courseCode'].'%\'');
+            $prereqResults = $prereqStatement->fetchAll(PDO::FETCH_ASSOC);
+            $prereqString = null;
+            foreach ($prereqResults as $key2 => $prereqKey) {
+                if ($prereqKey['description'] != "") {
+                    $prereqString[$key2] = $prereqKey['description'];
+                }  
+            }
+            $data['prerequisites'] = $prereqString;
+            $results[$key] = $data;
+        }
+        
         echo json_encode($results);
         http_response_code(200);
     } catch (PDOException $e) {
