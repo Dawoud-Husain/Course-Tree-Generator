@@ -1,11 +1,13 @@
+const api_url = window.location.href.replace(/\/pages\/.*/, '/api/'); // Get url of api directory
+
 function htmlTitle(html) {
  const container = document.createElement("div");
  container.innerHTML = html;
  return container;
 }
 
-const subjectsEndpoint = "https://cis3760f23-04.socs.uoguelph.ca/api/getSubjects/getSubjects.php";
-const getEndpoint = "https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course.php?id=";
+const subjectsEndpoint = `${api_url}getSubjects/getSubjects.php`;
+const getEndpoint = `${api_url}course/Course.php`;
 
 async function getSubjects() {
  const response = await fetch(subjectsEndpoint, {
@@ -32,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
  // List of Subjects listener
  dropdownButton.addEventListener("click", async function () {
-     // Toggle the display of the dropdown menu
+     // Toggle the display of the dropdown menuP
      dropdownMenu.style.display = dropdownMenu.style.display === 'none' ? 'block' : 'none';
 
      // Clear existing items before fetching new ones
@@ -48,24 +50,30 @@ document.addEventListener("DOMContentLoaded", function () {
          // Selected course listener
          dropdownItem.addEventListener("click", async function () {
              const selectedSubjectPara = document.createElement("p");
+             selectedSubjectPara.className = "SelectedSubjectPara";
+             selectedSubjectPara.innerText = "";
              selectedSubjectPara.innerText = "Selected Subject: " + subject.Subject;
              selectedSubjectPara.style.color = "white";
              header.appendChild(selectedSubjectPara);
 
              const selectedSubject = subject.Subject;
-             const updatedEndpoint = `${getEndpoint + selectedSubject}`;
+             const updatedEndpoint = `${getEndpoint}`;
              console.log("GET courses:", updatedEndpoint);
 
              // Fetch courses based on the updated endpoint
              const coursesResponse = await fetch(updatedEndpoint, {
-                 method: "GET",
+                 method: "POST",
                  mode: "cors",
                  headers: {
                      "Content-Type": "application/json"
-                 }
+                 },
+                 body: JSON.stringify({
+                    "id": selectedSubject + "*"
+                 })
              });
 
              const coursesData = await coursesResponse.json();
+             console.log(coursesData);
 
              // Clear existing nodes and edges
              nodes.clear();
