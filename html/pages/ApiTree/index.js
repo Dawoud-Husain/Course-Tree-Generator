@@ -49,9 +49,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
          // Selected course listener
          dropdownItem.addEventListener("click", async function () {
+            const selectedSubjectParas = [...document.getElementsByClassName("SelectedSubjectPara")];
+            selectedSubjectParas.forEach((selectedSubjectPara) => selectedSubjectPara.remove());
+
              const selectedSubjectPara = document.createElement("p");
              selectedSubjectPara.className = "SelectedSubjectPara";
-             selectedSubjectPara.innerText = "";
+
              selectedSubjectPara.innerText = "Selected Subject: " + subject.Subject;
              selectedSubjectPara.style.color = "white";
              header.appendChild(selectedSubjectPara);
