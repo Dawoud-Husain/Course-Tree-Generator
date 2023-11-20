@@ -273,7 +273,7 @@
 
         <p>
           The <code>GET /courses</code> endpoint retrieves courses from the
-          database. It supports filtering courses through query parameters.
+          database. It supports filtering courses through a JSON body.
         </p>
 
         <br />
@@ -879,6 +879,86 @@ https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course.php?
 </code></pre>
           </div>
         </div>
+
+
+  <br /><br />
+
+  <h2>Get Possible Courses</h2>
+
+  <p>Returns courses a student can take based on courses already taken</p>
+
+  <div class="endpoint collapsible">
+    <p>Has No Courses Taken</p>
+
+    <div class="content">
+      <code>
+        POST https://cis3760f23-04.socs.uoguelph.ca/api/Course/getPossibleCourses.php
+      </code>
+
+      <pre><code>{
+  "coursesTaken":[]
+}</code></pre>
+
+      <hr />
+
+      <p>Returns all courses</p>
+
+
+      <pre><code>[{
+  "courseCode":"ACCT*1220",
+  "courseName":"Introductory Financial Accounting",
+  "courseDesc":"This course will introduce students to the fundamental concepts and practices of Financial Accounting. Students are expected to become adept at performing the functions related to the accounting cycle, including the preparation of financial statements.",
+  "credits":"0.50",
+  "location":"Guelph",
+  "restrictions":"ACCT*2220. This is a Priority Access Course. Enrolment may be restricted to particular programs or specializations. See department for more information.","description":""} 
+  
+  ... 
+]
+
+</code></pre>
+
+    </div>
+  </div>
+
+  <div class="endpoint collapsible">  
+    <p>Has Taken Some Courses</p>
+
+    <div class="content">
+      <code>
+        POST https://cis3760f23-04.socs.uoguelph.ca/api/Course/getPossibleCourses.php
+      </code>  
+
+      <pre><code>{
+  "coursesTaken":[
+    "CIS*2030",
+    "CIS*1910",
+    "CIS*1500"
+  ]
+}</code></pre>
+
+      <br />
+
+      <p>Returns courses that can be taken</p>
+
+      <pre><code>
+[{
+  "courseCode":"CIS*2170",
+  "courseName":"User Interface Design",
+  "courseDesc":"This course is a practical introduction to the area of user interface construction. Topics include user interface components and their application, best practices for user interface design, approaches to prototyping, and techniques for assessing interface suitability.",
+  "credits":"0.75",
+  "location":"Guelph",
+  "restrictions":""
+}]
+
+      </code></pre>
+    </div>
+  </div>
+
+  <br><br>
+
+  <!-- existing get subjects example -->
+
+</section>
       </section>
 
       <section id="appendix" class="appendix">
@@ -998,6 +1078,13 @@ https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course.php?
             <td>none</td>
             <td>200, 400, 500</td>
           </tr>
+
+          <tr>  
+            <td>Get Possible Courses</td>
+            <td>coursesTaken array</td>
+            <td>200, 400, 500</td>
+          </tr>
+
         </table>
       </section>
     </main>

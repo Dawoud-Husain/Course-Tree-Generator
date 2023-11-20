@@ -34,35 +34,38 @@
     </head>
     <body>
         <nav class="navbar navbar-expand-lg ms-auto" style="background-color: #1D75DE;">
-            <div class="container-fluid"  style="background-color: #1D75DE;">
-                <a class="navbar-brand">104</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                    <a class="nav-link" href="#features">Features</a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link" href="#setup">Setup</a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link" href="#using">Using the Software</a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link" href="#aboutTeam">Team</a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link" href=<?php echo $url . "pages/ApiDoc/" ?>>Api Documentation</a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link" href=<?php echo $url . "pages/ApiFrontend/" ?>>Api Frontend</a>
-                    </li>
-                </ul>
+                <div class="container-fluid"  style="background-color: #1D75DE;">
+                    <a class="navbar-brand">104</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                        <a class="nav-link" href="#features">Features ✅</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="#setup">Setup 🔌</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="#using">Using the Software ⌨️</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="#aboutTeam">Team 🧑‍💻</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href=<?php echo $url . "pages/ApiDoc/" ?>>Api Documentation 📄</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href=<?php echo $url . "pages/ApiFrontend/" ?>>Api Frontend 🖥️</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href=<?php echo $url . "pages/ApiTree/" ?>>Api Tree 🌳</a>
+                        </li>
+                    </ul>
+                    </div>
                 </div>
-            </div>
-        </nav>
+            </nav>
 
         <section class="homepageBody">
             <p class="homepageBodyTitle">F_23_CIS3760: Group_104</p>
