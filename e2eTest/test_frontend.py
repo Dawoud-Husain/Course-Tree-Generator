@@ -1,6 +1,8 @@
 import re
+from time import sleep
 from playwright.sync_api import Page, expect, sync_playwright
 
+# Tests the navbar to see if it's take the user to the correct places
 def test_navbar(page: Page):
     page.goto("https://cis3760f23-04.socs.uoguelph.ca")
     expect(page.get_by_text("F_23_CIS3760: Group_104")).to_be_visible()
@@ -22,7 +24,9 @@ def test_navbar(page: Page):
     page.get_by_role("link", name="Api Frontend").click()
     page.goto("https://cis3760f23-04.socs.uoguelph.ca")
 
-def test_getting_started(page: Page):
+
+# Tests the landing page
+def test_landing(page: Page):
     page.goto("https://cis3760f23-04.socs.uoguelph.ca")
     page.get_by_role("link", name="Setup").click()
     expect(page.get_by_role("heading", name="Step 1: Download The Software")).to_be_visible()
@@ -32,6 +36,8 @@ def test_getting_started(page: Page):
     expect(page.get_by_role("heading", name="Step 3: Open the excel workbook")).to_be_visible()
     expect(page.locator("#setup").get_by_role("img").nth(2)).to_be_visible()
 
+
+# Tests the getting started
 def test_getting_start(page:Page):
     page.goto("https://cis3760f23-04.socs.uoguelph.ca")
     expect(page.get_by_role("link", name="Using the Software")).to_be_visible()
@@ -43,22 +49,145 @@ def test_getting_start(page:Page):
     expect(page.locator("#using").get_by_role("img").nth(1)).to_be_visible()
     expect(page.locator("#using").get_by_role("img").nth(2)).to_be_visible()
 
-
+# Tests to see if frontend components exists on the APIFrontend page
 def test_Api_front_end_components(page:Page):
     page.goto("https://cis3760f23-04.socs.uoguelph.ca/pages/ApiFrontend/")
     expect(page.get_by_role("heading", name="Course Finder")).to_be_visible()
     expect(page.get_by_role("img", name="Person reading script")).to_be_visible()
-    expect(page.get_by_role("heading", name="1. Enter your courses")).to_be_visible()
-    expect(page.get_by_placeholder("Course code")).to_be_visible()
-    expect(page.get_by_role("button", name="Enter")).to_be_visible()
-    expect(page.get_by_role("columnheader", name="Course", exact=True)).to_be_visible()
+    expect(page.get_by_role("heading", name="1. Add your completed courses")).to_be_visible()
+    expect(page.get_by_role("columnheader", name="select")).to_be_visible()
+    expect(page.locator("#courseList").get_by_role("columnheader", name="courseCode")).to_be_visible()
+    expect(page.locator("#courseList").get_by_role("columnheader", name="courseName")).to_be_visible()
+    expect(page.get_by_text("Your completed courses:")).to_be_visible()
+    expect(page.get_by_role("heading", name="2. Click generate to view eligible courses")).to_be_visible()
     expect(page.get_by_role("button", name=" Filters")).to_be_visible()
+    page.get_by_role("button", name=" Filters").click()
     expect(page.get_by_role("button", name="SUBJECT")).to_be_visible()
     expect(page.get_by_role("button", name="LEVEL")).to_be_visible()
     expect(page.get_by_role("button", name="Apply")).to_be_visible()
     expect(page.get_by_role("button", name="Generate")).to_be_visible()
-    expect(page.locator("#eligbleCoursesTableContainer")).to_be_visible()
-    expect(page.get_by_role("columnheader", name="Restrictions")).to_be_visible()
-    expect(page.get_by_role("columnheader", name="Course Code")).to_be_visible()
-    expect(page.get_by_role("columnheader", name="Name")).to_be_visible()
-    expect(page.get_by_role("columnheader", name="Description")).to_be_visible() 
+
+# Test the tables of courses on the page
+def test_course_table(page:Page):
+    page.goto("https://cis3760f23-04.socs.uoguelph.ca/pages/ApiFrontend/")
+    page.get_by_role("row", name="CIS*1300 Programming").get_by_role("checkbox").check()
+    page.get_by_text("Your completed courses: 1) CIS*1300 - Programming").click()
+    page.get_by_role("row", name="CIS*1300 Programming").get_by_role("checkbox").uncheck()
+    page.get_by_text("Your completed courses:").click()
+
+# Tests CIS*1300 search to see if we come back with the correct results
+def test_course_search(page:Page):
+    page.goto("https://cis3760f23-04.socs.uoguelph.ca/pages/ApiFrontend/")
+    page.get_by_role("row", name="CIS*1300 Programming").get_by_role("checkbox").check()
+    page.get_by_text("Your completed courses: 1) CIS*1300 - Programming").click()
+    page.get_by_role("row", name="CIS*1300 Programming").get_by_role("checkbox").uncheck()
+    page.get_by_text("Your completed courses:").click()
+    page.get_by_role("row", name="CIS*1300 Programming").get_by_role("checkbox").check()
+    page.get_by_text("Your completed courses: 1) CIS*1300 - Programming").click()
+    page.get_by_role("button", name="Generate").click()
+    count = page.locator("#eligibleCourseListBody").locator('tr').count()
+    assert count == 2
+
+# Test if we can check and uncheck CIS*1300 box 
+def test_course_delete(page:Page):
+    page.goto("https://cis3760f23-04.socs.uoguelph.ca/pages/ApiFrontend/")
+    page.get_by_role("row", name="CIS*1300 Programming").get_by_role("checkbox").check()
+    page.get_by_text("Your completed courses: 1) CIS*1300 - Programming").click()
+    page.get_by_role("row", name="CIS*1300 Programming").get_by_role("checkbox").uncheck()
+    page.get_by_text("Your completed courses:").click()
+    page.get_by_role("row", name="CIS*1300 Programming").get_by_role("checkbox").check()
+    page.get_by_text("Your completed courses: 1) CIS*1300 - Programming").click()
+    page.get_by_role("button", name="Generate").click()
+    page.get_by_role("row", name="CIS*2170 User Interface Design This course is a practical introduction to the area of user interface construction. Topics include user interface components and their application, best practices for user interface design, approaches to prototyping, and techniques for assessing interface suitability. 0.75 Guelph x").get_by_role("button").click()
+    count = page.locator("#eligibleCourseListBody").locator('tr').count()
+    assert count == 1
+
+# Test if we can filter out courses with Operating Systems.
+def test_course_filter(page:Page):
+    page.goto("https://cis3760f23-04.socs.uoguelph.ca/pages/ApiFrontend/")
+    page.get_by_role("row", name="CIS*3110 Operating Systems I").get_by_role("checkbox").check()
+    page.get_by_role("button", name="Generate").click()
+    page.get_by_role("button", name=" Filters").click()
+    page.get_by_role("button", name="SUBJECT").click()
+    page.get_by_text("CIS", exact=True).click()
+    page.get_by_label("CIS").check()
+    page.get_by_label("CIS").uncheck()
+    page.get_by_role("button", name="LEVEL").click()
+    page.get_by_text("3000", exact=True).click()
+    page.get_by_text("4000", exact=True).click()
+    page.get_by_label("4000").click()
+    page.get_by_text("3000", exact=True).click()
+    page.get_by_role("button", name="SUBJECT").click()
+    page.get_by_role("button", name="SUBJECT").click()
+    page.get_by_role("button", name="LEVEL").click()
+    
+    # Filter for 3000 courses 
+    page.get_by_label("3000").check()
+    page.get_by_role("button", name="Apply").click()
+    count = page.locator("#eligibleCourseListBody").locator('tr').count()
+    assert count == 2
+    
+    # Unfilter 3000 courses and Filter 4000 Course
+    page.get_by_role("button", name="LEVEL").click()
+    page.get_by_label("3000").uncheck()
+    page.get_by_label("4000").check()
+    page.get_by_role("button", name="Apply").click()
+    count = page.locator("#eligibleCourseListBody").locator('tr').count()
+    assert count == 1
+
+# This tests for the Tree component to see if the basic html components are visible
+def test_my_app(page:Page):
+
+    page.goto("https://cis3760f23-04.socs.uoguelph.ca/pages/ApiTree/")
+    expect(page.get_by_role("img", name="map")).to_be_visible() 
+    expect(page.get_by_role("button", name="Select Subject")).to_be_visible() 
+    page.get_by_role("button", name="Select Subject").click()
+    page.get_by_role("button", name="Select Subject").click()
+    expect(page.get_by_text("Course Mapper")).to_be_visible() 
+    page.get_by_text("CIS").click()
+    expect(page.get_by_text("Selected Subject: CIS")).to_be_visible() 
+
+# This tests for the generate tree for all the CIS courses
+def test_tree_components(page:Page, assert_snapshot):
+    
+    page.goto("https://cis3760f23-04.socs.uoguelph.ca/pages/ApiTree/")
+    page.get_by_role("img", name="map").click()
+    page.get_by_role("button", name="Select Subject").click()
+    page.get_by_role("button", name="Select Subject").click()
+    page.get_by_text("Course Mapper").click()
+    page.get_by_text("CIS").click()
+    
+    graph_element = page.locator('canvas')
+    bounding_box = graph_element.bounding_box()
+    center_x = bounding_box['x'] + bounding_box['width'] / 2
+    center_y = bounding_box['y'] + bounding_box['height'] / 2
+
+    # Screenshot the page and check if the screenshot matches
+    page.mouse.move(center_x, center_y)
+    page.mouse.wheel(0,250)
+    assert_snapshot(page.screenshot(), threshold=0.7, fail_fast=False,name =' test_tree_components[chromium][darwin][1].png' )
+    page.mouse.wheel(0,500)
+    assert_snapshot(page.screenshot(), threshold=0.7, fail_fast=False,name =' test_tree_components[chromium][darwin][2].png')
+    page.mouse.wheel(0,750)
+    assert_snapshot(page.screenshot(), threshold=0.7, fail_fast=False,name =' test_tree_components[chromium][darwin][3].png')
+
+# This tests for the generated tree but also tests if the user can click on the tree to see what courses is needed
+def test_tree_components_highlight(page:Page, assert_snapshot):
+    page.goto("https://cis3760f23-04.socs.uoguelph.ca/pages/ApiTree/")
+    page.get_by_role("img", name="map").click()
+    page.get_by_role("button", name="Select Subject").click()
+    page.get_by_role("button", name="Select Subject").click()
+    page.get_by_text("Course Mapper").click()
+    page.get_by_text("CIS").click()
+
+    graph_element = page.locator('canvas')
+    bounding_box = graph_element.bounding_box()
+    center_x = bounding_box['x'] + bounding_box['width'] / 2
+    center_y = bounding_box['y'] + bounding_box['height'] / 2
+    page.mouse.move(center_x, center_y)
+    page.mouse.wheel(0,1000)
+
+    page.locator("canvas").click(position={"x":200,"y":948})
+    assert_snapshot(page.screenshot(), threshold=0.7, fail_fast=False,name =' test_tree_components_highlight[chromium][darwin][0].png' )
+    page.locator("canvas").click(position={"x":220,"y":948})
+    assert_snapshot(page.screenshot(), threshold=0.7, fail_fast=False,name =' test_tree_components_highlight[chromium][darwin][1].png' )
