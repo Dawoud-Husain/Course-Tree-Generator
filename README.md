@@ -12,10 +12,8 @@ We opted to use the vis network graph library to render the tree diagram as it p
 
 ## Refactoring
 
-This refactor improves the course finder code structure.
-
 Key changes includes:
-- extracting the API calls and filtering logic into separate modules
+- Extracting the API calls and filtering logic into separate modules
 - Tables were standardized into a reusable component to remove duplication and simplify data handling.
 - Header names are now dynamically fetched instead of hardcoded.
 - User data and filters are stored in variables rather than DOM for improved reusability.
@@ -24,4 +22,4 @@ Overall these changes make the code more modular, reusable and maintainable by r
 
 ## Testing 
 
-A series of  user stories were developed to validate the structure and interconnections of the trees for different subject areas. This helped detect any issues in how the prerequisite data was being interpreted or if the visual representation matched the underlying data model.
+A series of user stories were developed to validate the structure and interconnections of the trees for different subject areas. This helped detect any issues in how the prerequisite data was being interpreted or if the visual representation matched the underlying data model.
