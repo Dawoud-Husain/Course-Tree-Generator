@@ -1,42 +1,27 @@
-# Sprint 7
+# Course Tree Generator
+
+For this sprint, our team created a webpage that allows users to visualize the pre-requisite relationships between courses through an interactive tree diagram.
+
+## Setting up the Tree 
+
+When a subject is selected, the webpage fetches all the courses associated with that subject from the API. It then builds up the tree structure by adding each course as a node to the network graph. If a course has any pre-requisite courses listed, it creates edges between that course and its pre-requisites. The pre-requisites that come in as "1 of" strings listing multiple options are handled by splitting these out and creating edges joining to that course. By tracing these relationships, it is able to assemble the full tree structure programmatically based on the course data. This allows the tree to be updated automatically if the even if the course data changes in the future.
+
+## Using vis.js
+
+We opted to use the vis network graph library to render the tree diagram as it provides an easy to use set of components for visualizing dynamic relationships in a node-link format. Futhermore, it handles all the messy details of laying out the graph and includes useful interactions like node selection. The previous frameworks we evaluated (such as d3.js) were either too low level, requiring us to manually lay out all the nodes, or lacked the hierarchical layouts needed for a tree structure. The smooth rendering, zooming and performance of vis makes it ideal for visualizing complex relational data (i.e. Course Prerequisites) in an intuitive way for users to explore.  
 
 ## Refactoring
 
-In sprint 7, we've refactored our front-end API to use our own backend instead of team 404s. When we moved to using our own API, we updated some of it to improve time complexity. We've also updated our `getPossibleCourses` to properly handle ORs, 1OFs, ANDs, etc.
+This refactor improves the course finder code structure.
 
-We've also updated our filter code to fix a few bugs discovered in testing, including allowing courses to be filtered multiple times.
+Key changes includes:
+- extracting the API calls and filtering logic into separate modules
+- Tables were standardized into a reusable component to remove duplication and simplify data handling.
+- Header names are now dynamically fetched instead of hardcoded.
+- User data and filters are stored in variables rather than DOM for improved reusability.
 
-Additionally, we've refactored the code used to access the backend database and stored it in its own PHP function rather than global variables.
+Overall these changes make the code more modular, reusable and maintainable by removing duplication and improving separation of concerns - helping it scale better as needs change.
 
-## Clean URLs
+## Testing 
 
-Working with the NGINX settings, we were able to use our existing file structure, along with some rewrite rules, to ensure our URLs looked clean and did not contain file extensions. In order to do this, we used `try_files` to try files first as their initial URL but second as a directory.
-
-This is shown by the `$uri/`. This, along with the index variables set, means that with our file structure, where we use folders containing individual `index.php`s or `index.html`s, we can have the URLs clean.
-
-Second, the API calls are made with `Course.php` and `getPossibleCourses.php`. Initially, our API calls were:
-- [https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course.php](https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course.php)
-- [https://cis3760f23-04.socs.uoguelph.ca/api/Course/getPossibleCourses.php](https://cis3760f23-04.socs.uoguelph.ca/api/Course/getPossibleCourses.php)
-
-These are quite ugly, and using rewrite rules, we were able to change the calls. We can instead use:
-- [https://cis3760f23-04.socs.uoguelph.ca/api/getPossibleCourses](https://cis3760f23-04.socs.uoguelph.ca/api/getPossibleCourses)
-- [https://cis3760f23-04.socs.uoguelph.ca/api/Course](https://cis3760f23-04.socs.uoguelph.ca/api/Course)
-
-With these rules, there are no longer any file extensions used in URLs, and we've shortened the API calls for simplicity and ease of use. These rewrite rules simply replace parts of the URL with full versions and then recall them, so they are caught by the original rule that catches all `.php`s, which passes them over to FastCGI to handle the PHP coding.
-
-**Sources:**
-- [Baeldung - Forward HTTP POST Request using Rewrite in Nginx](https://www.baeldung.com/linux/forward-http-post-request-using-rewrite#:~:text=In%20Nginx%2C%20URL%20rewriting%20uses,HTTP%20method%20of%20the%20request.)
-- [NGINX Blog - Creating NGINX Rewrite Rules](https://www.nginx.com/blog/creating-nginx-rewrite-rules/)
-- [NGINX Wiki - Config Pitfalls](https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/)
-
-## Automated Testing
-
-We used the playwright library to create Python code for automated testing. We added tests for both our front-end and our API calls.
-
-## CI/CD
-
-In order to simplify pushing to production, we've used GitLab's own CI/CD pipeline functionality. This allows us to develop our production environment in a more secure way and automatically push from our current sprint branch.
-
-## Responsivity
-
-To make our webpage properly responsive, we used Bootstrap to dynamically resize elements and parts of the webpage and to have a proper mobile view. Bootstrap allows us to simply assign elements to its pre-made responsiveness items, and it does the work for us!
+A series of  user stories were developed to validate the structure and interconnections of the trees for different subject areas. This helped detect any issues in how the prerequisite data was being interpreted or if the visual representation matched the underlying data model.
