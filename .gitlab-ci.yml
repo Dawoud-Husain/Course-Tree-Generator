@@ -29,5 +29,6 @@ test:
     - python3 -m venv venv
     - source venv/bin/activate
     - pip install pytest-playwright
+    - pip install pytest-playwright-visual
     - playwright install
     - pytest

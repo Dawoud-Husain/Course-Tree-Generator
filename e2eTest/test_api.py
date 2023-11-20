@@ -1,4 +1,4 @@
-from playwright.sync_api import Page, expect, sync_playwright
+from playwright.sync_api import sync_playwright
 
 def test_load_courses_start(playwright: sync_playwright):
     context = playwright.request.new_context()
@@ -8,7 +8,11 @@ def test_load_courses_start(playwright: sync_playwright):
 
 def test_run_search(playwright: sync_playwright):
     context = playwright.request.new_context()
-    response = context.get("https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course?id=CIS*1300")
+    data = {
+    "id":"CIS*1300"
+    }
+    response = context.post("https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course",data = data)
+    
     assert response.ok
     assert response.status == 200
     assert response.headers["content-type"] == "application/json"
@@ -16,7 +20,12 @@ def test_run_search(playwright: sync_playwright):
 
 def test_multi_param_search(playwright: sync_playwright):
     context = playwright.request.new_context()
-    response = context.get("https://cis3760f23-04.socs.uoguelph.ca/api/Course/?credit=0.5&location=Guelph&name=Programming")
+    data = {
+    "name":"Programming",
+    "credit":0.5,
+    "location": "Guelph"
+    }
+    response = context.post("https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course",data = data)
     assert response.ok
     assert response.status == 200
     assert response.headers["content-type"] == "application/json"
@@ -24,7 +33,7 @@ def test_multi_param_search(playwright: sync_playwright):
 
 def test_run_no_params(playwright: sync_playwright):
     context = playwright.request.new_context()
-    response = context.get("https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course")
+    response = context.post("https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course")
     assert response.ok
     assert response.status == 200
     assert response.headers["content-type"] == "application/json"
@@ -32,11 +41,14 @@ def test_run_no_params(playwright: sync_playwright):
 
 def test_run_invalid(playwright: sync_playwright):
     context = playwright.request.new_context()
-    response = context.get("https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course?id=CIS*5000")
+    data = {
+    "id":"CIS*5000",
+    }
+    response = context.post("https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course")
     assert response.ok
     assert response.status == 200
     assert response.headers["content-type"] == "application/json"
-    assert response.text() == '[]'
+    assert response.json()
 
 def test_run_invalid_link(playwright: sync_playwright):
     context = playwright.request.new_context()
@@ -93,11 +105,8 @@ def test_delete_course(playwright: sync_playwright):
     assert response.body()
 
 
-
 def test_load_courses(playwright: sync_playwright):
     context = playwright.request.new_context()
     response = context.get('https://cis3760f23-04.socs.uoguelph.ca/api/loadcourses/loadcourses.php')
     assert response.ok
     assert response.status == 200
-
-    
