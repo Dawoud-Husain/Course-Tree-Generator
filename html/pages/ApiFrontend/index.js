@@ -7,33 +7,34 @@ let possibleCourses = []; // Stores possible courses the user can take
 const generateCourses = document.getElementById("generateCourses"); // Get generateCourses button
 const filters = document.getElementById("filters"); // Get filters
 const applyFilters = document.getElementById("applyFilters"); // Get apply filters button
-const loader = document.querySelector("#loading"); // select loading div
+const coursesTable = document.querySelector(".courseTable");
+const loader = document.getElementById("loading"); // select loading div
 
 window.onload = () => {
-    // displayLoadingIcon();
-    const courses = getCourses(); // Get list of courses in database
-    // let courses;
+    displayLoadingIcon();
 
-    // getCourses() // Get list of courses in database
-    //     .then(result => {
-    //         courses = result;
-    //         hideLoadingIcon();
-    //     })
+    getCourses() // Get list of courses in database
+        .then(result => {
+            const courses = result;
+            // hideLoadingIcon();
+            const headers = getHeaders("courseList"); // Get headers in courseList table
+            populateCourseTable("courseListBody", courses, headers); // Populate table with list of courses
+            hideLoadingIcon();
+            displayCoursesTable();
+        })
+}
 
 
-    const headers = getHeaders("courseList"); // Get headers in courseList table
-    populateCourseTable("courseListBody", courses, headers); // Populate table with list of courses
+function displayCoursesTable() {
+    coursesTable.style.display = "inline";
 }
 
 function displayLoadingIcon() {
-    loader.classList.add("display");
-    setTimeout(() => { // stop loading after set time
-        loader.classList.remove("display");
-    }, 5000);
+    loader.style.display = "inline";
 }
 
 function hideLoadingIcon() {
-    loader.classList.remove("display");
+    loader.style.display = "none";
 }
 
 function getHeaders(id) {
