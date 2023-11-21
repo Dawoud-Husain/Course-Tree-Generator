@@ -22,6 +22,5 @@ export async function getPossibleCourses(userCourseCodes) {
     xhttp.open("POST", url, false); // Define POST request
     xhttp.send(JSON.stringify(body)); // Send POST request with body
 
-    console.log(JSON.parse(xhttp.responseText));
     return JSON.parse(xhttp.responseText); // Return response as JS object
 }
