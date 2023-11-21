@@ -1,6 +1,6 @@
 const api_url = window.location.href.replace(/\/pages\/.*/, '/api/'); // Get url of api directory
 
-export function getCourses() {
+export async function getCourses() {
     const url = `${api_url}Course/Course.php`; // Store url of GET request
     const xhttp = new XMLHttpRequest(); // Make a network request
     
@@ -11,7 +11,7 @@ export function getCourses() {
     return response; // Return result
 }
 
-export function getPossibleCourses(userCourseCodes) {
+export async function getPossibleCourses(userCourseCodes) {
     const url = `${api_url}Course/getPossibleCourses.php`; // Get url of network request
     const xhttp = new XMLHttpRequest(); // Make a network request
     

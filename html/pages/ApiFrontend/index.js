@@ -7,11 +7,40 @@ let possibleCourses = []; // Stores possible courses the user can take
 const generateCourses = document.getElementById("generateCourses"); // Get generateCourses button
 const filters = document.getElementById("filters"); // Get filters
 const applyFilters = document.getElementById("applyFilters"); // Get apply filters button
+const enteredCoursesTable = document.getElementById("enteredCoursesTable");
+const possibleCoursesTable = document.getElementById("possibleCoursesTable");
+const loader = document.getElementById("loading"); // select loading div
 
 window.onload = () => {
-    const courses = getCourses(); // Get list of courses in database
-    const headers = getHeaders("courseList"); // Get headers in courseList table
-    populateCourseTable("courseListBody", courses, headers); // Populate table with list of courses
+    displayLoadingIcon();
+
+    getCourses() // Get list of courses in database
+        .then(result => {
+            const courses = result;
+            // hideLoadingIcon();
+            const headers = getHeaders("courseList"); // Get headers in courseList table
+            populateCourseTable("courseListBody", courses, headers); // Populate table with list of courses
+            hideLoadingIcon();
+            displayEnteredCoursesTable();
+        })
+}
+
+
+function displayEnteredCoursesTable() {
+    enteredCoursesTable.style.display = "inline";
+}
+
+function displayPossibleCoursesTable() {
+    possibleCoursesTable.style.display = "inline";
+}
+
+function displayLoadingIcon() {
+    loader.style.display = "inline";
+    loader.style.marginLeft = "150px";
+}
+
+function hideLoadingIcon() {
+    loader.style.display = "none";
 }
 
 function getHeaders(id) {
@@ -109,14 +138,19 @@ function displayUserCourses() {
 
 generateCourses?.addEventListener("click", () => { // Define onClick event listener for generateCourses button
     const userCourseCodes = userCourses.map((userCourse) => userCourse.courseCode); // Get array of course codes
-    possibleCourses = getPossibleCourses(userCourseCodes); // Get list of courses the user can take
-
-    const headers = getHeaders("eligibleCourseList"); // Get headers in eligibleCourseList table
-    const id = "eligibleCourseListBody"; // get id of table body in eligibleCourseList
-
-    clearTable(id); // Clear current table rows, will be repopulated
-    populateCourseTable(id, possibleCourses, headers); // populate rows in eligibleCourseList
-    populateFilters(possibleCourses); // populate filter dropdowns with new courses
+    
+    getPossibleCourses(userCourseCodes)  // Get list of courses the user can take
+        .then(result => {
+            possibleCourses = result;
+            const headers = getHeaders("eligibleCourseList"); // Get headers in eligibleCourseList table
+            const id = "eligibleCourseListBody"; // get id of table body in eligibleCourseList
+        
+            clearTable(id); // Clear current table rows, will be repopulated
+            populateCourseTable(id, possibleCourses, headers); // populate rows in eligibleCourseList
+            populateFilters(possibleCourses); // populate filter dropdowns with new courses
+            displayPossibleCoursesTable();
+        })
+  
 });
 
 function clearTable(id) { // Clear table rows for repopulation
