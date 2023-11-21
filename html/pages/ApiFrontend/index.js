@@ -31,6 +31,7 @@ function displayCoursesTable() {
 
 function displayLoadingIcon() {
     loader.style.display = "inline";
+    loader.style.marginLeft = "150px";
 }
 
 function hideLoadingIcon() {
