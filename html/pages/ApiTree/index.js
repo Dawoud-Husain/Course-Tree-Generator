@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
  dropdownButton.addEventListener("click", async function () {
      // Toggle the display of the dropdown menuP
      dropdownMenu.style.display = dropdownMenu.style.display === 'none' ? 'block' : 'none';
-
+     
      // Clear existing items before fetching new ones
      dropdownMenu.innerHTML = "";
 
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
              const selectedSubject = subject.Subject;
              const updatedEndpoint = `${getEndpoint}`;
-             console.log("GET courses:", updatedEndpoint);
+            //  console.log("GET courses:", updatedEndpoint);
 
              // Fetch courses based on the updated endpoint
              const coursesResponse = await fetch(updatedEndpoint, {
@@ -148,9 +148,10 @@ document.addEventListener("DOMContentLoaded", function () {
                  edges: {
                      smooth: false,
                      arrows: 'to',
-                     color: '#ccc',
+                     color: '#1D75DE',
                  },
                  physics: false,
+                 navigationButtons: true,
              };
 
              network = new vis.Network(networkContainer, treeData, options);
