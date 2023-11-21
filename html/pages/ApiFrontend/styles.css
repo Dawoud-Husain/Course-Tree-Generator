@@ -101,6 +101,10 @@ hr {
   background-color: black;
 }
 
+#possibleCoursesTable {
+  overflow-y: auto;
+}
+
 /******** Elegible Courses End **********/
 
 @media (max-width: 700px) {

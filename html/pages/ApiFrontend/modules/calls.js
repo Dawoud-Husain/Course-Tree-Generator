@@ -11,7 +11,7 @@ export async function getCourses() {
     return response; // Return result
 }
 
-export function getPossibleCourses(userCourseCodes) {
+export async function getPossibleCourses(userCourseCodes) {
     const url = `${api_url}Course/getPossibleCourses.php`; // Get url of network request
     const xhttp = new XMLHttpRequest(); // Make a network request
     
@@ -22,5 +22,6 @@ export function getPossibleCourses(userCourseCodes) {
     xhttp.open("POST", url, false); // Define POST request
     xhttp.send(JSON.stringify(body)); // Send POST request with body
 
+    console.log(JSON.parse(xhttp.responseText));
     return JSON.parse(xhttp.responseText); // Return response as JS object
 }
