@@ -39,7 +39,7 @@ try {
         $fields = explode(",", $line); // Split by fields in line
 
         $courseCode = addslashes(trim($fields[0])); // Get courseCode
-        $courseName = addslashes(trim($fields[1])); // Get courseName
+        $courseName = addslashes(trim(str_replace('|', ',', $fields[1]))); // Get courseName
         $courseDescription = addslashes(trim(str_replace('|', ',', $fields[2]))); // Get courseDescription
         $courseCredits = addslashes(trim($fields[3])); // Get courseCredits
         $courseLocation = addslashes(trim($fields[4])); // Get courseLocation
