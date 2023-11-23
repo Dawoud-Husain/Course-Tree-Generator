@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>API Documentation</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../../media/favicon.ico"/>
 
     <!-- <link rel="stylesheet" href="styles.css"> -->
     <style>
@@ -52,6 +53,15 @@
         background-color: #f5f5f5;
         padding: 10px;
         overflow-x: auto;
+      }
+
+      .nav {
+        height: 150px;
+      }
+
+      .nav img {
+        margin-left: 70px;
+        margin-top: 50px;
       }
 
       .endpoint {
@@ -138,7 +148,8 @@
   </head>
 
   <body>
-    <header>
+    <header style="display:flex; align-items:center; justify-content: flex-start; gap:25px;">
+      <a href="" id="redirectHome"><img src="../../media/backarrow.svg" height="25" width="25"/></a>
       <h1>API Documentation</h1>
     </header>
     <main>
@@ -1091,8 +1102,19 @@ https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course.php?
     <!-- <script src="script.js"></script> -->
 
     <script>
-      // JavaScript for collapsible endpoints
+      // home page redirect
+      const homeBtn = document.getElementById("redirectHome");
 
+      homeBtn?.addEventListener("click", () => {
+        const urlWindow = window.location.href.split("html"); 
+        const urlHome = `${urlWindow[0]}html`; 
+
+        homeBtn.href = urlHome;
+      });
+
+
+
+      // JavaScript for collapsible endpoints
       const endpoints = document.querySelectorAll(".endpoint.collapsible");
 
       // Make endpoints collapsable by default
