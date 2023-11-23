@@ -7,9 +7,13 @@ let possibleCourses = []; // Stores possible courses the user can take
 const generateCourses = document.getElementById("generateCourses"); // Get generateCourses button
 const filters = document.getElementById("filters"); // Get filters
 const applyFilters = document.getElementById("applyFilters"); // Get apply filters button
+
+const homeBtn = document.getElementById("redirectHome");
+
 const enteredCoursesTable = document.getElementById("enteredCoursesTable");
 const possibleCoursesTable = document.getElementById("possibleCoursesTable");
 const loader = document.getElementById("loading"); // select loading div
+
 
 window.onload = () => {
     displayLoadingIcon();
@@ -135,6 +139,13 @@ function displayUserCourses() {
         completedCourses.innerHTML += `${index + 1}) ${userCourse.courseCode} - ${userCourse.courseName}<br>`;
     })
 }
+
+homeBtn?.addEventListener("click", () => {
+    const urlWindow = window.location.href.split("html"); 
+    const urlHome = `${urlWindow[0]}html`; 
+
+    homeBtn.href = urlHome;
+});
 
 generateCourses?.addEventListener("click", () => { // Define onClick event listener for generateCourses button
     const userCourseCodes = userCourses.map((userCourse) => userCourse.courseCode); // Get array of course codes

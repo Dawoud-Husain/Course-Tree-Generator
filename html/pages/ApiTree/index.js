@@ -21,6 +21,7 @@ async function getSubjects() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+ const homeBtn = document.getElementById("redirectHome");
  let dropdownMenu = document.querySelector(".dropdown-Subject");
  let dropdownButton = document.querySelector("#dropdownMenuButton");
  let selectedSubjectContainer = document.querySelector("#selectedSubjectContainer");
@@ -31,6 +32,14 @@ document.addEventListener("DOMContentLoaded", function () {
  let nodes = new vis.DataSet();
  let edges = new vis.DataSet();
  let network;
+
+ // home page redirect
+ homeBtn?.addEventListener("click", () => {
+    const urlWindow = window.location.href.split("html"); 
+    const urlHome = `${urlWindow[0]}html`; 
+
+    homeBtn.href = urlHome;
+ });
 
  // List of Subjects listener
  dropdownButton.addEventListener("click", async function () {
