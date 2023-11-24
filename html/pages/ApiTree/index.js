@@ -35,9 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
  // home page redirect
  homeBtn?.addEventListener("click", () => {
-    const urlWindow = window.location.href.split("html"); 
-    const urlHome = `${urlWindow[0]}html`; 
-
+    const urlHome = window.location.href.replace(/\/pages\/.*/, ''); // Get url of api directory
     homeBtn.href = urlHome;
  });
 
