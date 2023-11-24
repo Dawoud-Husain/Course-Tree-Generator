@@ -1106,9 +1106,7 @@ https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course.php?
       const homeBtn = document.getElementById("redirectHome");
 
       homeBtn?.addEventListener("click", () => {
-        const urlWindow = window.location.href.split("html"); 
-        const urlHome = `${urlWindow[0]}html`; 
-
+        const urlHome = window.location.href.replace(/\/pages\/.*/, ''); // Get url of api directory
         homeBtn.href = urlHome;
       });
 
