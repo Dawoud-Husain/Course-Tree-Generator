@@ -3,7 +3,8 @@ import { filterCourses, getSubjects, getLevels } from "./modules/filter.js";
 
 let userCourses = []; // Stores chosen courses by the user
 let possibleCourses = []; // Stores possible courses the user can take
-
+let credits = 0; // Stores total credits
+let avg = 0; //stores gpa
 const generateCourses = document.getElementById("generateCourses"); // Get generateCourses button
 const filters = document.getElementById("filters"); // Get filters
 const applyFilters = document.getElementById("applyFilters"); // Get apply filters button
@@ -17,8 +18,7 @@ const loader = document.getElementById("loading"); // select loading div
 
 window.onload = () => {
     displayLoadingIcon();
-
-    getCourses() // Get list of courses in database
+    getCourses()// Get list of courses in database
         .then(result => {
             const courses = result;
             // hideLoadingIcon();
@@ -28,21 +28,16 @@ window.onload = () => {
             displayEnteredCoursesTable();
         })
 }
-
-
 function displayEnteredCoursesTable() {
     enteredCoursesTable.style.display = "inline";
 }
-
 function displayPossibleCoursesTable() {
     possibleCoursesTable.style.display = "inline";
 }
-
 function displayLoadingIcon() {
     loader.style.display = "inline";
     loader.style.marginLeft = "150px";
 }
-
 function hideLoadingIcon() {
     loader.style.display = "none";
 }
@@ -75,12 +70,33 @@ function populateCourseTable(id, courses, headers) {
                 checkbox.type = "checkbox"; // Set as checkbox
 
                 checkbox.onchange = (e) => {
-                    if (e.target.checked) userCourses.push(course);
-                    else userCourses = userCourses.filter((userCourse) => (userCourse.courseCode != course.courseCode));
-
+                    if (e.target.checked)  {
+                        $('#gradeModal').modal('show');
+                        document.getElementById('saveGradeBtn').onclick = () => {
+                        const gradeInput = document.getElementById('gradeInput').value;
+                        if (!isNaN(gradeInput) && parseFloat(gradeInput) >= 50 && parseFloat(gradeInput) <= 100) {
+                            userCourses.push(course);
+                            userCourses[userCourses.length - 1].grade = parseFloat(gradeInput);
+                            credits += parseFloat(course.credits);
+                            $('#gradeModal').modal('hide');
+                            calcAvg();
+                            displayUserCourses();
+                        } else {
+                            alert('Please enter a valid numeric grade that is greater than 50 and less than 100');
+                        }
+                        }
+                        document.getElementById('closeGrade').onclick = () => {
+                            $('#gradeModal').modal('hide');
+                            e.target.checked = false;
+                        }
+                    }
+                    else {
+                        userCourses = userCourses.filter((userCourse) => (userCourse.courseCode != course.courseCode));
+                        credits -= parseFloat(course.credits);
+                    }
+                    calcAvg();
                     displayUserCourses();
                 }
-
                 cell.appendChild(checkbox); // Add checkbox to select
             } else if (header == "delete") {
                 const deleteBtn = document.createElement("button"); // Create delete button for course
@@ -108,6 +124,18 @@ function populateCourseTable(id, courses, headers) {
     }
     });
 };
+function calcAvg() {
+    var total = 0;
+    userCourses.forEach((userCourse, index) => {
+        total += parseFloat(userCourse.grade);
+    })
+    if (userCourses.length != 0) {
+        avg = total / userCourses.length;
+    } else {
+        avg = 0;
+    }
+    
+}
 function displayHiddenInfo(row, course) {
     var newRow = document.createElement('tr');
     var colspan = row.getElementsByTagName('td').length; // Set colspan to span the entire row
@@ -133,10 +161,12 @@ function displayHiddenInfo(row, course) {
 
 function displayUserCourses() {
     const completedCourses = document.getElementById("completedCourses");
+    const creditText = document.getElementById("completedCoursesCredits");
+    creditText.innerHTML = `Your completed courses: (Total Credits: ${credits}, Average: ${avg.toFixed(2)})`
     completedCourses.innerHTML = "";
 
     userCourses.forEach((userCourse, index) => {
-        completedCourses.innerHTML += `${index + 1}) ${userCourse.courseCode} - ${userCourse.courseName}<br>`;
+        completedCourses.innerHTML += `${index + 1}) ${userCourse.courseCode} - ${userCourse.courseName} - Grade: ${userCourse.grade}<br>`;
     })
 }
 
@@ -149,8 +179,7 @@ homeBtn?.addEventListener("click", () => {
 
 generateCourses?.addEventListener("click", () => { // Define onClick event listener for generateCourses button
     const userCourseCodes = userCourses.map((userCourse) => userCourse.courseCode); // Get array of course codes
-    
-    getPossibleCourses(userCourseCodes)  // Get list of courses the user can take
+    getPossibleCourses(userCourseCodes,avg,credits)  // Get list of courses the user can take
         .then(result => {
             possibleCourses = result;
             const headers = getHeaders("eligibleCourseList"); // Get headers in eligibleCourseList table
@@ -161,7 +190,6 @@ generateCourses?.addEventListener("click", () => { // Define onClick event liste
             populateFilters(possibleCourses); // populate filter dropdowns with new courses
             displayPossibleCoursesTable();
         })
-  
 });
 
 function clearTable(id) { // Clear table rows for repopulation
