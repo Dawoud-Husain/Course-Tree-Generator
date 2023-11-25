@@ -4,6 +4,7 @@ stages:
 deploy:
   stage: deploy
   script:
+    - docker -v
     - "git pull origin $CI_COMMIT_REF_NAME"
     - "COMMIT_HASH=$(git rev-parse HEAD)"
     - "COMMIT_MESSAGE=$(git log --format=%B -n 1 $COMMIT_HASH)"
