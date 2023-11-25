@@ -1,22 +1,32 @@
 import { getCourses, getPossibleCourses } from "./modules/calls.js";
-import { filterCourses, getSubjects, getLevels } from "./modules/filter.js";
+import { filterCourses, getSubjects, getLevels, getCredits } from "./modules/filter.js";
 
 let userCourses = []; // Stores chosen courses by the user
 let possibleCourses = []; // Stores possible courses the user can take
 let credits = 0; // Stores total credits
 let avg = 0; //stores gpa
+
 const generateCourses = document.getElementById("generateCourses"); // Get generateCourses button
 const filters = document.getElementById("filters"); // Get filters
 const applyFilters = document.getElementById("applyFilters"); // Get apply filters button
-
+const input = document.querySelector('input');
 const homeBtn = document.getElementById("redirectHome");
-
 const enteredCoursesTable = document.getElementById("enteredCoursesTable");
 const possibleCoursesTable = document.getElementById("possibleCoursesTable");
 const loader = document.getElementById("loading"); // select loading div
 
-
+input.addEventListener('focus', () => {
+    input.placeholder = '';
+    possibleCoursesSearchSubmit.style.opacity = 1;
+    possibleCoursesSearchSubmit.style.color = "white";
+    possibleCoursesSearchSubmit.style.background = "black";
+    possibleCoursesSearchSubmit.disabled = false;
+    
+  });
+  
 window.onload = () => {
+    possibleCoursesSearchSubmit.style.opacity = 0.5;
+    possibleCoursesSearchSubmit.disabled = true;
     displayLoadingIcon();
     getCourses()// Get list of courses in database
         .then(result => {
@@ -123,6 +133,7 @@ function populateCourseTable(id, courses, headers) {
         });
     }
     });
+    populateFilters(courses);
 };
 function calcAvg() {
     var total = 0;
@@ -199,12 +210,15 @@ function clearTable(id) { // Clear table rows for repopulation
 function populateFilters(courses) {
     const subjects = getSubjects(courses);
     const levels = getLevels(courses);
+    const credits = getCredits(courses);
 
     const subjectsDiv = document.getElementById("subjects");
     const courseLevels = document.getElementById("courseLevels");
+    const courseCredits = document.getElementById("courseCredits");
 
     subjectsDiv.innerHTML = ""; // Clear current subjectsDiv
     courseLevels.innerHTML = ""; // Clear current courseLevels
+    courseCredits.innerHTML = ""; 
 
     subjects.forEach((subject) => {
         const checkbox = document.createElement('input'); // Create checkbox
@@ -253,6 +267,27 @@ function populateFilters(courses) {
         div.appendChild(label);
         courseLevels.appendChild(div);
     });
+
+
+    credits.forEach((credit) => {
+        const checkbox = document.createElement('input');
+        const label = document.createElement('label');
+        checkbox.type = 'checkbox'; // Set input as checkbox
+        checkbox.className = 'form-check-input'; // Bootstrap
+        checkbox.id = credit; // Set id as level for label
+        checkbox.name = "creditCheckbox" // Set name
+        label.className = 'form-check-label'; // Bootstrap
+        label.htmlFor = credit; // Connect to checkbox
+        label.textContent = credit; // Add label text content
+        // Create div with form-check classes
+        const div = document.createElement('div');
+        div.className = 'form-check form-switch';
+        div.style = 'color: white; background: black;';
+        // Add checkbox + label to DOM
+        div.appendChild(checkbox);
+        div.appendChild(label);
+        courseCredits.appendChild(div);
+    });
 }
 
 filters.addEventListener("click", () => {
@@ -263,9 +298,11 @@ filters.addEventListener("click", () => {
 applyFilters.addEventListener("click", () => {
     const subjectCheckboxes = document.getElementsByName("subjectCheckbox");
     const levelCheckboxes = document.getElementsByName("levelCheckbox");
+    const creditCheckboxes = document.getElementsByName("creditCheckbox");
 
     const filterSubjects = [];
     const filterLevels = [];
+    const filterCredits = [];
     
     subjectCheckboxes.forEach((subjectCheckbox) => {
         if (subjectCheckbox.checked) filterSubjects.push(subjectCheckbox.id);
@@ -275,9 +312,14 @@ applyFilters.addEventListener("click", () => {
         if (levelCheckbox.checked) filterLevels.push(levelCheckbox.id);
     });
 
+    creditCheckboxes.forEach((creditCheckbox) => {
+        if (creditCheckbox.checked) filterCredits.push(creditCheckbox.id);
+    });
+
     const filterInfo = {
         subjects: filterSubjects,
         levels: filterLevels,
+        credits: filterCredits
     };
 
     const filteredCourses = filterCourses(possibleCourses, filterInfo); // Get filtered Courses
@@ -287,3 +329,42 @@ applyFilters.addEventListener("click", () => {
     clearTable(id); // Clear current table rows, will be repopulated
     populateCourseTable(id, filteredCourses, headers); // populate rows in eligibleCourseList
 });
+
+possibleCoursesSearchSubmit.addEventListener('click', () => {
+
+    const result = []; // Stores filtered courses
+    const headers = getHeaders("courseList"); // Get headers in courseList table
+    const searchValue = (document.getElementById('possibleCoursesSearchInput').value).toLowerCase();
+    let filteredCourses;
+
+    getCourses().then(courselist => {// Get list of courses in database
+        
+        const courses = courselist;
+
+        courses.forEach((course) => { // For each course, match filter
+            let courseName = course.courseName.toLowerCase();
+            let courseCode = course.courseCode.toLowerCase();
+                
+            if(searchValue.includes('*')) {
+                if(courseCode === searchValue){
+                    result.push(course)  
+                }
+            }
+            
+            else {
+                if(courseName.includes(searchValue)){
+                    result.push(course)
+                }
+            }
+        })  
+
+          // Clear existing content
+        while(courseListBody.rows.length > 0) {
+            courseListBody.deleteRow(0);
+        }
+
+        populateCourseTable("courseListBody", result, headers); // Populate table with list of courses
+
+    });
+});
+

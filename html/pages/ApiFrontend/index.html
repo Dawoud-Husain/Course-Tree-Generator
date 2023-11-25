@@ -27,6 +27,30 @@
     <section class="d-flex flex-column justify-content-start align-items-start" id="main-section" role="main"> 
       <h2 class="steps text-white p">1. Add your completed courses</h2>
       
+      
+      <!-- Search Button/Input -->
+      <!-- <button id="searchButton">Search</button>
+      <input type="text" id="possibleCoursesSearchInput">
+      <button id="possibleCoursesSearchSubmit">Submit</button>  -->
+
+      <form class="my-2">
+        <div class="d-flex">
+          <input 
+            id="possibleCoursesSearchInput"
+            type="text" 
+            class="form-control me-2"
+            placeholder="Search courses...">
+
+             <!-- class="btn btn-outline-secondary"  -->
+          <button 
+            id="possibleCoursesSearchSubmit"
+            class="btn btn-outline-secondary"
+            type="button">
+            Search
+          </button>
+        </div>
+      </form>
+
       <!-- Entered Courses Table -->
       <div class="courseTable" id="enteredCoursesTable">
         <table class="table table-hover align-middle text-center" id="courseList">
@@ -86,11 +110,19 @@
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuLevel" style="background:#212529; padding: 10px;">
             <div class="courseLevels" id="courseLevels">
               <li style="color:white; background:#212529;">
-                <!-- <div class="form-check form-switch" style="color:white; background:#212529;">
-                  <input class="form-check-input" type="checkbox" id="flexSwitchLevel">
-                    <label class="form-check-label" for="flexSwitchLevel">1</label>
-                </div> -->
               </li>
+            </div>
+          </ul>
+        </div>
+
+        <div class="btn-group">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuLevel" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" style="background:#212529; margin-bottom: 10px; margin-top: 30px">
+            CREDITS
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuLevel" style="background:#212529; padding: 10px;">
+            <div class="courseCredits" id="courseCredits">
+              <li style="color:white; background:#212529;">
+             </li>
             </div>
           </ul>
         </div>
