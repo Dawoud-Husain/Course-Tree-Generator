@@ -14,11 +14,15 @@ try {
         $data = json_decode(file_get_contents("php://input"), true);
         // echo 'testing';
         $courseCodes = $data['coursesTaken'] ?? [];
+        if(count($courseCodes)>0){
+            array_push($courseCodes,'credit','average');
+        }
         $placeholders = implode(',', array_fill(0, count($courseCodes), '?')); // Create a list of placeholders for prepared statement
-
+        $credit = $data['credits'];
+        $grade = $data['average'];
         if (!empty($courseCodes)) {
             // First Query: Fetch data based on multiple LIKE clauses for Description
-            $firstQuery = "SELECT * FROM Prerequisite NATURAL JOIN Course WHERE Description LIKE ?";
+            $firstQuery = "SELECT DISTINCT * FROM Prerequisite NATURAL JOIN Course WHERE Description LIKE ?";
             for ($i = 1; $i < count($courseCodes); $i++) {
                 $firstQuery .= " OR Description LIKE ?";
             }
@@ -81,7 +85,19 @@ try {
                             $isMatch = FALSE;
                             break;
                         }
-                    } else {
+                   
+                    }else if(preg_match('/(\d+)%/',$prerequisite,$matches)){
+                        
+                        if($grade < (float)$matches[1]){
+                            $isMatch = FALSE;
+                            break;
+                        }
+                    }else if (preg_match('/\b(\d+(\.\d+)?)\s*(?:credit|credits)\b/i',$prerequisite,$matches)){
+                        if($credit < (float)$matches[1]){
+                            $isMatch = FALSE;
+                            break;
+                        }
+                    }else {
                         //if a single course then check if it is in course codes
                         if(!in_array($prerequisite,$courseCodes)){
                             $isMatch = FALSE;
