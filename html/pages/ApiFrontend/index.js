@@ -1,5 +1,6 @@
 import { getCourses, getPossibleCourses } from "./modules/calls.js";
 import { filterCourses, getSubjects, getLevels } from "./modules/filter.js";
+import { downloadReport } from "./modules/report.js";
 
 let userCourses = []; // Stores chosen courses by the user
 let possibleCourses = []; // Stores possible courses the user can take
@@ -178,6 +179,7 @@ homeBtn?.addEventListener("click", () => {
 
 generateCourses?.addEventListener("click", () => { // Define onClick event listener for generateCourses button
     const userCourseCodes = userCourses.map((userCourse) => userCourse.courseCode); // Get array of course codes
+    document.getElementById('downloadReportBtn').style.display = 'inline-block';
     getPossibleCourses(userCourseCodes,avg,credits)  // Get list of courses the user can take
         .then(result => {
             possibleCourses = result;
@@ -286,4 +288,7 @@ applyFilters.addEventListener("click", () => {
 
     clearTable(id); // Clear current table rows, will be repopulated
     populateCourseTable(id, filteredCourses, headers); // populate rows in eligibleCourseList
+});
+document.getElementById('downloadReportBtn').addEventListener('click', function() {
+    downloadReport(userCourses,possibleCourses,credits,avg);
 });
