@@ -78,7 +78,8 @@ document.addEventListener("DOMContentLoaded", function () {
                      "Content-Type": "application/json"
                  },
                  body: JSON.stringify({
-                    "id": selectedSubject + "*"
+                    "id": selectedSubject + "*",
+                    "preq": true
                  })
              });
 

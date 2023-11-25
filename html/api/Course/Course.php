@@ -38,11 +38,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $whereStatement = 'WHERE';
     $tableStatement = "";
     $query = "";
+    $findPrequisites = FALSE;
 
     // Check through each to see what query parameters we have and build the query 
     if (isset($requestBody -> preq)) {
         $preq = $requestBody -> preq;
-        $tableStatement = $tableStatement . '(SELECT * FROM Prerequisite WHERE description LIKE \'%' . $preq .'%\') as Prerequisite ';
+        if($preq){
+            $findPrequisites = TRUE;
+        }
     }
 
     if (isset($requestBody -> id)) {
@@ -112,12 +115,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $prereqStatement = $pdo->query('SELECT description FROM Prerequisite WHERE courseCode LIKE \'%' .$data['courseCode'].'%\'');
             $prereqResults = $prereqStatement->fetchAll(PDO::FETCH_ASSOC);
             $prereqString = null;
-            foreach ($prereqResults as $key2 => $prereqKey) {
-                if ($prereqKey['description'] != "") {
-                    $prereqString[$key2] = $prereqKey['description'];
-                }  
+
+            if($findPrequisites){
+                foreach ($prereqResults as $key2 => $prereqKey) {
+                    if ($prereqKey['description'] != "") {
+                        $prereqString[$key2] = $prereqKey['description'];
+                    }  
+                }
+                $data['prerequisites'] = $prereqString;
             }
-            $data['prerequisites'] = $prereqString;
             $results[$key] = $data;
         }
         
