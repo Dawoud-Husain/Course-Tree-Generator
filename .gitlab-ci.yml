@@ -1,12 +1,19 @@
 stages:
   - build
 
+variables:
+  COMPOSER_HOME: "$CI_PROJECT_DIR/.composer"
+
+before_script:
+  - chmod +x /usr/local/bin/composer
+  - composer install --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
 build:
   stage: build
   only:
     - issue178
   script:
-    - sudo chmod +w /home/gitlab-runner/builds/wxi6sxsz/0/cis3760_f23/f23_cis3760_104/
-    - sudo mkdir -p /tmp/phpstan/cache
-    - sudo chmod -R 777 /tmp/phpstan/cache
+    - chmod +w /home/gitlab-runner/builds/wxi6sxsz/0/cis3760_f23/f23_cis3760_104/
+    - mkdir -p /tmp/phpstan/cache
+    - chmod -R 777 /tmp/phpstan/cache
     - vendor/bin/phpstan analyze html/api
