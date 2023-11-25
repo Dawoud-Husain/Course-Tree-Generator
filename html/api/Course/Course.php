@@ -30,14 +30,11 @@ if ($pdo === null) {
 
 // Check what request is being made or else return error 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $requestBody = file_get_contents("php://input"); // Read raw input stream of POST request
-    $requestBody = json_decode($requestBody); // Decode json string into PHP datatypes 
-    // echo json_encode($requestBody); // Encode json string to echo 
+    $requestBody = json_decode(file_get_contents("php://input"));
 
-    $checkMulti = False;
-    $whereStatement = 'WHERE';
-    $tableStatement = "";
-    $query = "";
+    $conditions = [];
+    $parameters = [];
+
     $findPrequisites = FALSE;
 
     // Check through each to see what query parameters we have and build the query 
@@ -47,86 +44,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $findPrequisites = TRUE;
         }
     }
-
-    if (isset($requestBody -> id)) {
-        $id = $requestBody -> id;
-        $whereStatement = $whereStatement . ' courseCode LIKE \'%' . $id .'%\'';
-        $checkMulti = True;
-    }
-
-    if (isset($requestBody -> name)) {
-        if ($checkMulti == True) $whereStatement = $whereStatement . ' AND';
-        $name = $requestBody -> name;
-        
-        $whereStatement = $whereStatement . ' courseName LIKE \'%' . $name . '%\'';
-        $checkMulti = True;
-    }
-
-    if (isset($requestBody -> description)) { // description
-        if ($checkMulti == True) $whereStatement = $whereStatement . ' AND';
-        $description = $requestBody -> description;
-        
-        $whereStatement = $whereStatement . ' courseDesc LIKE \'%' . $description .'%\'';
-        $checkMulti = True; 
-    }
-
-    if (isset($requestBody -> credit)) { // credit
-        if ($checkMulti == True) $whereStatement = $whereStatement . ' AND';
-        $credit = $requestBody -> credit;
-
-        $whereStatement = $whereStatement . ' credits = ' . $credit;
-        $checkMulti = True;
-    }
-
-    if (isset($requestBody -> location)) { // location
-        if ($checkMulti == True) $whereStatement = $whereStatement . ' AND';
-        $location = $requestBody -> location;
-
-        $whereStatement = $whereStatement . ' location LIKE \'%' . $location . '%\'';
-        $checkMulti = True; 
-    }
-
-    if (isset($requestBody -> restriction)) {
-        if ($checkMulti == True) $whereStatement = $whereStatement . ' AND';
-        $restriction = $requestBody -> restriction;
-
-        $whereStatement = $whereStatement . ' restriction LIKE \'%' . $restriction . '%\'';
-        $checkMulti = True;
+    
+    foreach (['id' => 'courseCode', 'name' => 'courseName', 'description' => 'courseDesc', 'credit' => 'credits', 'location' => 'location', 'restriction' => 'restriction'] as $key => $field) {
+        if (isset($requestBody->$key)) {
+            if ($key === 'credit') {
+                $conditions[] = "$field = :$key";
+                $parameters[$key] = $requestBody->$key;
+            } else {
+                $conditions[] = "$field LIKE :$key";
+                $parameters[$key] = '%' . $requestBody->$key . '%';
+            }
+        }
     }
     
-    if (strcmp($tableStatement,"") === 0) {
-        $query = "SELECT * FROM Course ";
-    } else {
-        $query = "SELECT * FROM Course Natural Join ". $tableStatement." ";
+    // Create select query with conditions if there are any
+    $query = "SELECT * FROM Course";
+    if (!empty($conditions)) {
+        $query .= ' WHERE ' . implode(' AND ', $conditions);
     }
-
-    if (strcmp($whereStatement,"WHERE") != 0) {
-        $query = $query . $whereStatement;
-    }
-
+    
     try {
-        // Execute the query
         header("Content-Type: application/json");
-        $statement =  $pdo->query($query);      
+        $statement = $pdo->prepare($query);
+        $statement->execute($parameters);
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-        foreach ($results as $key => $jsonString) {
-            $data = $jsonString;
-            $prereqStatement = $pdo->query('SELECT description FROM Prerequisite WHERE courseCode LIKE \'%' .$data['courseCode'].'%\'');
-            $prereqResults = $prereqStatement->fetchAll(PDO::FETCH_ASSOC);
-            $prereqString = null;
-
-            if($findPrequisites){
-                foreach ($prereqResults as $key2 => $prereqKey) {
-                    if ($prereqKey['description'] != "") {
-                        $prereqString[$key2] = $prereqKey['description'];
-                    }  
-                }
-                $data['prerequisites'] = $prereqString;
-            }
-            $results[$key] = $data;
+    
+        if($findPrequisites){
+            // Fetching prerequisites from the correct table
+            $prereqQuery = "SELECT courseCode, description FROM Prerequisite";
+            $prereqStatement = $pdo->query($prereqQuery);
+            $allPrereqs = $prereqStatement->fetchAll(PDO::FETCH_ASSOC);
         }
-        
+    
+        // Mapping prerequisites to courses
+        foreach ($results as $key => $course) {
+            $prerequisites = [];
+            $hasValidPrereq = false; // check if any valid prereqs
+            
+            if($findPrequisites){
+                foreach ($allPrereqs as $prereq) {
+                    if ($prereq['courseCode'] === $course['courseCode']) {
+                        if (!empty(trim($prereq['description']))) {
+                            $prerequisites[] = $prereq['description'];
+                            $hasValidPrereq = true; // Valid prerequisite found
+                        }
+                    }
+                }
+            
+                // Set prerequisites to null if no valid prerequisite is found
+                $results[$key]['prerequisites'] = $hasValidPrereq ? $prerequisites : null;
+            }
+        }
+    
         echo json_encode($results);
         http_response_code(200);
     } catch (PDOException $e) {
