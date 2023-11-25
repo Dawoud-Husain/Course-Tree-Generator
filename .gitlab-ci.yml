@@ -8,7 +8,7 @@ build:
   only:
     - issue178
   script:
-    - rm -rf /tmp/phpstan/cache
+    - sudo rm -rf /tmp/phpstan/cache
     - vendor/bin/phpstan analyze html/api && vendor/bin/phpstan analyze html/pages && vendor/bin/phpstan analyze html/index.php && vendor/bin/phpstan analyze html/Team104
 
 deploy:
