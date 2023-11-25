@@ -1,4 +1,3 @@
-
 stages:
   - build
 
@@ -7,8 +6,8 @@ build:
   only:
     - issue178
   script:
-  - sudo vendor/bin/phpstan analyze /home/gitlab-runner/builds/wxi6sxsz/0/cis3760_f23/f23_cis3760_104/html/api &&
-    sudo vendor/bin/phpstan analyze /home/gitlab-runner/builds/wxi6sxsz/0/cis3760_f23/f23_cis3760_104/html/pages &&
-    sudo vendor/bin/phpstan analyze /home/gitlab-runner/builds/wxi6sxsz/0/cis3760_f23/f23_cis3760_104/html/Team104 &&
-    sudo vendor/bin/phpstan analyze /home/gitlab-runner/builds/wxi6sxsz/0/cis3760_f23/f23_cis3760_104/html/index.php
-
+    - cd /home/gitlab-runner/builds/wxi6sxsz/0/cis3760_f23/f23_cis3760_104/
+    - sudo vendor/bin/phpstan analyze --no-progress /home/gitlab-runner/builds/wxi6sxsz/0/cis3760_f23/f23_cis3760_104/html/api
+    - sudo vendor/bin/phpstan analyze --no-progress /home/gitlab-runner/builds/wxi6sxsz/0/cis3760_f23/f23_cis3760_104/html/pages
+    - sudo vendor/bin/phpstan analyze --no-progress /home/gitlab-runner/builds/wxi6sxsz/0/cis3760_f23/f23_cis3760_104/html/Team104
+    - sudo vendor/bin/phpstan analyze --no-progress /home/gitlab-runner/builds/wxi6sxsz/0/cis3760_f23/f23_cis3760_104/html/index.php
