@@ -8,6 +8,7 @@ build:
   only:
     - issue178
   script:
+    - chmod -R 777 /tmp/phpstan/cache
     - vendor/bin/phpstan analyze html/api
 
 deploy:
