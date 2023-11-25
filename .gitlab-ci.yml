@@ -10,7 +10,7 @@ build:
   script:
   - ls
   - if [ -d /tmp/phpstan/cache ]; then rm -rf /tmp/phpstan/cache/*; fi
-  - mkdir -p /tmp/phpstan/cache
+  - mkdir -p /tmp/phpstan/cache 
   - chmod -R 777 /tmp/phpstan/cache
   - vendor/bin/phpstan analyze html/api
 
