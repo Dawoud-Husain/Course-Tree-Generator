@@ -6,6 +6,7 @@ build:
   only:
     - issue178
   script:
+    - if [ -d /tmp/phpstan ]; then sudo rm -rf /tmp/phpstan; fi
     - sudo chmod +w /home/gitlab-runner/builds/wxi6sxsz/0/cis3760_f23/f23_cis3760_104/
     - sudo mkdir -p /tmp/phpstan/cache
     - sudo rm -rf /tmp/phpstan/cache/nette.configurator
