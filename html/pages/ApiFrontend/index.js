@@ -22,12 +22,21 @@ input.addEventListener('focus', () => {
     possibleCoursesSearchSubmit.style.color = "white";
     possibleCoursesSearchSubmit.style.background = "black";
     possibleCoursesSearchSubmit.disabled = false;
+
+    possibleCoursesRefreshSubmit.style.opacity = 1;
+    possibleCoursesRefreshSubmit.style.color = "white";
+    possibleCoursesRefreshSubmit.style.background = "black";
+    possibleCoursesRefreshSubmit.disabled = false;
     
   });
   
 window.onload = () => {
     possibleCoursesSearchSubmit.style.opacity = 0.5;
     possibleCoursesSearchSubmit.disabled = true;
+
+    possibleCoursesRefreshSubmit.style.opacity = 0.5;
+    possibleCoursesRefreshSubmit.disabled = true;
+    
     displayLoadingIcon();
     getCourses()// Get list of courses in database
         .then(result => {
@@ -79,6 +88,9 @@ function populateCourseTable(id, courses, headers) {
             if (header == "select") {
                 const checkbox = document.createElement('input'); // Create input  
                 checkbox.type = "checkbox"; // Set as checkbox
+
+                const isCourseSelected = userCourses.some(userCourse => userCourse.courseCode === course.courseCode);
+                checkbox.checked = isCourseSelected;
 
                 checkbox.onchange = (e) => {
                     if (e.target.checked)  {
@@ -141,6 +153,14 @@ function populateCourseTable(id, courses, headers) {
     });
 };
 
+gradeInput.addEventListener('keypress', (event) => {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        saveGradeBtn.click();
+    }
+});
+
+
 function calcAvg() {
     var total = 0;
     userCourses.forEach((userCourse, index) => {
@@ -201,11 +221,25 @@ generateCourses?.addEventListener("click", () => { // Define onClick event liste
             possibleCourses = result;
             const headers = getHeaders("eligibleCourseList"); // Get headers in eligibleCourseList table
             const id = "eligibleCourseListBody"; // get id of table body in eligibleCourseList
-        
             clearTable(id); // Clear current table rows, will be repopulated
+            if(possibleCourses.length === 0){
+                possibleCoursesTable.style.display = "none";
+                eligibleCourseErrorMessage.style.display = "block";
+                eligibleCourseErrorMessage.innerHTML = "No possible courses with selected courses.";
+                return;
+            }
+            eligibleCourseErrorMessage.innerHTML = "";
+            eligibleCourseErrorMessage.style.display = "none";
             populateCourseTable(id, possibleCourses, headers); // populate rows in eligibleCourseList
             populateFilters(possibleCourses); // populate filter dropdowns with new courses
             displayPossibleCoursesTable();
+        })
+        .catch(err => {
+            console.log(err);
+            const id = "eligibleCourseListBody"; // get id of table body in eligibleCourseList
+            clearTable(id); // Clear current table rows, will be repopulated
+            eligibleCourseErrorMessage.style.display = "block";
+            eligibleCourseErrorMessage.innerHTML = "Could not retrieve possible courses.";
         })
 });
 
@@ -343,8 +377,13 @@ possibleCoursesSearchSubmit.addEventListener('click', () => {
 
     const result = []; // Stores filtered courses
     const headers = getHeaders("courseList"); // Get headers in courseList table
-    const searchValue = (document.getElementById('possibleCoursesSearchInput').value).toLowerCase();
+    const searchValue = (document.getElementById('possibleCoursesSearchInput').value).toLowerCase().trim();
     let filteredCourses;
+    if(searchValue.length === 0){
+        possibleCoursesSearchError.style.display = "block";
+        possibleCoursesSearchError.innerHTML = "Please enter a course name";
+        return;
+    }
 
     getCourses().then(courselist => {// Get list of courses in database
         
@@ -356,23 +395,68 @@ possibleCoursesSearchSubmit.addEventListener('click', () => {
                 
             if(searchValue.includes('*')) {
                 if(courseCode === searchValue){
-                    result.push(course)  
+                    result.push(course);
                 }
             }
             
             else {
                 if(courseName.includes(searchValue)){
-                    result.push(course)
+                    result.push(course);
                 }
             }
         })  
 
-          // Clear existing content
-        while(courseListBody.rows.length > 0) {
-            courseListBody.deleteRow(0);
+        
+        if(result.length === 0){
+            if(searchValue.includes('*')){
+                possibleCoursesSearchError.style.display = "block";
+                possibleCoursesSearchError.innerHTML = "Invalid course code";
+            }
+            else {
+                possibleCoursesSearchError.style.display = "block";
+                possibleCoursesSearchError.innerHTML = "Could not find matching course name";
+            }
+        }
+        else {
+                // Clear existing content
+            while(courseListBody.rows.length > 0) {
+                courseListBody.deleteRow(0);
+            }
+            possibleCoursesSearchError.innerHTML = "";
+            possibleCoursesSearchError.style.display = "none";
+            populateCourseTable("courseListBody", result, headers); // Populate table with list of courses
         }
 
-        populateCourseTable("courseListBody", result, headers); // Populate table with list of courses
-
+    })
+    .catch(err => {
+        possibleCoursesSearchError.innerHTML = "Could not find course";
+        console.log(err);
     });
+});
+
+possibleCoursesSearchInput.addEventListener('keypress', (event) => {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        possibleCoursesSearchSubmit.click();
+    }
+});
+
+possibleCoursesRefreshSubmit.addEventListener('click', () => {
+    possibleCoursesSearchError.innerHTML = "";
+    possibleCoursesSearchError.style.display = "none";
+    displayLoadingIcon();
+    getCourses()// Get list of courses in database
+        .then(result => {
+            const courses = result;
+            // hideLoadingIcon();
+            const headers = getHeaders("courseList"); // Get headers in courseList table
+
+            while(courseListBody.rows.length > 0) {
+                courseListBody.deleteRow(0);
+            }
+
+            populateCourseTable("courseListBody", courses, headers); // Populate table with list of courses
+            hideLoadingIcon();
+            displayEnteredCoursesTable();
+        })
 });

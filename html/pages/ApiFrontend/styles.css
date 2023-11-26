@@ -186,3 +186,23 @@ hr {
   text-align: left;
   vertical-align: middle;
 }
+
+/******** Error Message **********/
+
+.errorMsg {
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  background-color: #EA1908;
+  padding: 10px 20px;
+  margin: 20px 0;
+  border-radius: 5px;
+  border: 1px solid #D8000C;
+  display: none;
+  text-align: center;
+}
+
+.errorMsg::before {
+  content: "\26A0"; 
+  padding-right: 10px;
+}
