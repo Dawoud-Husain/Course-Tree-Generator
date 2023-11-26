@@ -205,6 +205,29 @@ function displayUserCourses() {
     userCourses.forEach((userCourse, index) => {
         completedCourses.innerHTML += `${index + 1}) ${userCourse.courseCode} - ${userCourse.courseName} - Grade: ${userCourse.grade}<br>`;
     })
+
+    if (userCourses.length) {
+        const button = document.createElement("button");
+        button.className = "btn btn-danger btn-sm"; // Add bootstrap button styles
+        button.innerHTML = "Clear Courses";
+        button.style.marginLeft = '50px';
+
+        button.onclick = (e) => {
+            userCourses = [];
+            possibleCourses = [];
+
+            credits = 0;
+            avg = 0;
+
+            displayUserCourses();
+            clearTable("eligibleCourseListBody"); // Clear current table rows, will be repopulated
+
+            const courseTableBody = document.getElementById("courseListBody"); // Get table body of course list
+            Array.from(courseTableBody.rows).forEach((row) => row.firstChild.firstChild.checked = false); // Remove all checks from table
+        }
+
+        document.getElementById("completedCoursesCredits").appendChild(button);
+    }
 }
 
 homeBtn?.addEventListener("click", () => {
