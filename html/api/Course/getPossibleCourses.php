@@ -37,6 +37,12 @@ try {
             $stmt1->execute();
             $firstData = $stmt1->fetchAll(PDO::FETCH_ASSOC);
 
+            if(!$firstData){
+                echo json_encode($firstData);
+                http_response_code(200);
+                exit;
+            }
+
             // Process the results of the first query
             $secondCourseCodes = array_column($firstData, 'courseCode');
             $secondCourseCodes = array_unique($secondCourseCodes);

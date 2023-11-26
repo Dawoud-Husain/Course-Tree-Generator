@@ -48,8 +48,18 @@
             type="button">
             Search
           </button>
+          <button 
+            id="possibleCoursesRefreshSubmit"
+            class="btn btn-outline-secondary"
+            type="button"
+            style="margin-left: 15px; width: auto; white-space: nowrap;"
+            >
+            Restore Courses
+        </button>
         </div>
       </form>
+
+      <div id="possibleCoursesSearchError" class="errorMsg"></div>
 
       <!-- Entered Courses Table -->
       <div class="courseTable" id="enteredCoursesTable">
@@ -132,7 +142,9 @@
       <!-- ********    TO DO FILTER UI ******** - DAWOUD  -->
       
       <!-- Eligible course table -->
-      
+
+        <div id="eligibleCourseErrorMessage" class="errorMsg"></div>
+
         <div class="courseTable" id="possibleCoursesTable">
           <table class="table table-hover align-middle text-center" id="eligibleCourseList">
             <thead>
