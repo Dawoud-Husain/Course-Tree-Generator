@@ -23,6 +23,8 @@ docker-job:
     - issue178
   image: docker:dind
   script:
-    - sudo docker build .
+    - sudo docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - sudo docker build -t registry.socs.uoguelph.ca/cis3760_f23/f23_cis3760_104 .
+    - sudo docker push registry.socs.uoguelph.ca/cis3760_f23/f23_cis3760_104
 
     
