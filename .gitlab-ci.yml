@@ -1,6 +1,7 @@
 stages:
   - build
   - docker
+  - test
 
 services:
   - docker:dind
@@ -26,5 +27,13 @@ docker-job:
     - sudo docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - sudo docker build -t registry.socs.uoguelph.ca/cis3760_f23/f23_cis3760_104 .
     - sudo docker push registry.socs.uoguelph.ca/cis3760_f23/f23_cis3760_104
+
+test-job:
+  stage: test
+  only:
+    - issue178
+  image: registry.socs.uoguelph.ca/cis3760_f23/f23_cis3760_104
+  script:
+    - sudo docker run registry.socs.uoguelph.ca/cis3760_f23/f23_cis3760_104 pytest -v 
 
     
