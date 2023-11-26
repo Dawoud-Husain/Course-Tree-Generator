@@ -117,7 +117,12 @@ function populateCourseTable(id, courses, headers) {
                 deleteBtn.rowID = tr.id; // Add id to object
     
                 deleteBtn.onclick = (e) => {
-                    document.getElementById(e.target.rowID).remove(); // Remove row element from table
+                    const row = document.getElementById(e.target.rowID); // Get row element from table
+                    const removeCourseCode = row.firstChild.innerText; // Get row course code
+                    
+                    row.remove(); // Delete row
+                    possibleCourses = possibleCourses.filter((possibleCourse) => possibleCourse.courseCode != removeCourseCode); // Remove course from possibleCourses array
+                    populateFilters(possibleCourses); // populate filter dropdowns with new courses
                 }   
              
                 cell.appendChild(deleteBtn);
@@ -134,8 +139,8 @@ function populateCourseTable(id, courses, headers) {
         });
     }
     });
-    populateFilters(courses);
 };
+
 function calcAvg() {
     var total = 0;
     userCourses.forEach((userCourse, index) => {
