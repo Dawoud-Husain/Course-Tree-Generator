@@ -19,8 +19,10 @@ build:
 
 docker-job:
   stage: docker
+  only:
+    - issue178
   image: docker:dind
   script:
-    - docker build .
+    - sudo docker build .
 
     
