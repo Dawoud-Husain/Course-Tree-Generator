@@ -50,6 +50,7 @@ deploy:
     - >
       if [ "$CURRENT_BRANCH" != "Sprint9" ]; then
         echo "Nothing occured on the Sprint9 branch. Deployment is skipped."
+        exit 1  # To indicate termination of the deployment 
       elif [ -z "$CHANGES" ]; then
         echo "No changes in the HTML folder. Commit message: $COMMIT_MESSAGE" 
       else
