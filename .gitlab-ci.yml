@@ -1,7 +1,7 @@
 stages:
   - build
   - docker
-#  - test
+  - test
   - deploy
 
 services:
@@ -27,13 +27,13 @@ docker-job:
     - sudo docker build -t $CI_CD_SOCS_REGISTRY .
     - sudo docker push $CI_CD_SOCS_REGISTRY
 
-# test-job:
-#   stage: test
-#   only:
-#     - Sprint9
-#   image: $CI_CD_SOCS_REGISTRY
-#   script:
-#     - sudo docker run $CI_CD_SOCS_REGISTRY pytest -v 
+test-job:
+  stage: test
+  only:
+    - Sprint9
+  image: $CI_CD_SOCS_REGISTRY
+  script:
+    - sudo docker run $CI_CD_SOCS_REGISTRY pytest -v 
 
 # deploys recent commits to cis3760f23-04.socs.uoguelph.ca
 

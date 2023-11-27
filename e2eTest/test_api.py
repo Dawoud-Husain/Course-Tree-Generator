@@ -22,7 +22,7 @@ def test_multi_param_search(playwright: sync_playwright):
     context = playwright.request.new_context()
     data = {
     "name":"Programming",
-    "credit":0.5,
+    "credits":0.5,
     "location": "Guelph"
     }
     response = context.post("https://cis3760f23-04.socs.uoguelph.ca/api/Course/Course",data = data)
@@ -81,6 +81,67 @@ def test_get_possible_courses(playwright: sync_playwright):
     assert response.json()
     data = {
     "coursesTaken":["CIS*1300"]
+    }
+    response = context.post("https://cis3760f23-04.socs.uoguelph.ca/api/Course/getPossibleCourses.php",data = data)
+    assert response.ok
+    assert response.status == 200
+    assert response.json()
+
+
+def test_get_possible_courses_with_credit(playwright: sync_playwright):
+    context = playwright.request.new_context()
+    data = {
+    "coursesTaken":[],
+    "credits": 0.00,
+    }
+    response = context.post("https://cis3760f23-04.socs.uoguelph.ca/api/Course/getPossibleCourses.php",data = data)
+    assert response.ok
+    assert response.status == 200
+    assert response.json()
+    data = {
+    "coursesTaken":["CIS*1300"],
+    "credits": 0.5,
+    }
+    response = context.post("https://cis3760f23-04.socs.uoguelph.ca/api/Course/getPossibleCourses.php",data = data)
+    assert response.ok
+    assert response.status == 200
+    assert response.json()
+
+
+def test_get_possible_courses_with_average(playwright: sync_playwright):
+    context = playwright.request.new_context()
+    data = {
+    "coursesTaken":["CIS*1300"],
+    "average": 50.0,
+    }
+    response = context.post("https://cis3760f23-04.socs.uoguelph.ca/api/Course/getPossibleCourses.php",data = data)
+    assert response.ok
+    assert response.status == 200
+    assert response.json()
+    data = {
+    "coursesTaken":["CIS*1300"],
+    "average": 100.0,
+    }
+    response = context.post("https://cis3760f23-04.socs.uoguelph.ca/api/Course/getPossibleCourses.php",data = data)
+    assert response.ok
+    assert response.status == 200
+    assert response.json()
+
+def test_get_possible_courses_with_average_and_credit(playwright: sync_playwright):
+    context = playwright.request.new_context()
+    data = {
+    "coursesTaken":["CIS*1300"],
+    "credits": 0.5,
+    "average": 50.0,
+    }
+    response = context.post("https://cis3760f23-04.socs.uoguelph.ca/api/Course/getPossibleCourses.php",data = data)
+    assert response.ok
+    assert response.status == 200
+    assert response.json()
+    data = {
+    "coursesTaken":["CIS*1300","CIS*2500"],
+    "average": 100.0,
+    "credits": 1.00,
     }
     response = context.post("https://cis3760f23-04.socs.uoguelph.ca/api/Course/getPossibleCourses.php",data = data)
     assert response.ok
