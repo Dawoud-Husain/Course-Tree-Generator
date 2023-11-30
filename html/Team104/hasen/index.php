@@ -11,8 +11,9 @@
     $directors = "Some of my Favourite Directors 🎬";
     $movies = "My Favourite Movies by Them 🍿";
     $desc = "Select a Director (or all) to See Their Best Films - Welcome back Sprint 8";
-    $spacing = "<br>"
-    $test = "Hope you get well soon Greg"
+    $spacing = "<br>";
+    $test = "Hope you get well soon Greg";
+
 ?>  
 
     <div class="header">
