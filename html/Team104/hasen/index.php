@@ -12,7 +12,7 @@
     $movies = "My Favourite Movies by Them 🍿";
     $desc = "Select a Director (or all) to See Their Best Films - Welcome back Sprint 8";
     $spacing = "<br>"
-    
+    $test = "Hope you get well soon Greg"
 ?>  
 
     <div class="header">
@@ -27,6 +27,7 @@
             <h2 class="name"><?php echo $name; ?></h2>
         </div>
         <p><?php echo $aboutMe; ?></p>
+        <p><?php echo $test; ?></p>
         <div class="intro2">
             <h2 class="movies"><?php echo $spacing; echo $directors; ?></h2>
         </div>
